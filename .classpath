@@ -1,36 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-12">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX12">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Javafx13">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX13">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Moose/Applications/Java/mssql-jdbc-7.4.1.jre12.jar">
-		<attributes>
-			<attribute name="module" value="true"/>
-		</attributes>
-	</classpathentry>
-<<<<<<< HEAD
-	<classpathentry kind="lib" path="C:/Users/Emil O jensen/Documents/Microsoft JDBC stuff/mssql-jdbc-7.4.1.jre12.jar">
-=======
+	<classpathentry kind="src" path=""/>
 	<classpathentry kind="lib" path="C:/Program Files/Java Shiet/mssql-jdbc-7.4.1.jre12.jar">
->>>>>>> branch 'master' of https://github.com/Gokster/Projekt-HaandboldLeague.git
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
