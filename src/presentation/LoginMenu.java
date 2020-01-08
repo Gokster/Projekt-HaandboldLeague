@@ -34,7 +34,7 @@ public class LoginMenu {
 		vbox.setAlignment(Pos.CENTER);
 		vbox.setBackground(background());
 
-		Scene scene = new Scene(vbox, 1800, 1100);
+		Scene scene = new Scene(vbox, 1800, 1000);
 		stageMods(scene);
 
 	}
