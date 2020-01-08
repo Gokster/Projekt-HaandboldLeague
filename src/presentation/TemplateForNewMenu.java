@@ -33,7 +33,7 @@ public class TemplateForNewMenu {
 		VBox vbox1 = new VBox(hbox1);
 		vbox1.setBackground(background());
 
-		Scene scene = new Scene(vbox1, 1800, 1100);
+		Scene scene = new Scene(vbox1, 1800, 1000);
 		stageMods(scene);
 	}
 

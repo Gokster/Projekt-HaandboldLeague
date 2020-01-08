@@ -35,7 +35,7 @@ public class LeaguesMenu {
 		VBox OuterBox = new VBox(topBarGrid, row1, row2);
 		OuterBox.setBackground(background());
 
-		Scene scene = new Scene(OuterBox, 1800, 1100);
+		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
 	}
 

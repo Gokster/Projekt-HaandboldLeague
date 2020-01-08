@@ -50,7 +50,7 @@ public class SpecificMatchMenu {
 		VBox OuterBox = new VBox(topBarGrid, matchControls);
 		OuterBox.setBackground(background());
 
-		Scene scene = new Scene(OuterBox, 1800, 1100);
+		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
 	}
 

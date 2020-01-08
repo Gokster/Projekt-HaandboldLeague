@@ -39,7 +39,7 @@ public class ScheduleMenu {
 		VBox OuterBox = new VBox(topBarGrid, calenderTimeline);
 		OuterBox.setBackground(background());
 
-		Scene scene = new Scene(OuterBox, 1800, 1100);
+		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
 	}
 
