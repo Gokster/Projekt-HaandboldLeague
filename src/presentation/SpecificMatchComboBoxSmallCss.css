@@ -1,0 +1,61 @@
+.combo-box .list-cell 
+{
+	-fx-alignment: CENTER;
+	-fx-font-size: 30;
+	-fx-font-family: "Calibri";
+	-fx-font-weight: BOLD;
+	-fx-text-fill: #000000;
+}
+
+.combo-box .combo-box-popup .list-cell:hover
+{
+    -fx-text-fill: #ffffff;
+}
+
+.combo-box-popup .list-view 
+{
+	-fx-alignment: CENTER;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0, 1;
+}    
+
+.combo-box-popup .list-view .list-cell 
+{
+	-fx-alignment: CENTER;
+    -fx-padding: 4 0 4 5;
+	-fx-display: inline-block;
+	
+
+    /* No alternate highlighting */
+    -fx-background-color: rgb(202, 202, 202);
+	-fx-background-radius: 7; 
+	-fx-border-radius: 5 0 0 5;
+	-fx-border-color: #707070; 
+	-fx-border-width: 3;
+}
+
+
+.combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover 
+{
+	-fx-background-radius: 7; 
+    -fx-background: -fx-accent;
+    -fx-background-color: #FFFFFF;
+	-fx-text-fill: #000000 ;
+	-fx-border-radius: 5 0 0 5;
+}
+
+.combo-box-popup .list-view .list-cell:filled:hover 
+{
+	-fx-background-radius: 7; 
+    -fx-background-color:#707070;
+    -fx-text-fill: -fx-text-inner-color;
+	-fx-border-radius: 5 0 0 5;
+	-fx-border-color: #707070; 
+	-fx-border-width: 3;
+	
+}
+
+.combo-box .arrow, .combo-box .arrow-button
+{
+	-fx-padding: 0;
+}
