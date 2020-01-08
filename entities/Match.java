@@ -18,6 +18,10 @@ public class Match {
 
 	}
 
+	public void setMatchId(int matchId) {
+		this.matchId = matchId;
+	}
+
 	public int getMatchId() {
 		return matchId;
 	}

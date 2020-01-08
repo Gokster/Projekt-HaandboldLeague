@@ -1,6 +1,7 @@
 package data;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,11 +10,11 @@ import entities.Match;
 
 public class Matches {
 	private Connection connection;
-	
+
 	public void createMatch(Match match) {
 		try {
-			String sql = "INSERT INTO matches VALUES (" + match.getMatchId() + ", '" + match.getHomeTeam() + "', "
-					+ team.getAwayTeam() +  ")";
+			String sql = "INSERT INTO matches VALUES (" + match.getHomeTeam() + ", " + match.getAwayTeam() + ", "
+					+ match.getWinningTeam() + ", " + match.getMatchDate() + ")";
 
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(sql);
@@ -21,14 +22,15 @@ public class Matches {
 			// auto-generated key => id
 			ResultSet resultSet = statement.executeQuery("SELECT SCOPE_IDENTITY()");
 			resultSet.next();
-			team.setTeamId(resultSet.getInt(1));
+			match.setMatchId(resultSet.getInt(1));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	public Team readTeamByID(int id) {
+
+	public Match readMatchByID(int id) {
 		try {
-			String sql = "SELECT * FROM course WHERE id=" + id;
+			String sql = "SELECT * FROM matches WHERE id=" + id;
 			System.out.println(sql);
 
 			Statement statement = connection.createStatement();
@@ -36,39 +38,41 @@ public class Matches {
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			if (resultSet.next()) {
-				String teamName = resultSet.getString("teamname");
-				int teamPoints = resultSet.getInt("teampoints");
+				int homeName = resultSet.getInt("hometeam");
+				int awayName = resultSet.getInt("awayteam");
+				int winningTeam = resultSet.getInt("winningteam");
+				Date matchDate = resultSet.getDate("matchdate");
 
-				return new Team(id, teamName, teamPoints);
+				return new Match(id, homeName, awayName, winningTeam, matchDate);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
-	public void updateTeam(Team team) {
+
+	public void updateMatch(Match match) {
 		try {
-			String sql = "UPDATE teams SET id='" + team.getTeamId() + "', teamname=" + team.getTeamName()
-					+ ", teampoints" + team.getTeamPoints();
+			String sql = "UPDATE matches SET  teamname=" + match.getHomeTeam() + ", awayteam=" + match.getAwayTeam()
+					+ ", winningteam=" + match.getWinningTeam() + ", matchdate=" + match.getMatchDate();
 
 			Statement statement = connection.createStatement();
 
 			if (statement.executeUpdate(sql) == 0)
-				System.out.println("Ingen teams at opdatere!");
+				System.out.println("Ingen match at opdatere!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void deleteTeam(Team team) {
+	public void deleteMatch(Match match) {
 		try {
-			String sql = "DELETE FROM teams WHERE id=" + team.getTeamId();
+			String sql = "DELETE FROM matches WHERE id=" + match.getMatchId();
 
 			Statement statement = connection.createStatement();
 
 			if (statement.executeUpdate(sql) == 0)
-				System.out.println("Ingen teams at slette!");
+				System.out.println("Ingen match at slette!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
