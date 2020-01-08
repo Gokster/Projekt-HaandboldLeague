@@ -14,4 +14,37 @@ public class Goal {
 		this.matchTime = matchTime;
 		this.matchID = matchID; 
 	}
+
+	public int getGoalID() {
+		return goalID;
+	}
+
+	public void setGoalID(int goalID) {
+		this.goalID = goalID;
+	}
+
+	public int getScoringTeam() {
+		return scoringTeam;
+	}
+
+	public void setScoringTeam(int scoringTeam) {
+		this.scoringTeam = scoringTeam;
+	}
+
+	public Timer getMatchTime() {
+		return matchTime;
+	}
+
+	public void setMatchTime(Timer matchTime) {
+		this.matchTime = matchTime;
+	}
+
+	public int getMatchID() {
+		return matchID;
+	}
+
+	public void setMatchID(int matchID) {
+		this.matchID = matchID;
+	}
+	
 }

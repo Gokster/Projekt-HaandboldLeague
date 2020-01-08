@@ -15,6 +15,23 @@ public class Match {
 		this.awayTeam = awayTeam;
 		this.winningTeam = winningTeam;
 		this.matchDate = matchDate;
+	}
+	Goal goalArr[] = new Goal[1000];
 
+	private int countGoal(Goal[] goalArr) {
+		int firstTeamScore = 0;
+		int secondTeamScore = 0;
+		
+		for(Goal goal: goalArr ) {
+			if(goal.getScoringTeam() == homeTeam) {
+				firstTeamScore++;
+			}
+			else
+				secondTeamScore++;
+		}
+		
+		
+		
+		return ;
 	}
 }
