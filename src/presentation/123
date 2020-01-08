@@ -1,0 +1,47 @@
+- DB
+
+- Create team/league, minder lidt om pro opgave.
+
+
+- Inception, kan godt hvis ikke vil siden jeg ikke har så godt styr på. Har bare ikke lyst.
+
+- Package Diagram
+
+- Vision
+
+- Use Case text
+
+
+
++- Use Case Diagram
+
++- OC
+
++- URPS
+
+
+
+++ Match History, med en anden person
+
++ Create Match
+
++ Create Team, med spillere
+
++ League stuff
+
++++ Simulation af leagues
+
++++ Installer til vores program, wizard installer?
+
++ api imports fra irl
+
+
++ Class Diagram
+
++ SD
+
++ SSD
+
++ Domain Model, med en anden person
+
++ Glossary
