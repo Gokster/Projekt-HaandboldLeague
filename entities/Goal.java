@@ -1,17 +1,39 @@
 package entities;
 
+import java.sql.Time;
 import java.util.Timer;
 
 public class Goal {
-	private int goalID;
+	private int goalId;
 	private int scoringTeam;
-	private Timer matchTime;
-	private int matchID;
+	private Time matchTime;
+	private int matchId;
 	
-	public Goal(int goalID, int scoringTeam, Timer matchTime, int matchID) {
-		this.goalID = goalID;
+	public Goal(int goalId, int scoringTeam, Time matchTime, int matchId) {
+		this.goalId = goalId;
 		this.scoringTeam = scoringTeam;
 		this.matchTime = matchTime;
-		this.matchID = matchID; 
+		this.matchId = matchId; 
 	}
+
+	public void setGoalId(int goalId) {
+		this.goalId = goalId;
+	}
+	
+	public int getGoalId() {
+		return goalId;
+	}
+
+	public int getScoringTeam() {
+		return scoringTeam;
+	}
+
+	public Time getMatchTime() {
+		return matchTime;
+	}
+
+	public int getMatchId() {
+		return matchId;
+	}
+	
 }

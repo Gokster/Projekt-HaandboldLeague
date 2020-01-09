@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 
 import entities.Suspension;
 
@@ -13,8 +14,8 @@ public class Suspensions {
 
 	public void createSuspension(Suspension suspension) {
 		try {
-			String sql = "INSERT INTO matches VALUES (" + suspension.getSuspensionTeam() + ", " + suspension.getMatchTime() + ", "
-					+ suspension.getMatchID() + ", " + match.getMatchDate() + ")";
+			String sql = "INSERT INTO suspensions VALUES (" + suspension.getSuspensionTeam() + ", "
+					+ suspension.getMatchTime() + ", " + suspension.getMatchId() + ")";
 
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(sql);
@@ -22,15 +23,15 @@ public class Suspensions {
 			// auto-generated key => id
 			ResultSet resultSet = statement.executeQuery("SELECT SCOPE_IDENTITY()");
 			resultSet.next();
-			match.setMatchId(resultSet.getInt(1));
+			suspension.setSuspensionId(resultSet.getInt(1));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public Match readMatchByID(int id) {
+	public Suspension readSuspensionById(int id) {
 		try {
-			String sql = "SELECT * FROM matches WHERE id=" + id;
+			String sql = "SELECT * FROM suspension WHERE id=" + id;
 			System.out.println(sql);
 
 			Statement statement = connection.createStatement();
@@ -38,12 +39,11 @@ public class Suspensions {
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			if (resultSet.next()) {
-				int homeName = resultSet.getInt("hometeam");
-				int awayName = resultSet.getInt("awayteam");
-				int winningTeam = resultSet.getInt("winningteam");
-				Date matchDate = resultSet.getDate("matchdate");
+				int suspensionTeam = resultSet.getInt("suspensionteam");
+				Time matchTime = resultSet.getTime("matchtime");
+				int matchId = resultSet.getInt("matchId");
 
-				return new Match(id, homeName, awayName, winningTeam, matchDate);
+				return new Suspension(id, suspensionTeam, matchTime, matchId);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -51,28 +51,28 @@ public class Suspensions {
 		return null;
 	}
 
-	public void updateMatch(Match match) {
+	public void updateSuspension(Suspension suspension) {
 		try {
-			String sql = "UPDATE matches SET  teamname=" + match.getHomeTeam() + ", awayteam=" + match.getAwayTeam()
-					+ ", winningteam=" + match.getWinningTeam() + ", matchdate=" + match.getMatchDate();
+			String sql = "UPDATE matches SET  suspensionteam=" + suspension.getSuspensionTeam() + ", matchtime=" + suspension.getMatchTime()
+					+ ", matchid=" + suspension.getMatchId();
 
 			Statement statement = connection.createStatement();
 
 			if (statement.executeUpdate(sql) == 0)
-				System.out.println("Ingen match at opdatere!");
+				System.out.println("No suspensions to update!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void deleteMatch(Match match) {
+	public void deleteSuspension(Suspension suspension) {
 		try {
-			String sql = "DELETE FROM matches WHERE id=" + match.getMatchId();
+			String sql = "DELETE FROM matches WHERE id=" + suspension.getSuspensionId();
 
 			Statement statement = connection.createStatement();
 
 			if (statement.executeUpdate(sql) == 0)
-				System.out.println("Ingen match at slette!");
+				System.out.println("No suspensions to delete!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

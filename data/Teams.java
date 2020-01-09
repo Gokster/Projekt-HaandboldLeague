@@ -26,7 +26,7 @@ public class Teams {
 		}
 	}
 
-	public Team readTeamByID(int id) {
+	public Team readTeamById(int id) {
 		try {
 			String sql = "SELECT * FROM teams WHERE id=" + id;
 			System.out.println(sql);
@@ -54,7 +54,7 @@ public class Teams {
 			Statement statement = connection.createStatement();
 
 			if (statement.executeUpdate(sql) == 0)
-				System.out.println("Ingen teams at opdatere!");
+				System.out.println("No teams to update!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -67,7 +67,7 @@ public class Teams {
 			Statement statement = connection.createStatement();
 
 			if (statement.executeUpdate(sql) == 0)
-				System.out.println("Ingen teams at slette!");
+				System.out.println("No teams to be deleted!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

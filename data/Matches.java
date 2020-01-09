@@ -28,7 +28,7 @@ public class Matches {
 		}
 	}
 
-	public Match readMatchByID(int id) {
+	public Match readMatchById(int id) {
 		try {
 			String sql = "SELECT * FROM matches WHERE id=" + id;
 			System.out.println(sql);
@@ -59,7 +59,7 @@ public class Matches {
 			Statement statement = connection.createStatement();
 
 			if (statement.executeUpdate(sql) == 0)
-				System.out.println("Ingen match at opdatere!");
+				System.out.println("No matches to be updated!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -72,7 +72,7 @@ public class Matches {
 			Statement statement = connection.createStatement();
 
 			if (statement.executeUpdate(sql) == 0)
-				System.out.println("Ingen match at slette!");
+				System.out.println("No matches to be deleted!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

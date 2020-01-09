@@ -1,19 +1,24 @@
 package entities;
 
+import java.sql.Time;
 import java.util.Timer;
 
 public class Suspension {
 
 	private int suspensionId;
 	private int suspensionTeam;
-	private Timer matchTime;
+	private Time matchTime;
 	private int matchId;
 	
-	public Suspension(int suspensionId, int suspensionTeam, Timer matchTime, int matchId) {
+	public Suspension(int suspensionId, int suspensionTeam, Time matchTime, int matchId) {
 		this.suspensionId = suspensionId;
 		this.suspensionTeam = suspensionTeam;
 		this.matchTime = matchTime;
 		this.matchId = matchId;
+	}
+
+	public void setSuspensionId(int suspensionId) {
+		this.suspensionId = suspensionId;
 	}
 
 	public int getSuspensionId() {
@@ -24,7 +29,7 @@ public class Suspension {
 		return suspensionTeam;
 	}
 
-	public Timer getMatchTime() {
+	public Time getMatchTime() {
 		return matchTime;
 	}
 
