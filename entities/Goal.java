@@ -16,7 +16,7 @@ public class Goal {
 		this.matchId = matchId; 
 	}
 
-	public void setGoalId(int goalId) {
+	public void setGoalId (int goalId) {
 		this.goalId = goalId;
 	}
 	

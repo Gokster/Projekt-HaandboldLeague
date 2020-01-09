@@ -12,10 +12,8 @@ public class Team {
 		this.teamName = teamName;
 		this.teamPoints = teamPoints;
 	}
-	
-	
 
-	public void setTeamId(int teamId) {
+	public void setTeamId (int teamId) {
 		this.teamID = teamId;
 	}
 	

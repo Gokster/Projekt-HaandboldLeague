@@ -29,7 +29,7 @@ public class Goals {
 		}
 	}
 
-	public Goal readGoalById(int id) {
+	public Goal readGoalById (int id) {
 		try {
 			String sql = "SELECT * FROM suspension WHERE id=" + id;
 			System.out.println(sql);

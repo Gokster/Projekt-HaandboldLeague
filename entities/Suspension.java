@@ -17,7 +17,7 @@ public class Suspension {
 		this.matchId = matchId;
 	}
 
-	public void setSuspensionId(int suspensionId) {
+	public void setSuspensionId (int suspensionId) {
 		this.suspensionId = suspensionId;
 	}
 

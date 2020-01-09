@@ -11,7 +11,7 @@ import entities.Match;
 public class Matches {
 	private Connection connection;
 
-	public void createMatch(Match match) {
+	public void createMatch (Match match) {
 		try {
 			String sql = "INSERT INTO matches VALUES (" + match.getHomeTeam() + ", " + match.getAwayTeam() + ", "
 					+ match.getWinningTeam() + ", " + match.getMatchDate() + ")";
@@ -28,7 +28,7 @@ public class Matches {
 		}
 	}
 
-	public Match readMatchById(int id) {
+	public Match readMatchById (int id) {
 		try {
 			String sql = "SELECT * FROM matches WHERE id=" + id;
 			System.out.println(sql);
@@ -51,7 +51,7 @@ public class Matches {
 		return null;
 	}
 
-	public void updateMatch(Match match) {
+	public void updateMatch (Match match) {
 		try {
 			String sql = "UPDATE matches SET  teamname=" + match.getHomeTeam() + ", awayteam=" + match.getAwayTeam()
 					+ ", winningteam=" + match.getWinningTeam() + ", matchdate=" + match.getMatchDate();
@@ -65,7 +65,7 @@ public class Matches {
 		}
 	}
 
-	public void deleteMatch(Match match) {
+	public void deleteMatch (Match match) {
 		try {
 			String sql = "DELETE FROM matches WHERE id=" + match.getMatchId();
 

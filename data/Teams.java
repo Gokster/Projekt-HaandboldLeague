@@ -10,7 +10,7 @@ import entities.Team;
 public class Teams {
 	private Connection connection;
 
-	public void createTeam(Team team) {
+	public void createTeam (Team team) {
 		try {
 			String sql = "INSERT INTO teams VALUES ('" + team.getTeamName() + "', " + team.getTeamPoints() + ")";
 
@@ -26,7 +26,7 @@ public class Teams {
 		}
 	}
 
-	public Team readTeamById(int id) {
+	public Team readTeamById (int id) {
 		try {
 			String sql = "SELECT * FROM teams WHERE id=" + id;
 			System.out.println(sql);
@@ -47,7 +47,7 @@ public class Teams {
 		return null;
 	}
 
-	public void updateTeam(Team team) {
+	public void updateTeam (Team team) {
 		try {
 			String sql = "UPDATE teams SET teamname='" + team.getTeamName() + "', teampoints=" + team.getTeamPoints();
 
@@ -60,7 +60,7 @@ public class Teams {
 		}
 	}
 
-	public void deleteTeam(Team team) {
+	public void deleteTeam (Team team) {
 		try {
 			String sql = "DELETE FROM teams WHERE id=" + team.getTeamId();
 

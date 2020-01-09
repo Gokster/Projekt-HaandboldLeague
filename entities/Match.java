@@ -18,7 +18,7 @@ public class Match {
 
 	}
 
-	public void setMatchId(int matchId) {
+	public void setMatchId (int matchId) {
 		this.matchId = matchId;
 	}
 

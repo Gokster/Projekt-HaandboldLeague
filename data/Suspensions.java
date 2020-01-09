@@ -12,7 +12,7 @@ import entities.Suspension;
 public class Suspensions {
 	private Connection connection;
 
-	public void createSuspension(Suspension suspension) {
+	public void createSuspension (Suspension suspension) {
 		try {
 			String sql = "INSERT INTO suspensions VALUES (" + suspension.getSuspensionTeam() + ", "
 					+ suspension.getMatchTime() + ", " + suspension.getMatchId() + ")";
@@ -29,7 +29,7 @@ public class Suspensions {
 		}
 	}
 
-	public Suspension readSuspensionById(int id) {
+	public Suspension readSuspensionById (int id) {
 		try {
 			String sql = "SELECT * FROM suspension WHERE id=" + id;
 			System.out.println(sql);
@@ -51,7 +51,7 @@ public class Suspensions {
 		return null;
 	}
 
-	public void updateSuspension(Suspension suspension) {
+	public void updateSuspension (Suspension suspension) {
 		try {
 			String sql = "UPDATE matches SET  suspensionteam=" + suspension.getSuspensionTeam() + ", matchtime=" + suspension.getMatchTime()
 					+ ", matchid=" + suspension.getMatchId();
@@ -65,7 +65,7 @@ public class Suspensions {
 		}
 	}
 
-	public void deleteSuspension(Suspension suspension) {
+	public void deleteSuspension (Suspension suspension) {
 		try {
 			String sql = "DELETE FROM matches WHERE id=" + suspension.getSuspensionId();
 
