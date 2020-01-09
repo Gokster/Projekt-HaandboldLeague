@@ -30,8 +30,13 @@ public class Match {
 				secondTeamScore++;
 		}
 		
+		if(firstTeamScore > secondTeamScore)
+			winningTeam = firstTeamScore;
 		
+		if(firstTeamScore < secondTeamScore)
+			winningTeam = secondTeamScore;
 		
-		return ;
+		return winningTeam;
+		
 	}
 }
