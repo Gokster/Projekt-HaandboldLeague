@@ -3,14 +3,14 @@ package entities;
 import java.util.Date;
 
 public class Match {
-	private int matchID;
+	private int matchId;
 	private int homeTeam;
 	private int awayTeam;
 	private int winningTeam;
 	private Date matchDate;
 	
-	public Match(int matchID, int homeTeam, int awayTeam, int winningTeam, Date matchDate) {
-		this.matchID = matchID;
+	public Match(int matchId, int homeTeam, int awayTeam, int winningTeam, Date matchDate) {
+		this.matchId = matchId;
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
 		this.winningTeam = winningTeam;
@@ -39,4 +39,30 @@ public class Match {
 		return winningTeam;
 		
 	}
+
+	public void setMatchId (int matchId) {
+		this.matchId = matchId;
+	}
+
+	public int getMatchId() {
+		return matchId;
+	}
+
+	public int getHomeTeam() {
+		return homeTeam;
+	}
+
+	public int getAwayTeam() {
+		return awayTeam;
+	}
+
+	public int getWinningTeam() {
+		return winningTeam;
+	}
+
+	public Date getMatchDate() {
+		return matchDate;
+	}
+	
+	
 }
