@@ -1,7 +1,6 @@
 package entities;
 
 import java.sql.Time;
-import java.util.Timer;
 
 public class Goal {
 	private int goalId;
