@@ -9,14 +9,16 @@ import java.sql.Time;
 import java.util.ArrayList;
 
 import entities.Goal;
+import entities.Team;
 
 public class Goals {
 	private Connection connection;
+	private Teams teams = new Teams();
 
 	public void createGoal(Goal goal) {
 		try {
-			String sql = "INSERT INTO goals VALUES (" + goal.getScoringTeam() + ", "
-					+ goal.getMatchTime() + ", " + goal.getMatchId() + ")";
+			String sql = "INSERT INTO goals VALUES (" + goal.getScoringTeam() + ", " + goal.getMatchTime() + ", "
+					+ goal.getMatchId() + ")";
 
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(sql);
@@ -29,7 +31,7 @@ public class Goals {
 		}
 	}
 
-	public Goal readGoalById (int id) {
+	public Goal readGoalById(int id) {
 		try {
 			String sql = "SELECT * FROM goal WHERE id=" + id;
 			System.out.println(sql);
@@ -39,11 +41,11 @@ public class Goals {
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			if (resultSet.next()) {
-				int scoringTeam = resultSet.getInt("scoringteam");
+				Team scoringTeam = teams.readTeamById(resultSet.getInt("scoringteam"));
 				int matchTime = resultSet.getInt("matchtime");
 				int matchId = resultSet.getInt("matchId");
 
-				return new Goal (id, scoringTeam, matchTime, matchId);
+				return new Goal(id, scoringTeam, matchTime, matchId);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -53,8 +55,8 @@ public class Goals {
 
 	public void updateGoal(Goal goal) {
 		try {
-			String sql = "UPDATE matches SET scoringteam=" + goal.getScoringTeam() + ", matchtime=" + goal.getMatchTime()
-					+ ", matchid=" + goal.getMatchId();
+			String sql = "UPDATE matches SET scoringteam=" + goal.getScoringTeam() + ", matchtime="
+					+ goal.getMatchTime() + ", matchid=" + goal.getMatchId() + " WHERE id=" + goal.getGoalId();
 
 			Statement statement = connection.createStatement();
 
@@ -77,31 +79,30 @@ public class Goals {
 			e.printStackTrace();
 		}
 	}
-	
-	public ArrayList<Goal> getAllGoals(int scoringTeam, int matchId) {
-		ArrayList<Goal> goals = new ArrayList<>();
+
+	public ArrayList<Goal> getAllGoals(int matchId) {
+		ArrayList<Goal> goalsArr = new ArrayList<>();
 
 		try {
-			String sql = "SELECT * FROM goals";
+			String sql = "SELECT * FROM goals WHERE matchid=" + matchId;
 
 			Statement statement = connection.createStatement();
 
 			ResultSet resultSet = statement.executeQuery(sql);
 
-			if (resultSet.next()) {
+			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
-				scoringTeam = resultSet.getInt("scoringteam");
+				Team scoringTeam = teams.readTeamById(resultSet.getInt("scoringteam"));
 				int matchTime = resultSet.getInt("matchtime");
-				matchId = resultSet.getInt("matchId");
 
-				Goal goal = new Goal (id, scoringTeam, matchTime, matchId);
+				Goal goal = new Goal(id, scoringTeam, matchTime, matchId);
 
-				goals.add(goal);
+				goalsArr.add(goal);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return goals;
+		return goalsArr;
 	}
 }

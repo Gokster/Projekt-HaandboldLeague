@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import entities.Goal;
 import entities.Team;
 
 public class Teams {
@@ -48,7 +50,8 @@ public class Teams {
 
 	public void updateTeam (Team team) {
 		try {
-			String sql = "UPDATE teams SET teamname='" + team.getTeamName() + "', teampoints=" + team.getTeamPoints();
+			String sql = "UPDATE teams SET teamname='" + team.getTeamName() + "', teampoints=" + team.getTeamPoints() + " WHERE id="
+					+ team.getTeamId();
 
 			Statement statement = connection.createStatement();
 
@@ -70,5 +73,31 @@ public class Teams {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public ArrayList<Team> getAllTeams() {
+		ArrayList<Team> teamsArr = new ArrayList<>();
+
+		try {
+			String sql = "SELECT * FROM teams";
+
+			Statement statement = connection.createStatement();
+
+			ResultSet resultSet = statement.executeQuery(sql);
+
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String teamName = resultSet.getString("teamname");
+				int teamPoints = resultSet.getInt("teampoints");
+
+				Team team = new Team(id, teamName, teamPoints);
+
+				teamsArr.add(team);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return teamsArr;
 	}
 }

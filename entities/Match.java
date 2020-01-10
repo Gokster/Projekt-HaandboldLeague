@@ -22,7 +22,7 @@ public class Match {
 		int teamScore = 0;
 		
 		for(Goal goal: goalArr ) {
-			if(goal.getScoringTeam() == team.getTeamId()) {
+			if(goal.getScoringTeam() == team) {
 				teamScore++;
 			}
 		}

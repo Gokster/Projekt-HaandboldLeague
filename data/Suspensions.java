@@ -10,11 +10,13 @@ import java.util.ArrayList;
 
 import entities.Goal;
 import entities.Suspension;
+import entities.Team;
 
 public class Suspensions {
 	private Connection connection;
+	private Teams teams = new Teams();
 
-	public void createSuspension (Suspension suspension) {
+	public void createSuspension(Suspension suspension) {
 		try {
 			String sql = "INSERT INTO suspensions VALUES (" + suspension.getSuspensionTeam() + ", "
 					+ suspension.getMatchTime() + ", " + suspension.getMatchId() + ")";
@@ -30,7 +32,7 @@ public class Suspensions {
 		}
 	}
 
-	public Suspension readSuspensionById (int id) {
+	public Suspension readSuspensionById(int id) {
 		try {
 			String sql = "SELECT * FROM suspensions WHERE id=" + id;
 			System.out.println(sql);
@@ -40,7 +42,7 @@ public class Suspensions {
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			if (resultSet.next()) {
-				int suspensionTeam = resultSet.getInt("suspensionteam");
+				Team suspensionTeam = teams.readTeamById(resultSet.getInt("suspensionteam"));
 				int matchTime = resultSet.getInt("matchtime");
 				int matchId = resultSet.getInt("matchId");
 
@@ -52,10 +54,11 @@ public class Suspensions {
 		return null;
 	}
 
-	public void updateSuspension (Suspension suspension) {
+	public void updateSuspension(Suspension suspension) {
 		try {
-			String sql = "UPDATE matches SET  suspensionteam=" + suspension.getSuspensionTeam() + ", matchtime=" + suspension.getMatchTime()
-					+ ", matchid=" + suspension.getMatchId();
+			String sql = "UPDATE matches SET  suspensionteam=" + suspension.getSuspensionTeam() + ", matchtime="
+					+ suspension.getMatchTime() + ", matchid=" + suspension.getMatchId() + " WHERE id="
+					+ suspension.getSuspensionId();
 
 			Statement statement = connection.createStatement();
 
@@ -66,7 +69,7 @@ public class Suspensions {
 		}
 	}
 
-	public void deleteSuspension (Suspension suspension) {
+	public void deleteSuspension(Suspension suspension) {
 		try {
 			String sql = "DELETE FROM suspensions WHERE id=" + suspension.getSuspensionId();
 
@@ -78,31 +81,30 @@ public class Suspensions {
 			e.printStackTrace();
 		}
 	}
-	
-	public ArrayList<Suspension> getAllSuspensions(int suspensionTeam, int matchId) {
-		ArrayList<Suspension> suspensions = new ArrayList<>();
+
+	public ArrayList<Suspension> getAllSuspensions(int matchId) {
+		ArrayList<Suspension> suspensionsArr = new ArrayList<>();
 
 		try {
-			String sql = "SELECT * FROM suspensions";
+			String sql = "SELECT * FROM suspensions WHERE matchid=" + matchId;
 
 			Statement statement = connection.createStatement();
 
 			ResultSet resultSet = statement.executeQuery(sql);
 
-			if (resultSet.next()) {
+			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
-				suspensionTeam = resultSet.getInt("suspensionteam");
+				Team suspensionTeam = teams.readTeamById(resultSet.getInt("suspensionteam"));
 				int matchTime = resultSet.getInt("matchtime");
-				matchId = resultSet.getInt("matchId");
 
-				Suspension suspension = new Suspension (id, suspensionTeam, matchTime, matchId);
+				Suspension suspension = new Suspension(id, suspensionTeam, matchTime, matchId);
 
-				suspensions.add(suspension);
+				suspensionsArr.add(suspension);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return suspensions;
+		return suspensionsArr;
 	}
 }

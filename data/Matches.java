@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+
 import entities.Team;
 import entities.Match;
 
@@ -54,7 +56,8 @@ public class Matches {
 	public void updateMatch (Match match) {
 		try {
 			String sql = "UPDATE matches SET  teamname=" + match.getHomeTeam() + ", awayteam=" + match.getAwayTeam()
-					+ ", winningteam=" + match.getWinningTeam() + ", matchdate=" + match.getMatchDate();
+					+ ", winningteam=" + match.getWinningTeam() + ", matchdate=" + match.getMatchDate() + " WHERE id="
+							+ match.getMatchId();
 
 			Statement statement = connection.createStatement();
 
@@ -76,5 +79,32 @@ public class Matches {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	public ArrayList<Match> getAllMatches() {
+		ArrayList<Match> matchesArr = new ArrayList<>();
+
+		try {
+			String sql = "SELECT * FROM matches";
+
+			Statement statement = connection.createStatement();
+
+			ResultSet resultSet = statement.executeQuery(sql);
+
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				Team homeTeam = teams.readTeamById(resultSet.getInt("hometeam"));
+				Team awayTeam = teams.readTeamById(resultSet.getInt("awayteam"));
+				Team winningTeam = teams.readTeamById(resultSet.getInt("winningteam"));
+				Date matchDate = resultSet.getDate("matchdate");
+
+				Match match = new Match(id, homeTeam, awayTeam, winningTeam, matchDate);
+
+				matchesArr.add(match);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return matchesArr;
 	}
 }

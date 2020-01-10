@@ -6,12 +6,12 @@ import java.util.Timer;
 public class Suspension {
 
 	private int suspensionId;
-	private int suspensionTeam;
+	private Team suspensionTeam;
 	private int matchTime;
 	private int matchId;
 	
-	// 09-01-2020 Ændret matchTime fra typen Time til int
-	public Suspension(int suspensionId, int suspensionTeam, int matchTime, int matchId) {
+	// 09-01-2020 ï¿½ndret matchTime fra typen Time til int
+	public Suspension(int suspensionId, Team suspensionTeam, int matchTime, int matchId) {
 		this.suspensionId = suspensionId;
 		this.suspensionTeam = suspensionTeam;
 		this.matchTime = matchTime;
@@ -26,7 +26,7 @@ public class Suspension {
 		return suspensionId;
 	}
 
-	public int getSuspensionTeam() {
+	public Team getSuspensionTeam() {
 		return suspensionTeam;
 	}
 
