@@ -2,6 +2,7 @@ package presentation;
 
 import java.time.LocalDate;
 
+import data.DataLayer;
 import data.Matches;
 import entities.Match;
 import javafx.geometry.Insets;
@@ -111,7 +112,9 @@ public class ScheduleMenu {
 		gridRowOptions(timeLabelGrid);
 		new ScheduleLabel(timeLabelGrid, 1, 1, "16:00");
 
-		Matches matches = new Matches();
+		DataLayer dataLayer = new DataLayer();
+		
+		Matches matches = new Matches(dataLayer.getConnection());
 		
 		Match match = matches.readMatchById(1);
 		
