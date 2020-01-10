@@ -19,7 +19,6 @@ public class Matches {
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(sql);
 
-			// auto-generated key => id
 			ResultSet resultSet = statement.executeQuery("SELECT SCOPE_IDENTITY()");
 			resultSet.next();
 			match.setMatchId(resultSet.getInt(1));

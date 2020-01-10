@@ -17,7 +17,6 @@ public class Teams {
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(sql);
 
-			// auto-generated key => id
 			ResultSet resultSet = statement.executeQuery("SELECT SCOPE_IDENTITY()");
 			resultSet.next();
 			team.setTeamId(resultSet.getInt(1));
