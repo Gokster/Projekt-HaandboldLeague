@@ -40,7 +40,6 @@ public class Matches {
 	public Match readMatchById (int id) {
 		try {
 			String sql = "SELECT * FROM matches WHERE id=" + id;
-			System.out.println(sql);
 
 			Statement statement = connection.createStatement();
 

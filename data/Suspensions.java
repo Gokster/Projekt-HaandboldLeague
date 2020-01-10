@@ -39,7 +39,6 @@ public class Suspensions {
 	public Suspension readSuspensionById(int id) {
 		try {
 			String sql = "SELECT * FROM suspensions WHERE id=" + id;
-			System.out.println(sql);
 
 			Statement statement = connection.createStatement();
 
