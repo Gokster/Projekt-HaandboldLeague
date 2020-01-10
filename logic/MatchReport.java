@@ -39,7 +39,7 @@ public class MatchReport {
 		Suspension susArr[] = { sus1, sus2, sus3, sus4 };
 
 		return susArr;
-	}
+	} 
 
 	private void sortSideBySide(Goal[] goalArr, Suspension[] susArr) {
 		int i = 0;
