@@ -42,6 +42,7 @@ public class Match {
 		}
 	}
 	
+	
 	private void giveTeamPoints() {
 		if(winningTeam == homeTeam)		{
 			homeTeam.setTeamPoints(homeTeam.getTeamPoints() + 2);
