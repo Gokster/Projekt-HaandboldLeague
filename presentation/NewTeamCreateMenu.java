@@ -1,5 +1,9 @@
 package presentation;
 
+import data.DataLayer;
+import data.Matches;
+import data.Teams;
+import entities.Team;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -17,6 +21,7 @@ import javafx.stage.Stage;
 
 public class NewTeamCreateMenu {
 	private Stage primaryStage;
+	private TextField teamNameTF;
 
 	public NewTeamCreateMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -29,7 +34,7 @@ public class NewTeamCreateMenu {
 
 		topBarElements(topBarGrid, typerOfUser);
 
-		VBox selecters = new VBox(selectTeamAndName(), createTeamAndCancelButtons(typerOfUser));
+		VBox selecters = new VBox(selectName(), createTeamAndCancelButtons(typerOfUser));
 		selecters.setAlignment(Pos.CENTER);
 
 		VBox OuterBox = new VBox(topBarGrid, selecters);
@@ -54,39 +59,34 @@ public class NewTeamCreateMenu {
 		back.setOnAction(e -> new TeamsMenu(primaryStage).init(typerOfUser));
 	}
 
-	private VBox selectTeamAndName() {
-		GridPane leagueGrid = new GridPane();
-		gridRowOptions(leagueGrid);
-		new NewLabel(leagueGrid, 1, 1, "League:		");
-
-		GridPane leagueCBGrid = new GridPane();
-		gridRowOptions(leagueCBGrid);
-		ComboBox leagueCB = new ComboBox();
-		leagueCB.getItems().add("1");
-		leagueCB.getItems().add("2");
-		leagueCB.getItems().add("3");
-		leagueCB.getItems().add("4");
-		new NewComboBox(leagueCBGrid, 1, 2, leagueCB);
-
-		HBox hbox1 = new HBox(leagueGrid, leagueCBGrid);
-		hbox1.setAlignment(Pos.CENTER);
+	private VBox selectName() {		
 
 		GridPane teamNameGrid = new GridPane();
 		gridRowOptions(teamNameGrid);
 		new NewLabel(teamNameGrid, 1, 1, "Team name: 	");
 
-		GridPane teamNameCBGrid = new GridPane();
-		gridRowOptions(teamNameCBGrid);
-		TextField teamNameTF = new TextField();
-		new NewTextField(teamNameCBGrid, 1, 2, teamNameTF);
+		GridPane teamNameTFGrid = new GridPane();
+		gridRowOptions(teamNameTFGrid);
+		teamNameTF = new TextField();
+		new NewTextField(teamNameTFGrid, 1, 2, teamNameTF);
 
-		HBox hbox2 = new HBox(teamNameGrid, teamNameCBGrid);
+		HBox hbox2 = new HBox(teamNameGrid, teamNameTFGrid);
 		hbox2.setAlignment(Pos.CENTER);
 
-		VBox vbox = new VBox(hbox1, hbox2);
+		VBox vbox = new VBox(hbox2);
 		vbox.setPadding(new Insets(150));
 
 		return vbox;
+	}
+	
+	private void getTextFromTF() {
+		
+		Team team = new Team(teamNameTF.getText());
+		
+		Teams teams = new Teams();
+		DataLayer dataLayer = new DataLayer();
+		teams.createTeam(team);
+		
 	}
 
 	private HBox createTeamAndCancelButtons(String typerOfUser) {
@@ -94,7 +94,7 @@ public class NewTeamCreateMenu {
 		gridRowOptions(createTeamGrid);
 		Button createTeamButton = new Button("Create Team");
 		new NewButton(createTeamGrid, 1, 1, createTeamButton);
-		createTeamButton.setOnAction(e -> new TeamsMenu(primaryStage).init(typerOfUser));
+		createTeamButton.setOnAction(e -> getTextFromTF());
 
 		GridPane cancelGrid = new GridPane();
 		gridRowOptions(cancelGrid);

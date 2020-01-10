@@ -2,6 +2,8 @@ package presentation;
 
 import java.time.LocalDate;
 
+import data.Matches;
+import entities.Match;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -31,9 +33,7 @@ public class ScheduleMenu {
 
 		VBox col1 = new VBox(dateOfMatches(), TimeOfMatches(typerOfUser));
 
-		VBox col2 = new VBox(dateOfMatchesTemp(), TimeOfMatchesTemp(typerOfUser));
-
-		HBox calenderTimeline = new HBox(col1, col2);
+		HBox calenderTimeline = new HBox(col1);
 		calenderTimeline.setAlignment(Pos.BASELINE_CENTER);
 
 		VBox OuterBox = new VBox(topBarGrid, calenderTimeline);
@@ -80,7 +80,7 @@ public class ScheduleMenu {
 		return vbox;
 	}
 
-	private VBox TimeOfMatches(String typerOfUser) {
+	private VBox TimeOfMatchesOld(String typerOfUser) {
 		GridPane timeLabelGrid = new GridPane();
 		gridRowOptions(timeLabelGrid);
 		new ScheduleLabel(timeLabelGrid, 1, 1, "16:00");
@@ -105,53 +105,25 @@ public class ScheduleMenu {
 
 		return vbox;
 	}
-
-	private VBox dateOfMatchesTemp() {
-		LocalDate today = LocalDate.now();
-		LocalDate nextWeek = today.plusDays(7);
-		GridPane dateLabelGrid = new GridPane();
-		gridRowOptions(dateLabelGrid);
-		new ScheduleLabelTitle(dateLabelGrid, 1, 1, nextWeek.toString());
-
-		VBox vbox = new VBox(dateLabelGrid);
-
-		return vbox;
-	}
-
-	private VBox TimeOfMatchesTemp(String typerOfUser) {
+	
+	private VBox TimeOfMatches(String typerOfUser) {
 		GridPane timeLabelGrid = new GridPane();
 		gridRowOptions(timeLabelGrid);
-		new ScheduleLabel(timeLabelGrid, 1, 1, "18:00");
+		new ScheduleLabel(timeLabelGrid, 1, 1, "16:00");
 
-		String matchName = "København vs. Herning";
+		Matches matches = new Matches();
+		
+		Match match = matches.readMatchById(1);
+		
+		String matchName = match.getHomeTeam().getTeamName() + " vs. " + match.getAwayTeam().getTeamName();
 
 		GridPane matchGrid = new GridPane();
 		gridRowOptions(matchGrid);
 		Button matchButton = new Button(matchName);
 		new ScheduleMatchButton(matchGrid, 1, 1, matchButton);
 		matchButton.setOnAction(e -> new SpecificMatchMenu(primaryStage).init(matchName, typerOfUser));
-
-		GridPane timeLabelGridTemp = new GridPane();
-		gridRowOptions(timeLabelGridTemp);
-		new ScheduleLabel(timeLabelGridTemp, 1, 1, "20:00");
-
-		String matchNameTemp = "Give vs. Herning";
-
-		GridPane matchGridTemp = new GridPane();
-		gridRowOptions(matchGridTemp);
-		Button matchButtonTemp = new Button(matchNameTemp);
-		new ScheduleMatchButton(matchGridTemp, 1, 1, matchButtonTemp);
-		matchButtonTemp.setOnAction(e -> new SpecificMatchMenu(primaryStage).init(matchNameTemp, typerOfUser));
-
-		String matchNameTemp2 = "Give vs. København";
-
-		GridPane matchGridTemp2 = new GridPane();
-		gridRowOptions(matchGridTemp2);
-		Button matchButtonTemp2 = new Button(matchNameTemp2);
-		new ScheduleMatchButton(matchGridTemp2, 1, 1, matchButtonTemp2);
-		matchButtonTemp2.setOnAction(e -> new SpecificMatchMenu(primaryStage).init(matchNameTemp2, typerOfUser));
-
-		VBox vbox = new VBox(timeLabelGrid, matchGrid, timeLabelGridTemp, matchGridTemp, matchGridTemp2);
+		
+		VBox vbox = new VBox(timeLabelGrid, matchGrid);
 
 		return vbox;
 	}

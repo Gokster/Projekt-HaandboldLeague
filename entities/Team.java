@@ -16,6 +16,11 @@ public class Team {
 		this.teamName = teamName;
 		this.teamPoints = 0;
 	}
+	
+	public Team(String teamName) {
+		this.teamName = teamName;
+		this.teamPoints = 0;
+	}
 
 	public void setTeamId (int teamId) {
 		this.teamID = teamId;

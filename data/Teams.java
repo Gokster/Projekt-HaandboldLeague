@@ -24,6 +24,7 @@ public class Teams {
 			team.setTeamId(resultSet.getInt(1));
 		} catch (SQLException e) {
 			e.printStackTrace();
+			System.out.println("Can't connect");
 		}
 	}
 
