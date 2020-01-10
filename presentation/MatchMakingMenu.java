@@ -1,5 +1,10 @@
 package presentation;
 
+import data.DataLayer;
+import data.Matches;
+import data.Teams;
+import entities.Match;
+import entities.Team;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -119,20 +124,22 @@ public class MatchMakingMenu {
 		return vbox;
 	}
 
+	
 	private void team1Dropdowns(GridPane grid) {
+		
+		// Nice To Have
 		ComboBox leagueCB = new ComboBox();
-		leagueCB.getItems().add("Herning IF");
-		leagueCB.getItems().add("København IF");
-		leagueCB.getItems().add("Give IF");
+		leagueCB.getItems().add("League 1");
+		leagueCB.getItems().add("League 2");
+		leagueCB.getItems().add("League 3");
 		new MatchMakingComboBox(grid, 1, 1, leagueCB);
 		
 		ComboBox teamCB = new ComboBox();
-		teamCB.getItems().add("Team 1");
-		teamCB.getItems().add("Team 2");
-		teamCB.getItems().add("Team 3");
+		teamCB.getItems().add(readTeams());
 		new MatchMakingComboBox(grid, 1, 2, teamCB);
 	}
 	
+	// Nice To Have
 	private void typeDropdowns(GridPane grid) {
 		ComboBox leagueCB = new ComboBox();
 		leagueCB.getItems().add("Show Match");
@@ -140,11 +147,11 @@ public class MatchMakingMenu {
 		new MatchMakingComboBox(grid, 1, 1, leagueCB);
 	}
 	
+	// Nice To Have
 	private void halftimesDropdowns(GridPane grid) {
 		ComboBox leagueCB = new ComboBox();
 		leagueCB.getItems().add("1");
 		leagueCB.getItems().add("2");
-		leagueCB.getItems().add("3");
 		new MatchMakingComboBox(grid, 1, 1, leagueCB);
 	}
 	
@@ -216,10 +223,28 @@ public class MatchMakingMenu {
 		Button doneButton = new Button("Done");
 		gridRowOptions(doneGrid);
 		new MatchMakingButton(doneGrid, 1, 2, doneButton);
+		doneButton.setOnAction(e -> System.out.println(""));
 		
 		VBox vbox = new VBox(doneGrid);
 		
 		return vbox;
+	}
+	
+	private String readTeams() {
+		
+		DataLayer dataLayer = new DataLayer();
+		
+		Teams teams = new Teams(dataLayer.getConnection());
+		
+		Team team = teams.readTeamById(1);
+		
+		String teamName = team.getTeamName();
+		
+		return teamName;
+	}
+	
+	private void createTeam() {
+		
 	}
 
 	private void topBarGridOptions(GridPane grid) {

@@ -82,11 +82,10 @@ public class NewTeamCreateMenu {
 	private void getTextFromTF() {
 		
 		Team team = new Team(teamNameTF.getText());
-		
-		Teams teams = new Teams();
 		DataLayer dataLayer = new DataLayer();
-		teams.createTeam(team);
+		Teams teams = new Teams(dataLayer.getConnection());
 		
+		teams.createTeam(team);
 	}
 
 	private HBox createTeamAndCancelButtons(String typerOfUser) {
