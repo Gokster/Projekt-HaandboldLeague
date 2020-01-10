@@ -40,7 +40,7 @@ public class Goals {
 
 			if (resultSet.next()) {
 				int scoringTeam = resultSet.getInt("scoringteam");
-				Time matchTime = resultSet.getTime("matchtime");
+				int matchTime = resultSet.getInt("matchtime");
 				int matchId = resultSet.getInt("matchId");
 
 				return new Goal (id, scoringTeam, matchTime, matchId);
@@ -91,7 +91,7 @@ public class Goals {
 			if (resultSet.next()) {
 				int id = resultSet.getInt("id");
 				scoringTeam = resultSet.getInt("scoringteam");
-				Time matchTime = resultSet.getTime("matchtime");
+				int matchTime = resultSet.getInt("matchtime");
 				matchId = resultSet.getInt("matchId");
 
 				Goal goal = new Goal (id, scoringTeam, matchTime, matchId);

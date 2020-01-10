@@ -41,7 +41,7 @@ public class Suspensions {
 
 			if (resultSet.next()) {
 				int suspensionTeam = resultSet.getInt("suspensionteam");
-				Time matchTime = resultSet.getTime("matchtime");
+				int matchTime = resultSet.getInt("matchtime");
 				int matchId = resultSet.getInt("matchId");
 
 				return new Suspension(id, suspensionTeam, matchTime, matchId);
@@ -92,7 +92,7 @@ public class Suspensions {
 			if (resultSet.next()) {
 				int id = resultSet.getInt("id");
 				suspensionTeam = resultSet.getInt("suspensionteam");
-				Time matchTime = resultSet.getTime("matchtime");
+				int matchTime = resultSet.getInt("matchtime");
 				matchId = resultSet.getInt("matchId");
 
 				Suspension suspension = new Suspension (id, suspensionTeam, matchTime, matchId);
