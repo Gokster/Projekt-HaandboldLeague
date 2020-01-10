@@ -81,7 +81,7 @@ public class Goals {
 	}
 
 	public ArrayList<Goal> getAllGoals(int matchId) {
-		ArrayList<Goal> goalsArr = new ArrayList<>();
+		ArrayList<Goal> goalsList = new ArrayList<>();
 
 		try {
 			String sql = "SELECT * FROM goals WHERE matchid=" + matchId;
@@ -97,12 +97,12 @@ public class Goals {
 
 				Goal goal = new Goal(id, scoringTeam, matchTime, matchId);
 
-				goalsArr.add(goal);
+				goalsList.add(goal);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return goalsArr;
+		return goalsList;
 	}
 }
