@@ -28,7 +28,13 @@ public class Match {
 		this.winningTeam = winningTeam;
 		this.matchDate = matchDate;
 	}
-	
+	public Match(int matchId, Team homeTeam, Team awayTeam, Date matchDate) {
+		super();
+		this.matchId = matchId;
+		this.homeTeam = homeTeam;
+		this.awayTeam = awayTeam;
+		this.matchDate = matchDate;
+	}
 	private int countGoal(ArrayList<Goal> goalList, Team team) {
 		int teamScore = 0;
 		

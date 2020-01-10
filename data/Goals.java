@@ -38,7 +38,6 @@ public class Goals {
 	public Goal readGoalById(int id) {
 		try {
 			String sql = "SELECT * FROM goal WHERE id=" + id;
-			System.out.println(sql);
 
 			Statement statement = connection.createStatement();
 

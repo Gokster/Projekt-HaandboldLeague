@@ -24,8 +24,7 @@ public class Matches {
 
 	public void createMatch (Match match) {
 		try {
-			String sql = "INSERT INTO matches VALUES (" + match.getHomeTeam() + ", " + match.getAwayTeam() + ", "
-					+ match.getWinningTeam() + ", " + match.getMatchDate() + ")";
+			String sql = "INSERT INTO matches VALUES (" + match.getHomeTeam() + ", " + match.getAwayTeam() + ", " + match.getMatchDate() + ")";
 
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(sql);
@@ -41,7 +40,6 @@ public class Matches {
 	public Match readMatchById (int id) {
 		try {
 			String sql = "SELECT * FROM matches WHERE id=" + id;
-			System.out.println(sql);
 
 			Statement statement = connection.createStatement();
 

@@ -35,7 +35,6 @@ public class Teams {
 	public Team readTeamById (int id) {
 		try {
 			String sql = "SELECT * FROM teams WHERE id=" + id;
-			System.out.println(sql);
 
 			Statement statement = connection.createStatement();
 
