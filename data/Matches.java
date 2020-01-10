@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import entities.Team;
 import entities.Goal;
 import entities.Match;
+import entities.Suspension;
 
 public class Matches {
 	private Connection connection;
 	private Teams teams = new Teams();
 	private Goals goals = new Goals();
+	private Suspensions suspensions = new Suspensions();
 
 	public void createMatch (Match match) {
 		try {
@@ -46,8 +48,10 @@ public class Matches {
 				Team awayTeam = teams.readTeamById(resultSet.getInt("awayteam"));
 				Team winningTeam = teams.readTeamById(resultSet.getInt("winningteam"));
 				Date matchDate = resultSet.getDate("matchdate");
+				ArrayList<Goal> goalList = goals.getAllGoals(id);
+				ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(id);
 
-				return new Match(id, homeTeam, awayTeam, winningTeam, matchDate);
+				return new Match(id, homeTeam, awayTeam, winningTeam, matchDate, goalList, suspensionList);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -99,8 +103,9 @@ public class Matches {
 				Team winningTeam = teams.readTeamById(resultSet.getInt("winningteam"));
 				Date matchDate = resultSet.getDate("matchdate");
 				ArrayList<Goal> goalList = goals.getAllGoals(id);
-
-				Match match = new Match(id, homeTeam, awayTeam, winningTeam, matchDate);
+				ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(id);
+				
+				Match match = new Match(id, homeTeam, awayTeam, winningTeam, matchDate, goalList, suspensionList);
 
 				matchesList.add(match);
 			}
