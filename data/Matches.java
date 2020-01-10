@@ -48,12 +48,11 @@ public class Matches {
 			if (resultSet.next()) {
 				Team homeTeam = teams.readTeamById(resultSet.getInt("hometeam"));
 				Team awayTeam = teams.readTeamById(resultSet.getInt("awayteam"));
-				Team winningTeam = teams.readTeamById(resultSet.getInt("winningteam"));
 				Date matchDate = resultSet.getDate("matchdate");
 				ArrayList<Goal> goalList = goals.getAllGoals(id);
 				ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(id);
 
-				return new Match(id, homeTeam, awayTeam, winningTeam, matchDate, goalList, suspensionList);
+				return new Match(id, homeTeam, awayTeam, matchDate, goalList, suspensionList);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -102,12 +101,11 @@ public class Matches {
 				int id = resultSet.getInt("id");
 				Team homeTeam = teams.readTeamById(resultSet.getInt("hometeam"));
 				Team awayTeam = teams.readTeamById(resultSet.getInt("awayteam"));
-				Team winningTeam = teams.readTeamById(resultSet.getInt("winningteam"));
 				Date matchDate = resultSet.getDate("matchdate");
 				ArrayList<Goal> goalList = goals.getAllGoals(id);
 				ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(id);
 				
-				Match match = new Match(id, homeTeam, awayTeam, winningTeam, matchDate, goalList, suspensionList);
+				Match match = new Match(id, homeTeam, awayTeam, matchDate, goalList, suspensionList);
 
 				matchesList.add(match);
 			}

@@ -12,21 +12,13 @@ public class Match {
 	private ArrayList<Goal> goalList = new ArrayList<Goal>();
 	private ArrayList<Suspension> suspensionList = new ArrayList<Suspension>();
 	
-	public Match(int matchId, Team homeTeam, Team awayTeam, Team winningTeam, Date matchDate, ArrayList<Goal> goalList, ArrayList<Suspension> suspensionList) {
+	public Match(int matchId, Team homeTeam, Team awayTeam, Date matchDate, ArrayList<Goal> goalList, ArrayList<Suspension> suspensionList) {
 		this.matchId = matchId;
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
-		this.winningTeam = winningTeam;
 		this.matchDate = matchDate;
 		this.goalList = goalList;
 		this.suspensionList = suspensionList;
-	}
-	public Match(int matchId, Team homeTeam, Team awayTeam, Team winningTeam, Date matchDate) {
-		this.matchId = matchId;
-		this.homeTeam = homeTeam;
-		this.awayTeam = awayTeam;
-		this.winningTeam = winningTeam;
-		this.matchDate = matchDate;
 	}
 	public Match(int matchId, Team homeTeam, Team awayTeam, Date matchDate) {
 		super();
@@ -54,8 +46,6 @@ public class Match {
 			winningTeam = homeTeam;
 		} else if(homeScore < awayScore)	{
 			winningTeam = awayTeam;
-		} else	{
-			winningTeam = new Team(-1, "draw");
 		}
 	}
 	
