@@ -52,4 +52,9 @@ public class DataLayer {
 		}
 	}
 
+	public Connection getConnection() {
+		return connection;
+	}
+	
+
 }

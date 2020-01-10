@@ -13,8 +13,12 @@ import entities.Team;
 
 public class Goals {
 	private Connection connection;
-	private Teams teams = new Teams();
+	private Teams teams = new Teams(connection);
 
+	public Goals(Connection connection) {
+		this.connection = connection;
+	}
+	
 	public void createGoal(Goal goal) {
 		try {
 			String sql = "INSERT INTO goals VALUES (" + goal.getScoringTeam() + ", " + goal.getMatchTime() + ", "

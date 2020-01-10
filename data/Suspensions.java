@@ -14,7 +14,11 @@ import entities.Team;
 
 public class Suspensions {
 	private Connection connection;
-	private Teams teams = new Teams();
+	private Teams teams = new Teams(connection);
+	
+	public Suspensions(Connection connection) {
+		this.connection = connection;
+	}
 
 	public void createSuspension(Suspension suspension) {
 		try {

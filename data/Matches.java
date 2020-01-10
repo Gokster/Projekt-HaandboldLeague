@@ -14,9 +14,13 @@ import entities.Suspension;
 
 public class Matches {
 	private Connection connection;
-	private Teams teams = new Teams();
-	private Goals goals = new Goals();
-	private Suspensions suspensions = new Suspensions();
+	private Teams teams = new Teams(connection);
+	private Goals goals = new Goals(connection);
+	private Suspensions suspensions = new Suspensions(connection);
+	
+	public Matches(Connection connection) {
+		this.connection = connection;
+	}
 
 	public void createMatch (Match match) {
 		try {

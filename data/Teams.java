@@ -11,6 +11,10 @@ import entities.Team;
 
 public class Teams {
 	private Connection connection;
+	
+	public Teams(Connection connection) {
+		this.connection = connection;
+	}
 
 	public void createTeam (Team team) {
 		try {
