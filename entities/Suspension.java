@@ -10,7 +10,7 @@ public class Suspension {
 	private int matchTime;
 	private int matchId;
 	
-	// 09-01-2020 ï¿½ndret matchTime fra typen Time til int
+	// 09-01-2020 Ændret matchTime fra typen Time til int
 	public Suspension(int suspensionId, int suspensionTeam, int matchTime, int matchId) {
 		this.suspensionId = suspensionId;
 		this.suspensionTeam = suspensionTeam;

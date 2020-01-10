@@ -10,6 +10,12 @@ public class Team {
 		this.teamName = teamName;
 		this.teamPoints = teamPoints;
 	}
+	
+	public Team(int teamId, String teamName) {
+		this.teamID = teamId;
+		this.teamName = teamName;
+		this.teamPoints = 0;
+	}
 
 	public void setTeamId (int teamId) {
 		this.teamID = teamId;
@@ -23,6 +29,10 @@ public class Team {
 		return teamName;
 	}
 
+	public void setTeamPoints (int teamPoints) {
+		this.teamPoints = teamPoints;
+	}
+	
 	public int getTeamPoints() {
 		return teamPoints;
 	}

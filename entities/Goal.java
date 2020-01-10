@@ -8,7 +8,7 @@ public class Goal {
 	private int matchTime;
 	private int matchId;
 	
-	// 09-01-2020 ï¿½ndret matchTime fra typen Time til int
+	// 09-01-2020 Ændret matchTime fra typen Time til int
 	public Goal(int goalId, int scoringTeam, int matchTime, int matchId) {
 		this.goalId = goalId;
 		this.scoringTeam = scoringTeam;

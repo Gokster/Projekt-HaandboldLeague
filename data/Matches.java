@@ -5,11 +5,12 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+import entities.Team;
 import entities.Match;
 
 public class Matches {
 	private Connection connection;
+	private Teams teams = new Teams();
 
 	public void createMatch (Match match) {
 		try {
@@ -37,12 +38,12 @@ public class Matches {
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			if (resultSet.next()) {
-				int homeName = resultSet.getInt("hometeam");
-				int awayName = resultSet.getInt("awayteam");
-				int winningTeam = resultSet.getInt("winningteam");
+				Team homeTeam = teams.readTeamById(resultSet.getInt("hometeam"));
+				Team awayTeam = teams.readTeamById(resultSet.getInt("awayteam"));
+				Team winningTeam = teams.readTeamById(resultSet.getInt("winningteam"));
 				Date matchDate = resultSet.getDate("matchdate");
 
-				return new Match(id, homeName, awayName, winningTeam, matchDate);
+				return new Match(id, homeTeam, awayTeam, winningTeam, matchDate);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
