@@ -76,7 +76,7 @@ public class Teams {
 	}
 	
 	public ArrayList<Team> getAllTeams() {
-		ArrayList<Team> teamsArr = new ArrayList<>();
+		ArrayList<Team> teamsList = new ArrayList<>();
 
 		try {
 			String sql = "SELECT * FROM teams";
@@ -92,12 +92,12 @@ public class Teams {
 
 				Team team = new Team(id, teamName, teamPoints);
 
-				teamsArr.add(team);
+				teamsList.add(team);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return teamsArr;
+		return teamsList;
 	}
 }

@@ -8,11 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import entities.Team;
+import entities.Goal;
 import entities.Match;
 
 public class Matches {
 	private Connection connection;
 	private Teams teams = new Teams();
+	private Goals goals = new Goals();
 
 	public void createMatch (Match match) {
 		try {
@@ -81,7 +83,7 @@ public class Matches {
 		}
 	}
 	public ArrayList<Match> getAllMatches() {
-		ArrayList<Match> matchesArr = new ArrayList<>();
+		ArrayList<Match> matchesList = new ArrayList<>();
 
 		try {
 			String sql = "SELECT * FROM matches";
@@ -96,15 +98,16 @@ public class Matches {
 				Team awayTeam = teams.readTeamById(resultSet.getInt("awayteam"));
 				Team winningTeam = teams.readTeamById(resultSet.getInt("winningteam"));
 				Date matchDate = resultSet.getDate("matchdate");
+				ArrayList<Goal> goalList = goals.getAllGoals(id);
 
 				Match match = new Match(id, homeTeam, awayTeam, winningTeam, matchDate);
 
-				matchesArr.add(match);
+				matchesList.add(match);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return matchesArr;
+		return matchesList;
 	}
 }

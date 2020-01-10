@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Match {
@@ -8,7 +9,18 @@ public class Match {
 	private Team awayTeam;
 	private Team winningTeam;
 	private Date matchDate;
+	private ArrayList<Goal> goalList = new ArrayList<Goal>();
+	private ArrayList<Suspension> suspensionList = new ArrayList<Suspension>();
 	
+	public Match(int matchId, Team homeTeam, Team awayTeam, Team winningTeam, Date matchDate, ArrayList<Goal> goalList, ArrayList<Suspension> suspensionList) {
+		this.matchId = matchId;
+		this.homeTeam = homeTeam;
+		this.awayTeam = awayTeam;
+		this.winningTeam = winningTeam;
+		this.matchDate = matchDate;
+		this.goalList = goalList;
+		this.suspensionList = suspensionList;
+	}
 	public Match(int matchId, Team homeTeam, Team awayTeam, Team winningTeam, Date matchDate) {
 		this.matchId = matchId;
 		this.homeTeam = homeTeam;
@@ -16,12 +28,11 @@ public class Match {
 		this.winningTeam = winningTeam;
 		this.matchDate = matchDate;
 	}
-	Goal goalArr[] = new Goal[1000];
-
-	private int countGoal(Goal[] goalArr, Team team) {
+	
+	private int countGoal(ArrayList<Goal> goalList, Team team) {
 		int teamScore = 0;
 		
-		for(Goal goal: goalArr ) {
+		for(Goal goal: goalList ) {
 			if(goal.getScoringTeam() == team) {
 				teamScore++;
 			}
@@ -30,8 +41,8 @@ public class Match {
 	}
 	
 	private void calcWinningTeam() {
-		int homeScore = countGoal(goalArr, homeTeam);
-		int awayScore = countGoal(goalArr, awayTeam);
+		int homeScore = countGoal(goalList, homeTeam);
+		int awayScore = countGoal(goalList, awayTeam);
 		
 		if(homeScore > awayScore)	{
 			winningTeam = homeTeam;

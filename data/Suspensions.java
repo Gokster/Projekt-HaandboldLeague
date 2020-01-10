@@ -83,7 +83,7 @@ public class Suspensions {
 	}
 
 	public ArrayList<Suspension> getAllSuspensions(int matchId) {
-		ArrayList<Suspension> suspensionsArr = new ArrayList<>();
+		ArrayList<Suspension> suspensionsList = new ArrayList<>();
 
 		try {
 			String sql = "SELECT * FROM suspensions WHERE matchid=" + matchId;
@@ -99,12 +99,12 @@ public class Suspensions {
 
 				Suspension suspension = new Suspension(id, suspensionTeam, matchTime, matchId);
 
-				suspensionsArr.add(suspension);
+				suspensionsList.add(suspension);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return suspensionsArr;
+		return suspensionsList;
 	}
 }
