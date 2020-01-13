@@ -88,7 +88,7 @@ public class MatchMakingMenu {
 		return vbox;
 	}
 
-	private void team1Dropdowns(GridPane grid) { 
+	private void team1Dropdowns(GridPane grid) {
 
 		// Nice To Have
 		ComboBox leagueCB = new ComboBox();
@@ -206,8 +206,8 @@ public class MatchMakingMenu {
 
 	private void datePickerButtonMethod(GridPane dateButtonGrid, String date) {
 		dateButton = new Button(date);
-		new MatchMakingButton(dateButtonGrid, 1, 1, dateButton);
-		
+//		new MatchMakingButton(dateButtonGrid, 1, 1, dateButton);
+
 		dateButtonGrid.getChildren().add(dateButton);
 		dateButton.setOnAction(e -> {
 			dateButtonGrid.getChildren().remove(dateButton);
