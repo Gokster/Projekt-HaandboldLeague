@@ -26,7 +26,7 @@ public class Match {
 		this.awayTeam = awayTeam;
 		this.matchDate = matchDate;
 	}
-	private int countGoal(ArrayList<Goal> goalList, Team team) {
+	public int countGoal(Team team) {
 		int teamScore = 0;
 		
 		for(Goal goal: goalList ) {
@@ -38,8 +38,8 @@ public class Match {
 	}
 	
 	private void calcWinningTeam() {
-		int homeScore = countGoal(goalList, homeTeam);
-		int awayScore = countGoal(goalList, awayTeam);
+		int homeScore = countGoal(homeTeam);
+		int awayScore = countGoal(awayTeam);
 		
 		if(homeScore > awayScore)	{
 			winningTeam = homeTeam;
@@ -129,4 +129,11 @@ public class Match {
 	public Date getMatchDate() {
 		return matchDate;
 	}
+	public ArrayList<Goal> getGoalList() {
+		return goalList;
+	}
+	public ArrayList<Suspension> getSuspensionList() {
+		return suspensionList;
+	}
+	
 }

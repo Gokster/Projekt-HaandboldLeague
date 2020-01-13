@@ -27,4 +27,5 @@ public class SpecificMatchScoreLabelAndGridLeft {
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
+	
 }

@@ -24,7 +24,9 @@ import javafx.stage.Stage;
 
 public class SpecificMatchMenu {
 	private Stage primaryStage;
-	Match match;
+	private Match match;
+	private GridPane homeScoreGrid = new GridPane();
+	private GridPane awayScoreGrid = new GridPane();
 	
 	public SpecificMatchMenu(Stage primaryStage, Match match) {
 		this.primaryStage = primaryStage;
@@ -125,18 +127,16 @@ public class SpecificMatchMenu {
 
 	private HBox scoreAndTime() {
 
-		GridPane homeScoreGrid = new GridPane();
 		middleTitleConnectToHistory(homeScoreGrid);
-		new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, "2");
+		new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, "0");
 
 		LocalTime currentTime = LocalTime.now();
 		GridPane timerGrid = new GridPane();
 		String text = currentTime.toString();
 		new SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, text);
 
-		GridPane awayScoreGrid = new GridPane();
 		middleTitleConnectToHistory(awayScoreGrid);
-		new SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, "1");
+		new SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, "0");
 
 		HBox hbox = new HBox(homeScoreGrid, timerGrid, awayScoreGrid);
 
@@ -183,7 +183,11 @@ public class SpecificMatchMenu {
 		gridRowOptions(addGoalGrid);
 		Button addGoalButton = new Button("Goal");
 		new SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
-		addGoalButton.setOnAction(e -> match.addGoal(match.getHomeTeam()));
+		addGoalButton.setOnAction(e -> {
+			match.addGoal(match.getHomeTeam());
+			homeScoreGrid.getChildren().remove(0);
+			new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, (String) match.countGoal(match.getHomeTeam()));
+		});
 
 		GridPane subGoalGrid = new GridPane();
 		gridRowOptions(subGoalGrid);

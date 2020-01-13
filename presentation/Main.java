@@ -10,18 +10,18 @@ public class Main extends Application {
 		launch(args);
 	}
  
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		LoginMenu menu = new LoginMenu(primaryStage);
-		menu.init();
-
-	}  
-
 //	@Override
 //	public void start(Stage primaryStage) throws Exception {
-//		SpecificMatchMenu menu = new SpecificMatchMenu(primaryStage);
-//		menu.init("Hej Dean Title of Match", "Organizer");
+//		LoginMenu menu = new LoginMenu(primaryStage);
+//		menu.init();
 //
-//	}
+//	}  
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		SpecificMatchMenu menu = new SpecificMatchMenu(primaryStage);
+		menu.init("Hej Dean Title of Match", "Organizer");
+
+	}
 
 }
