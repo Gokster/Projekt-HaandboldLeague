@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.skin.DatePickerSkin;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -196,6 +197,7 @@ public class MatchMakingMenu {
 
 		GridPane dateButtonGrid = new GridPane();
 		gridRowOptions(dateButtonGrid);
+		dateButtonGrid.setPadding(new Insets(30));
 
 		datePickerButtonMethod(dateButtonGrid, LocalDate.now().toString());
 
@@ -206,7 +208,7 @@ public class MatchMakingMenu {
 
 	private void datePickerButtonMethod(GridPane dateButtonGrid, String date) {
 		dateButton = new Button(date);
-//		new MatchMakingButton(dateButtonGrid, 1, 1, dateButton);
+		new MatchMakingButtonCalendar(dateButtonGrid, 1, 1, dateButton);
 
 		dateButtonGrid.getChildren().add(dateButton);
 		dateButton.setOnAction(e -> {
@@ -231,6 +233,10 @@ public class MatchMakingMenu {
 		DatePicker dp = new DatePicker();
 		DatePickerSkin datePickerSkin = new DatePickerSkin(dp);
 		Node popupContent = datePickerSkin.getPopupContent();
+		
+		dp.setShowWeekNumbers(false);
+
+		dp.getStylesheets().add("/presentation/MatchMakingDatePicker.css");
 
 		popupContent.setOnMouseClicked(e -> {
 			LocalDate i = dp.getValue();
