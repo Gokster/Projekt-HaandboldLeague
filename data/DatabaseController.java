@@ -8,14 +8,20 @@ import entities.Suspension;
 import entities.Team;
 
 public class DatabaseController{
+	private Team team;
+	private DataLayer dataLayer;
+	private Teams teams;
+	
 	public void createTeam(String teamName) {
-		Team team = new Team(teamName);
-		DataLayer dataLayer = new DataLayer();
-		Teams teams = new Teams(dataLayer.getConnection());
+		team = new Team(teamName);
+		dataLayer = new DataLayer();
+		teams = new Teams(dataLayer.getConnection());
 		
 		teams.createTeam(team);
 	}
-	public Team readTeamById(int id);
+	public Team readTeamById(int id) {
+		
+	}
 	public void updateTeam(Team team);
 	public void deleteTeam(Team team);
 	public ArrayList<Team> getAllTeams();
