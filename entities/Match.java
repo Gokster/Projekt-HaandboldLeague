@@ -49,7 +49,6 @@ public class Match {
 		}
 	}
 	
-	
 	private void giveTeamPoints() {
 		if(winningTeam == homeTeam)		{
 			homeTeam.setTeamPoints(homeTeam.getTeamPoints() + 2);
@@ -60,6 +59,27 @@ public class Match {
 			awayTeam.setTeamPoints(awayTeam.getTeamPoints() + 1);
 		}
 	}
+	
+	private void addGoal(Team scoringTeam, int matchTime) {
+		Goal goal = new Goal(scoringTeam, matchTime, matchId);
+		goalList.add(goal);
+	}
+	
+	private void deleteGoal() {
+		Goal goal = goalList.get(goalList.size() - 1);
+		goalList.remove(goal);
+	}
+	
+	private void addSuspension(Team suspensionTeam, int matchTime) {
+		Suspension suspension = new Suspension(suspensionTeam, matchTime, matchId);
+		suspensionList.add(suspension);
+	}
+	
+	private void deleteSuspension() {
+		Suspension suspension = suspensionList.get(suspensionList.size() -1);
+		suspensionList.remove(suspension);
+	}
+	
 	
 	public void setMatchId (int matchId) {
 		this.matchId = matchId;
