@@ -16,7 +16,7 @@ public class DatabaseController {
 	Goals goals = new Goals(dataLayer.getConnection());
 	
 	
-	public void createTeam(String teamName) {
+	public void createTeam(String teamName) { 
 		Team team = new Team(teamName);
 		teams.createTeam(team);
 	}
