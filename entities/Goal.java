@@ -15,6 +15,12 @@ public class Goal {
 		this.matchTime = matchTime;
 		this.matchId = matchId; 
 	}
+	
+	public Goal(Team scoringTeam, int matchTime, int matchId) {
+		this.scoringTeam = scoringTeam;
+		this.matchTime = matchTime;
+		this.matchId = matchId;
+	}
 
 	public int getGoalId() {
 		return goalId;

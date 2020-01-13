@@ -17,6 +17,12 @@ public class Suspension {
 		this.matchTime = matchTime;
 		this.matchId = matchId;
 	}
+	
+	public Suspension(Team suspensionTeam, int matchTime, int matchId) {
+		this.suspensionTeam = suspensionTeam;
+		this.matchTime = matchTime;
+		this.matchId = matchId;
+	}
 
 	public void setSuspensionId (int suspensionId) {
 		this.suspensionId = suspensionId;
