@@ -18,6 +18,12 @@ public class MatchTime {
 		this.minutes = millis / 1000 / 60;
 	}
 	
+	public MatchTime(MatchTime matchTime) {
+		this.millis = matchTime.getMillis();
+		this.seconds = matchTime.getSeconds();
+		this.minutes = matchTime.getMinutes();
+	}
+	
 	public void startMatchTimer() {
 		watch.start();
 	}

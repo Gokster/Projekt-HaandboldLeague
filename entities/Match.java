@@ -60,8 +60,9 @@ public class Match {
 		}
 	}
 	
-	private void addGoal(Team scoringTeam, MatchTime matchTime) {
-		Goal goal = new Goal(scoringTeam, matchTime, matchId);
+	private void addGoal(Team scoringTeam) {
+		MatchTime timeStamp = new MatchTime(matchTime);
+		Goal goal = new Goal(scoringTeam, timeStamp, matchId);
 		goalList.add(goal);
 	}
 	
@@ -70,8 +71,9 @@ public class Match {
 		goalList.remove(goal);
 	}
 	
-	private void addSuspension(Team suspensionTeam, MatchTime matchTime) {
-		Suspension suspension = new Suspension(suspensionTeam, matchTime, matchId);
+	private void addSuspension(Team suspensionTeam) {
+		MatchTime timeStamp = new MatchTime(matchTime);
+		Suspension suspension = new Suspension(suspensionTeam, timeStamp, matchId);
 		suspensionList.add(suspension);
 	}
 	
