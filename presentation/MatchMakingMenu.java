@@ -22,6 +22,8 @@ import javafx.stage.Stage;
 
 public class MatchMakingMenu {
 	private Stage primaryStage;
+	ComboBox team1CB;
+	ComboBox team2CB;
 
 	public MatchMakingMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -36,9 +38,9 @@ public class MatchMakingMenu {
 
 		HBox row1 = new HBox(team1(), middleSelections(), team2());
 		row1.setAlignment(Pos.CENTER);
-		
+
 		HBox row2 = new HBox(dateOfMatch(), timeOuts(), matchTitle());
-		row2.setAlignment(Pos.CENTER);		
+		row2.setAlignment(Pos.CENTER);
 
 		VBox OuterBox = new VBox(topBarGrid, row1, row2, done());
 		OuterBox.setBackground(background());
@@ -76,6 +78,20 @@ public class MatchMakingMenu {
 		return vbox;
 	}
 	
+	private void team1Dropdowns(GridPane grid) {
+
+		// Nice To Have
+		ComboBox leagueCB = new ComboBox();
+		leagueCB.getItems().add("League 1");
+		leagueCB.getItems().add("League 2");
+		leagueCB.getItems().add("League 3");
+		new MatchMakingComboBox(grid, 1, 1, leagueCB);
+
+		team1CB = new ComboBox();
+		team1CB.getItems().add(readTeams());
+		new MatchMakingComboBox(grid, 1, 2, team1CB);
+	}
+
 	private VBox middleSelections() {
 		GridPane typeLabel = new GridPane();
 		gridRowOptions(typeLabel);
@@ -84,7 +100,7 @@ public class MatchMakingMenu {
 		GridPane typeOptions = new GridPane();
 		gridRowOptions(typeOptions);
 		typeDropdowns(typeOptions);
-		
+
 		GridPane halftimesLabel = new GridPane();
 		gridRowOptions(halftimesLabel);
 		new MatchMakingLabel(halftimesLabel, 1, 1, "Halftimes");
@@ -92,7 +108,7 @@ public class MatchMakingMenu {
 		GridPane halftimesOptions = new GridPane();
 		gridRowOptions(halftimesOptions);
 		halftimesDropdowns(halftimesOptions);
-		
+
 		GridPane gameTimeLabel = new GridPane();
 		gridRowOptions(gameTimeLabel);
 		new MatchMakingLabel(gameTimeLabel, 1, 1, "Game Time");
@@ -104,12 +120,12 @@ public class MatchMakingMenu {
 		VBox typeVBox = new VBox(typeLabel, typeOptions);
 		VBox talftimesVBox = new VBox(halftimesLabel, halftimesOptions);
 		VBox GameTimeVBox = new VBox(gameTimeLabel, gameTimeOptions);
-		
+
 		VBox vbox = new VBox(typeVBox, talftimesVBox, GameTimeVBox);
 
 		return vbox;
 	}
-	
+
 	private VBox team2() {
 		GridPane gridLabel = new GridPane();
 		gridRowOptions(gridLabel);
@@ -117,28 +133,27 @@ public class MatchMakingMenu {
 
 		GridPane gridOptions = new GridPane();
 		gridRowOptions(gridOptions);
-		team1Dropdowns(gridOptions);
+		team2Dropdowns(gridOptions);
 
 		VBox vbox = new VBox(gridLabel, gridOptions);
 
 		return vbox;
 	}
 
-	
-	private void team1Dropdowns(GridPane grid) {
-		
+	private void team2Dropdowns(GridPane grid) {
+
 		// Nice To Have
 		ComboBox leagueCB = new ComboBox();
 		leagueCB.getItems().add("League 1");
 		leagueCB.getItems().add("League 2");
 		leagueCB.getItems().add("League 3");
 		new MatchMakingComboBox(grid, 1, 1, leagueCB);
-		
-		ComboBox teamCB = new ComboBox();
-		teamCB.getItems().add(readTeams());
-		new MatchMakingComboBox(grid, 1, 2, teamCB);
+
+		team2CB = new ComboBox();
+		team2CB.getItems().add(readTeams());
+		new MatchMakingComboBox(grid, 1, 2, team2CB);
 	}
-	
+
 	// Nice To Have
 	private void typeDropdowns(GridPane grid) {
 		ComboBox leagueCB = new ComboBox();
@@ -146,7 +161,7 @@ public class MatchMakingMenu {
 		leagueCB.getItems().add("League Match");
 		new MatchMakingComboBox(grid, 1, 1, leagueCB);
 	}
-	
+
 	// Nice To Have
 	private void halftimesDropdowns(GridPane grid) {
 		ComboBox leagueCB = new ComboBox();
@@ -154,7 +169,7 @@ public class MatchMakingMenu {
 		leagueCB.getItems().add("2");
 		new MatchMakingComboBox(grid, 1, 1, leagueCB);
 	}
-	
+
 	private void gameTimeDropdowns(GridPane grid) {
 		ComboBox leagueCB = new ComboBox();
 		leagueCB.getItems().add("30");
@@ -163,12 +178,12 @@ public class MatchMakingMenu {
 		leagueCB.getItems().add("60");
 		new MatchMakingComboBox(grid, 1, 1, leagueCB);
 	}
-	
+
 	private VBox dateOfMatch() {
 		GridPane dateLabelGrid = new GridPane();
 		gridRowOptions(dateLabelGrid);
 		new MatchMakingLabel(dateLabelGrid, 1, 1, "Date");
-		
+
 		GridPane dateCBGrid = new GridPane();
 		gridRowOptions(dateCBGrid);
 		ComboBox dateCB = new ComboBox();
@@ -177,17 +192,17 @@ public class MatchMakingMenu {
 		dateCB.getItems().add("29");
 		dateCB.getItems().add("30");
 		new MatchMakingComboBox(dateCBGrid, 1, 2, dateCB);
-		
+
 		VBox vbox = new VBox(dateLabelGrid, dateCBGrid);
-		
+
 		return vbox;
 	}
-	
+
 	private VBox timeOuts() {
 		GridPane timeOutsGrid = new GridPane();
 		gridRowOptions(timeOutsGrid);
 		new MatchMakingLabel(timeOutsGrid, 1, 1, "Time Outs");
-		
+
 		GridPane timeOutsCBGrid = new GridPane();
 		gridRowOptions(timeOutsCBGrid);
 		ComboBox timeOutsCB = new ComboBox();
@@ -196,55 +211,63 @@ public class MatchMakingMenu {
 		timeOutsCB.getItems().add("3");
 		timeOutsCB.getItems().add("4");
 		new MatchMakingComboBox(timeOutsCBGrid, 1, 2, timeOutsCB);
-		
+
 		VBox vbox = new VBox(timeOutsGrid, timeOutsCBGrid);
-		
+
 		return vbox;
 	}
-	
+
 	private VBox matchTitle() {
 		GridPane matchTitleGrid = new GridPane();
 		gridRowOptions(matchTitleGrid);
 		new MatchMakingLabel(matchTitleGrid, 1, 1, "Match Title");
-		
+
 		GridPane matchTitleOutsCBGrid = new GridPane();
 		gridRowOptions(matchTitleOutsCBGrid);
 		TextField matchTitleOutsCB = new TextField();
 		new MatchMakingTextField(matchTitleOutsCBGrid, 1, 2, matchTitleOutsCB);
-		
+
 		VBox vbox = new VBox(matchTitleGrid, matchTitleOutsCBGrid);
-		
+
 		return vbox;
 	}
-	
+
 	private VBox done() {
-		
+
 		GridPane doneGrid = new GridPane();
 		Button doneButton = new Button("Done");
 		gridRowOptions(doneGrid);
 		new MatchMakingButton(doneGrid, 1, 2, doneButton);
 		doneButton.setOnAction(e -> System.out.println(""));
-		
+
 		VBox vbox = new VBox(doneGrid);
-		
+
 		return vbox;
 	}
-	
+
 	private String readTeams() {
-		
+
 		DataLayer dataLayer = new DataLayer();
-		
+
 		Teams teams = new Teams(dataLayer.getConnection());
-		
+
 		Team team = teams.readTeamById(1);
-		
+
 		String teamName = team.getTeamName();
-		
+
 		return teamName;
 	}
-	
-	private void createTeam() {
-		
+
+	private void createMatch() {
+
+//			Team team = new Team(teamNameTF.getText());
+//			DataLayer dataLayer = new DataLayer();
+//			Teams teams = new Teams(dataLayer.getConnection());
+//			
+//			teams.createTeam(team);
+
+		Match match = new Match(homeTeam, awayTeam, matchDate);
+		DataLayer dataLayer = new DataLayer();
 	}
 
 	private void topBarGridOptions(GridPane grid) {
@@ -253,7 +276,7 @@ public class MatchMakingMenu {
 		grid.setAlignment(Pos.CENTER_LEFT);
 	}
 
-	private void gridRowOptions(GridPane grid) { 
+	private void gridRowOptions(GridPane grid) {
 		grid.setHgap(40);
 		grid.setVgap(15);
 		grid.setAlignment(Pos.CENTER);

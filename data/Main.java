@@ -13,7 +13,16 @@ public class Main {
 		Team team1 = new Team("Herning IF");		
 		
 		teams.createTeam(team1);
-		teams.readTeamById(1);
+		System.out.println(teams.readTeamById(1));
 		System.out.println("Success!");
+		
+		
+		DatabaseController dbcon = new DatabaseController();
+		Team team2 = new Team("Ikast IF");
+		
+		dbcon.createTeam(team2);
+		System.out.println("Success!");
+		
+		
 	}
 }

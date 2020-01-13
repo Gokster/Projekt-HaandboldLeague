@@ -106,18 +106,18 @@ public class ScheduleMenu {
 
 		return vbox;
 	}
-	
+
 	private VBox TimeOfMatches(String typerOfUser) {
 		GridPane timeLabelGrid = new GridPane();
 		gridRowOptions(timeLabelGrid);
 		new ScheduleLabel(timeLabelGrid, 1, 1, "16:00");
 
 		DataLayer dataLayer = new DataLayer();
-		
+
 		Matches matches = new Matches(dataLayer.getConnection());
-		
+
 		Match match = matches.readMatchById(1);
-		
+
 		String matchName = match.getHomeTeam().getTeamName() + " vs. " + match.getAwayTeam().getTeamName();
 
 		GridPane matchGrid = new GridPane();
@@ -125,7 +125,7 @@ public class ScheduleMenu {
 		Button matchButton = new Button(matchName);
 		new ScheduleMatchButton(matchGrid, 1, 1, matchButton);
 		matchButton.setOnAction(e -> new SpecificMatchMenu(primaryStage).init(matchName, typerOfUser));
-		
+
 		VBox vbox = new VBox(timeLabelGrid, matchGrid);
 
 		return vbox;
