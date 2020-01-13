@@ -21,7 +21,6 @@ public class Match {
 		this.suspensionList = suspensionList;
 	}
 	public Match(Team homeTeam, Team awayTeam, Date matchDate) {
-		super();
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
 		this.matchDate = matchDate;
