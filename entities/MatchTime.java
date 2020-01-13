@@ -8,6 +8,16 @@ public class MatchTime {
 	private long seconds = 0;
 	private long minutes = 0;
 	
+	public MatchTime() {
+		
+	}
+	
+	public MatchTime(int millis) {
+		this.millis = millis % 1000;
+		this.seconds = (millis / 1000) % 60;
+		this.minutes = millis / 1000 / 60;
+	}
+	
 	public void startMatchTimer() {
 		watch.start();
 	}
