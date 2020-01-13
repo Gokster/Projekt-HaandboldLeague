@@ -9,6 +9,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 
 import entities.Goal;
+import entities.MatchTime;
 import entities.Team;
 
 public class Goals {
@@ -45,7 +46,7 @@ public class Goals {
 
 			if (resultSet.next()) {
 				Team scoringTeam = teams.readTeamById(resultSet.getInt("scoringteam"));
-				int matchTime = resultSet.getInt("matchtime");
+				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
 				int matchId = resultSet.getInt("matchId");
 
 				return new Goal(id, scoringTeam, matchTime, matchId);
@@ -96,7 +97,7 @@ public class Goals {
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
 				Team scoringTeam = teams.readTeamById(resultSet.getInt("scoringteam"));
-				int matchTime = resultSet.getInt("matchtime");
+				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
 
 				Goal goal = new Goal(id, scoringTeam, matchTime, matchId);
 

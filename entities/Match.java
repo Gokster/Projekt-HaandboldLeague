@@ -9,6 +9,7 @@ public class Match {
 	private Team awayTeam;
 	private Team winningTeam;
 	private Date matchDate;
+	private MatchTime matchTime = new MatchTime();
 	private ArrayList<Goal> goalList = new ArrayList<Goal>();
 	private ArrayList<Suspension> suspensionList = new ArrayList<Suspension>();
 	
@@ -59,7 +60,7 @@ public class Match {
 		}
 	}
 	
-	private void addGoal(Team scoringTeam, int matchTime) {
+	private void addGoal(Team scoringTeam, MatchTime matchTime) {
 		Goal goal = new Goal(scoringTeam, matchTime, matchId);
 		goalList.add(goal);
 	}
@@ -69,7 +70,7 @@ public class Match {
 		goalList.remove(goal);
 	}
 	
-	private void addSuspension(Team suspensionTeam, int matchTime) {
+	private void addSuspension(Team suspensionTeam, MatchTime matchTime) {
 		Suspension suspension = new Suspension(suspensionTeam, matchTime, matchId);
 		suspensionList.add(suspension);
 	}
