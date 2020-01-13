@@ -2,6 +2,7 @@ package presentation;
 
 import java.time.LocalTime;
 
+import entities.Match;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -23,7 +24,13 @@ import javafx.stage.Stage;
 
 public class SpecificMatchMenu {
 	private Stage primaryStage;
-
+	Match match;
+	
+	public SpecificMatchMenu(Stage primaryStage, Match match) {
+		this.primaryStage = primaryStage;
+		this.match = match;
+	}
+	
 	public SpecificMatchMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
@@ -137,14 +144,14 @@ public class SpecificMatchMenu {
 	}
 
 	private HBox startAndStop() {
-
+		
 		GridPane startGrid = new GridPane();
 		gridRowOptions(startGrid);
 		Button startButton = new Button("Start");
 		new SpecificMatchButtonSmallLeft(startGrid, 1, 1, startButton);
 		startButton.setMinWidth(304);
 		startButton.setMaxWidth(304);
-		startButton.setOnAction(e -> System.out.println("Start"));
+		startButton.setOnAction(e -> match.startMatch(2));
 
 		GridPane pauseGrid = new GridPane();
 		gridRowOptions(pauseGrid);
@@ -176,13 +183,13 @@ public class SpecificMatchMenu {
 		gridRowOptions(addGoalGrid);
 		Button addGoalButton = new Button("Goal");
 		new SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
-		addGoalButton.setOnAction(e -> System.out.println("+ Goal"));
+		addGoalButton.setOnAction(e -> match.addGoal(match.getHomeTeam()));
 
 		GridPane subGoalGrid = new GridPane();
 		gridRowOptions(subGoalGrid);
 		Button subGoalButton = new Button("-Goal");
 		new SpecificMatchButtonSmallRight(subGoalGrid, 1, 1, subGoalButton);
-		subGoalButton.setOnAction(e -> System.out.println("- Goal"));
+		subGoalButton.setOnAction(e -> match.deleteGoal(match.getHomeTeam()));
 
 		HBox hbox = new HBox(addGoalGrid, subGoalGrid);
 
@@ -203,7 +210,7 @@ public class SpecificMatchMenu {
 		gridRowOptions(twoMinGrid);
 		Button twoMinButton = new Button("2 Min");
 		new SpecificMatchButtonMedium(twoMinGrid, 1, 1, twoMinButton);
-		twoMinButton.setOnAction(e -> System.out.println("2 Min"));
+		twoMinButton.setOnAction(e -> match.addSuspension(match.getHomeTeam()));
 
 		HBox hbox = new HBox(playerTwoMinGrid, twoMinGrid);
 
@@ -295,13 +302,13 @@ public class SpecificMatchMenu {
 		gridRowOptions(addGoalGrid);
 		Button addGoalButton = new Button("Goal");
 		new SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
-		addGoalButton.setOnAction(e -> System.out.println("+ Goal"));
+		addGoalButton.setOnAction(e -> match.addGoal(match.getAwayTeam()));
 
 		GridPane subGoalGrid = new GridPane();
 		gridRowOptions(subGoalGrid);
 		Button subGoalButton = new Button("-Goal");
 		new SpecificMatchButtonSmallRight(subGoalGrid, 1, 1, subGoalButton);
-		subGoalButton.setOnAction(e -> System.out.println("- Goal"));
+		subGoalButton.setOnAction(e -> match.deleteGoal(match.getAwayTeam()));
 
 		HBox hbox = new HBox(addGoalGrid, subGoalGrid);
 
@@ -322,7 +329,7 @@ public class SpecificMatchMenu {
 		gridRowOptions(twoMinGrid);
 		Button twoMinButton = new Button("2 Min");
 		new SpecificMatchButtonMedium(twoMinGrid, 1, 1, twoMinButton);
-		twoMinButton.setOnAction(e -> System.out.println("2 Min"));
+		twoMinButton.setOnAction(e -> match.addSuspension(match.getAwayTeam()));
 
 		HBox hbox = new HBox(playerTwoMinGrid, twoMinGrid);
 
