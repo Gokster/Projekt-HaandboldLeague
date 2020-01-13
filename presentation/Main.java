@@ -19,8 +19,8 @@ public class Main extends Application {
 
 //	@Override
 //	public void start(Stage primaryStage) throws Exception {
-//		MainMenu menu = new MainMenu(primaryStage);
-//		menu.init();
+//		SpecificMatchMenu menu = new SpecificMatchMenu(primaryStage);
+//		menu.init("Hej Dean Title of Match", "Organizer");
 //
 //	}
 

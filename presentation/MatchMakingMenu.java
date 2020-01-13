@@ -1,21 +1,30 @@
 package presentation;
 
+import java.time.LocalDate;
+
 import data.DataLayer;
-import data.Matches;
+import data.DatabaseController;
 import data.Teams;
-import entities.Match;
 import entities.Team;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.PopupControl;
 import javafx.scene.control.TextField;
+import javafx.scene.control.skin.DatePickerSkin;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -24,6 +33,7 @@ public class MatchMakingMenu {
 	private Stage primaryStage;
 	ComboBox team1CB;
 	ComboBox team2CB;
+	Button dateButton;
 
 	public MatchMakingMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -77,8 +87,8 @@ public class MatchMakingMenu {
 
 		return vbox;
 	}
-	
-	private void team1Dropdowns(GridPane grid) {
+
+	private void team1Dropdowns(GridPane grid) { 
 
 		// Nice To Have
 		ComboBox leagueCB = new ComboBox();
@@ -184,18 +194,52 @@ public class MatchMakingMenu {
 		gridRowOptions(dateLabelGrid);
 		new MatchMakingLabel(dateLabelGrid, 1, 1, "Date");
 
-		GridPane dateCBGrid = new GridPane();
-		gridRowOptions(dateCBGrid);
-		ComboBox dateCB = new ComboBox();
-		dateCB.getItems().add("27");
-		dateCB.getItems().add("28");
-		dateCB.getItems().add("29");
-		dateCB.getItems().add("30");
-		new MatchMakingComboBox(dateCBGrid, 1, 2, dateCB);
+		GridPane dateButtonGrid = new GridPane();
+		gridRowOptions(dateButtonGrid);
 
-		VBox vbox = new VBox(dateLabelGrid, dateCBGrid);
+		datePickerButtonMethod(dateButtonGrid, LocalDate.now().toString());
+
+		VBox vbox = new VBox(dateLabelGrid, dateButtonGrid);
 
 		return vbox;
+	}
+
+	private void datePickerButtonMethod(GridPane dateButtonGrid, String date) {
+		dateButton = new Button(date);
+		new MatchMakingButton(dateButtonGrid, 1, 1, dateButton);
+		
+		dateButtonGrid.getChildren().add(dateButton);
+		dateButton.setOnAction(e -> {
+			dateButtonGrid.getChildren().remove(dateButton);
+			datePickerCalendarMethod(dateButtonGrid);
+		});
+	}
+
+	private void datePickerCalendarMethod(GridPane dateButtonGrid) {
+//		DatePicker dp = new DatePicker(LocalDate.now());
+//		DatePickerSkin datePickerSkin = new DatePickerSkin(dp);
+//		Node popupContent = datePickerSkin.getPopupContent();
+//
+//		dateButtonGrid.getChildren().add(dp2);
+//		dp2.setOnMouseClicked(e -> {
+//			datePickerButtonMethod(dateButtonGrid);
+//			dateButtonGrid.getChildren().remove(dp2);
+//			LocalDate value = dp2.getValue();
+//			System.out.println(value);
+//		});
+
+		DatePicker dp = new DatePicker();
+		DatePickerSkin datePickerSkin = new DatePickerSkin(dp);
+		Node popupContent = datePickerSkin.getPopupContent();
+
+		popupContent.setOnMouseClicked(e -> {
+			LocalDate i = dp.getValue();
+			datePickerButtonMethod(dateButtonGrid, i.toString());
+			dateButtonGrid.getChildren().remove(popupContent);
+		});
+
+		dateButtonGrid.getChildren().add(popupContent);
+
 	}
 
 	private VBox timeOuts() {
@@ -259,15 +303,8 @@ public class MatchMakingMenu {
 	}
 
 	private void createMatch() {
-
-//			Team team = new Team(teamNameTF.getText());
-//			DataLayer dataLayer = new DataLayer();
-//			Teams teams = new Teams(dataLayer.getConnection());
-//			
-//			teams.createTeam(team);
-
-		Match match = new Match(homeTeam, awayTeam, matchDate);
-		DataLayer dataLayer = new DataLayer();
+		DatabaseController dbController = new DatabaseController();
+//		dbController.createMatch(team1CB.toString(), team2CB.toString(), dateCB);
 	}
 
 	private void topBarGridOptions(GridPane grid) {

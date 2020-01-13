@@ -16,7 +16,7 @@ public class MatchMakingComboBox {
 		
 		obj.setMinWidth(400);
 		obj.setMinHeight(60);
-		obj.setMaxHeight(120);
+		obj.setMaxHeight(60);
 		obj.setMaxWidth(120);
 
 		obj.getSelectionModel().select(0);

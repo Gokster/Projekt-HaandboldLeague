@@ -1,6 +1,7 @@
 package presentation;
 
 import data.DataLayer;
+import data.DatabaseController;
 import data.Matches;
 import data.Teams;
 import entities.Team;
@@ -22,6 +23,7 @@ import javafx.stage.Stage;
 public class NewTeamCreateMenu {
 	private Stage primaryStage;
 	private TextField teamNameTF;
+	private DatabaseController dbController = new DatabaseController();
 
 	public NewTeamCreateMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -81,9 +83,7 @@ public class NewTeamCreateMenu {
 	
 	private void getTextFromTF() {
 		
-		DatabaseController dbController = new DatabaseController();
-		
-		dbController.createTeam(teamNameTF);
+		dbController.createTeam(teamNameTF.getText());
 	}
 
 	private HBox createTeamAndCancelButtons(String typerOfUser) {
