@@ -11,9 +11,9 @@ import entities.Team;
 public class DatabaseController {
 	private DataLayer dataLayer = new DataLayer();
 	private Teams teams = new Teams(dataLayer.getConnection());
-	Matches matches = new Matches(dataLayer.getConnection());
+	private Matches matches = new Matches(dataLayer.getConnection());
 	private Suspensions suspensions = new Suspensions(dataLayer.getConnection());
-	Goals goals = new Goals(dataLayer.getConnection());
+	private Goals goals = new Goals(dataLayer.getConnection());
 	
 	
 	public void createTeam(String teamName) { 
