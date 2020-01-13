@@ -83,6 +83,4 @@ public class Match {
 	public Date getMatchDate() {
 		return matchDate;
 	}
-	
-	
 }
