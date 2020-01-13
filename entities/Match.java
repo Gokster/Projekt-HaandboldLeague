@@ -76,7 +76,7 @@ public class Match {
 	}
 	
 	private void deleteSuspension() {
-		Suspension suspension = suspensionList.get(suspensionList.size() -1);
+		Suspension suspension = suspensionList.get(suspensionList.size() - 1);
 		suspensionList.remove(suspension);
 	}
 	
