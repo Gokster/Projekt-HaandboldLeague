@@ -21,7 +21,7 @@ public class DatabaseController{
 	}
 	public Team readTeamById(int id) {
 		
-	}
+	} 
 	public void updateTeam(Team team);
 	public void deleteTeam(Team team);
 	public ArrayList<Team> getAllTeams();
