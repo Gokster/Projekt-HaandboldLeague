@@ -79,7 +79,6 @@ public class Match {
 		suspensionList.remove(suspension);
 	}
 	
-	
 	public void setMatchId (int matchId) {
 		this.matchId = matchId;
 	}
