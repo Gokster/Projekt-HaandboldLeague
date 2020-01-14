@@ -66,9 +66,9 @@ public class Teams {
 		}
 	}
 
-	public void deleteTeam (Team team) {
+	public void deleteTeam (String teamName) {
 		try {
-			String sql = "DELETE FROM teams WHERE id=" + team.getTeamId();
+			String sql = "DELETE FROM teams WHERE teamname='" + teamName + "'";
 
 			Statement statement = connection.createStatement();
 

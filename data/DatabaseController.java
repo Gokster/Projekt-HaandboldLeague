@@ -5,6 +5,7 @@ import java.util.Date;
 
 import entities.Goal;
 import entities.Match;
+import entities.MatchTime;
 import entities.Suspension;
 import entities.Team;
 
@@ -23,6 +24,9 @@ public class DatabaseController {
 	public Team readTeamById(int id) {
 		return teams.readTeamById(id);
 	}
+	public void deleteTeam(String teamName) { 
+		teams.deleteTeam(teamName);
+	}
 	public ArrayList<Team> getAllTeams(){
 		return teams.getAllTeams();
 	}
@@ -38,16 +42,16 @@ public class DatabaseController {
 		return matches.getAllMatches();
 	}
 
-	public void createSuspension(int suspensionId, Team suspensionTeam, int matchTime, int matchId) {
-		Suspension suspension = new Suspension(suspensionId, suspensionTeam, matchTime, matchId);
+	public void createSuspension(int suspensionId, Team suspensionTeam, MatchTime timestamp, int matchId) {
+		Suspension suspension = new Suspension(suspensionId, suspensionTeam, timestamp, matchId);
 		suspensions.createSuspension(suspension);
 	}
 	public ArrayList<Suspension> getAllSuspensions(int matchId){
 		return suspensions.getAllSuspensions(matchId);
 	}
 
-	public void createGoal(int goalId, Team scoringTeam, int matchTime, int matchId) {
-		Goal goal = new Goal(goalId, scoringTeam, matchTime, matchId);
+	public void createGoal(int goalId, Team scoringTeam, MatchTime timestamp, int matchId) {
+		Goal goal = new Goal(goalId, scoringTeam, timestamp, matchId);
 		goals.createGoal(goal);
 	}
 	public ArrayList<Goal> getAllGoals(int matchId){
