@@ -9,8 +9,7 @@ import javafx.scene.text.FontWeight;
 
 public class SpecificMatchScoreLabelAndGridRight {
 
-	public SpecificMatchScoreLabelAndGridRight(GridPane grid, int row, int col, String text) {
-		Label obj = new Label(text);
+	public SpecificMatchScoreLabelAndGridRight(GridPane grid, int row, int col, Label obj) {
 
 		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
 		obj.setTextFill(Color.web("#707070"));

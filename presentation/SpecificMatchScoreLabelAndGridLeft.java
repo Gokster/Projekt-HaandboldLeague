@@ -1,5 +1,6 @@
 package presentation;
 
+import entities.Match;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -9,8 +10,7 @@ import javafx.scene.text.FontWeight;
 
 public class SpecificMatchScoreLabelAndGridLeft {
 
-	public SpecificMatchScoreLabelAndGridLeft(GridPane grid, int row, int col, String text) {
-		Label obj = new Label(text);
+	public SpecificMatchScoreLabelAndGridLeft(GridPane grid, int row, int col, Label obj) {
 
 		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
 		obj.setTextFill(Color.web("#707070"));
@@ -27,4 +27,5 @@ public class SpecificMatchScoreLabelAndGridLeft {
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
+	
 }

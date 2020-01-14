@@ -1,7 +1,8 @@
 package entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 public class Match {
 	private int matchId;
@@ -21,12 +22,13 @@ public class Match {
 		this.goalList = goalList;
 		this.suspensionList = suspensionList;
 	}
-	public Match(Team homeTeam, Team awayTeam, Date matchDate) {
+	public Match(Team homeTeam, Team awayTeam, Date date) {
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
-		this.matchDate = matchDate;
-	}
-	private int countGoal(ArrayList<Goal> goalList, Team team) {
+		this.matchDate = date;
+	}	
+	
+	public int countGoal(Team team) {
 		int teamScore = 0;
 		
 		for(Goal goal: goalList ) {
@@ -38,8 +40,8 @@ public class Match {
 	}
 	
 	private void calcWinningTeam() {
-		int homeScore = countGoal(goalList, homeTeam);
-		int awayScore = countGoal(goalList, awayTeam);
+		int homeScore = countGoal(homeTeam);
+		int awayScore = countGoal(awayTeam);
 		
 		if(homeScore > awayScore)	{
 			winningTeam = homeTeam;
@@ -60,26 +62,54 @@ public class Match {
 		}
 	}
 	
-	private void addGoal(Team scoringTeam) {
-		MatchTime timestamp = new MatchTime(matchTime);
-		Goal goal = new Goal(scoringTeam, timestamp, matchId);
+	public void addGoal(Team scoringTeam) {
+		MatchTime timeStamp = new MatchTime(matchTime);
+		Goal goal = new Goal(scoringTeam, timeStamp, matchId);
 		goalList.add(goal);
 	}
 	
-	private void deleteGoal() {
-		Goal goal = goalList.get(goalList.size() - 1);
-		goalList.remove(goal);
+	public void deleteGoal(Team team) {
+		Goal goal;
+		
+		for (int i = goalList.size() - 1; i > 0; i--) {
+			goal = goalList.get(i);
+			
+			if(goal.getScoringTeam() == team) {
+				goalList.remove(goal);
+				break;
+			}
+		}
 	}
 	
-	private void addSuspension(Team suspensionTeam) {
-		MatchTime timestamp = new MatchTime(matchTime);
-		Suspension suspension = new Suspension(suspensionTeam, timestamp, matchId);
+	public void addSuspension(Team suspensionTeam) {
+		MatchTime timeStamp = new MatchTime(matchTime);
+		Suspension suspension = new Suspension(suspensionTeam, timeStamp, matchId);
 		suspensionList.add(suspension);
 	}
 	
-	private void deleteSuspension() {
-		Suspension suspension = suspensionList.get(suspensionList.size() - 1);
-		suspensionList.remove(suspension);
+	public void deleteSuspension(Team team) {
+		Suspension suspension; 
+		
+		for (int i = suspensionList.size() - 1; i > 0; i--) {
+			suspension = suspensionList.get(i);
+			
+			if(suspension.getSuspensionTeam() == team) {
+				suspensionList.remove(suspension);
+				break;
+			}
+		}
+	}
+	
+	public void startMatch() { //int matchLength) {
+		matchTime.startMatchTimer();
+//		while (matchTime.getMinutes() < matchLength) {
+//			matchTime.getMatchTime();
+//		}
+//		matchTime.stopMatchTimer();
+	}
+	
+	public long getMatchSeconds() {
+		return matchTime.getSeconds();
 	}
 	
 	public void setMatchId (int matchId) {
@@ -105,4 +135,11 @@ public class Match {
 	public Date getMatchDate() {
 		return matchDate;
 	}
+	public ArrayList<Goal> getGoalList() {
+		return goalList;
+	}
+	public ArrayList<Suspension> getSuspensionList() {
+		return suspensionList;
+	}
+	
 }

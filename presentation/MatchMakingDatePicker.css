@@ -1,0 +1,27 @@
+.calendar-cell:hover { 
+    -fx-background-color: rgba(135,206,235,0.7);
+    -fx-text-fill: rgb(128, 128, 0);   
+}
+
+.calendar-cell:pressed { 
+    -fx-background-color: rgba(135,186,215,0.7);
+    -fx-text-fill: rgb(255, 128, 255);   
+}
+
+.calendar-cell-selected { 
+    -fx-background-color: rgba(105,176,195,0.7);
+    -fx-text-fill: rgb(0, 0, 255);   
+}
+
+.calendar-cell-today { 
+    -fx-background-color: rgba(155,155,19,0.7);
+    -fx-text-fill: rgb(255, 0, 0);
+}
+
+.calendar-cell-inactive { 
+    -fx-text-fill: darkgray;
+}
+
+.date-chooser {
+    -fx-background-color:linear-gradient(rgb(0, 255, 128),rgb(255, 0, 0));
+}

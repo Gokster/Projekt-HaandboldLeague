@@ -1,5 +1,9 @@
 package presentation;
 
+import data.DataLayer;
+import data.DatabaseController;
+import data.Teams;
+import entities.Team;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,7 +20,9 @@ import javafx.stage.Stage;
 
 public class NewTeamDeleteMenu {
 	private Stage primaryStage;
-
+	private DatabaseController dbController = new DatabaseController();
+	
+	
 	public NewTeamDeleteMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
@@ -77,10 +83,7 @@ public class NewTeamDeleteMenu {
 		GridPane teamNameCBGrid = new GridPane();
 		gridRowOptions(teamNameCBGrid);
 		ComboBox teamNameCB = new ComboBox();
-		teamNameCB.getItems().add("1");
-		teamNameCB.getItems().add("2");
-		teamNameCB.getItems().add("3");
-		teamNameCB.getItems().add("4");
+		teamNameCB.getItems().add(readTeams());
 		new NewComboBox(teamNameCBGrid, 1, 2, teamNameCB);
 
 		HBox hbox2 = new HBox(teamNameGrid, teamNameCBGrid);
@@ -137,5 +140,10 @@ public class NewTeamDeleteMenu {
 		primaryStage.setTitle("Main Menu");
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+	
+	private String readTeams() {
+
+		return dbController.readTeamById(1).getTeamName(); 
 	}
 }
