@@ -26,6 +26,9 @@ public class DatabaseController {
 		return teams.readTeamById(id);
 	}
 
+	public void deleteTeam(String teamName) { 
+		teams.deleteTeam(teamName);
+	}
 	public ArrayList<Team> getAllTeams() {
 		return teams.getAllTeams();
 	}
@@ -50,8 +53,13 @@ public class DatabaseController {
 		return matches.getAllMatchesNotDone(teamList);
 	}
 
+<<<<<<< HEAD
+	public void createSuspension(int suspensionId, Team suspensionTeam, MatchTime timestamp, int matchId) {
+		Suspension suspension = new Suspension(suspensionId, suspensionTeam, timestamp, matchId);
+=======
 	public void createSuspension(int suspensionId, Team suspensionTeam, MatchTime matchTime, int matchId) {
 		Suspension suspension = new Suspension(suspensionId, suspensionTeam, matchTime, matchId);
+>>>>>>> branch 'master' of https://github.com/Gokster/Projekt-HaandboldLeague.git
 		suspensions.createSuspension(suspension);
 	}
 
@@ -59,8 +67,13 @@ public class DatabaseController {
 		return suspensions.getAllSuspensions(matchId);
 	}
 
+<<<<<<< HEAD
+	public void createGoal(int goalId, Team scoringTeam, MatchTime timestamp, int matchId) {
+		Goal goal = new Goal(goalId, scoringTeam, timestamp, matchId);
+=======
 	public void createGoal(int goalId, Team scoringTeam, MatchTime matchTime, int matchId) {
 		Goal goal = new Goal(goalId, scoringTeam, matchTime, matchId);
+>>>>>>> branch 'master' of https://github.com/Gokster/Projekt-HaandboldLeague.git
 		goals.createGoal(goal);
 	}
 

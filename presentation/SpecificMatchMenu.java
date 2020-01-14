@@ -1,8 +1,9 @@
 package presentation;
 
 import java.time.LocalTime;
-
 import entities.Match;
+import javafx.animation.AnimationTimer;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -29,7 +30,11 @@ public class SpecificMatchMenu {
 	private GridPane homeScoreGrid = new GridPane();
 	private GridPane awayScoreGrid = new GridPane();
 	private Label homeScore;
-	
+	private Label awayScore;
+	private int hScoreVal = 0;
+	private int aScoreVal = 0;
+	private AnimationTimer timer;
+	private Label timerLabel;
 
 	public SpecificMatchMenu(Stage primaryStage, Match match) {
 		this.primaryStage = primaryStage;
@@ -131,17 +136,32 @@ public class SpecificMatchMenu {
 	private HBox scoreAndTime() {
 
 		middleTitleConnectToHistory(homeScoreGrid);
-		homeScore = new Label("0");
-		//homeScore.textProperty().bind();
+		homeScore = new Label(Integer.toString(hScoreVal));
+		//homeScore.textProperty().bind(Integer.toString(hScoreVal));
 		new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
 
-		LocalTime currentTime = LocalTime.now();
+//		LocalTime currentTime = LocalTime.now();
 		GridPane timerGrid = new GridPane();
-		String text = currentTime.toString();
-		new SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, text);
+		timerLabel = new Label();
+		new SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, timerLabel);
+		timer = new AnimationTimer() {
+			public void handle(long now) {
+				long time = match.getMatchSeconds();
+				if(time < 120) {
+					timerGrid.getChildren().remove(timerLabel);
+					timerLabel = new Label(Long.toString(time));
+					new SpecificMatchScoreLabelAndGridMiddle(homeScoreGrid, 1, 1, timerLabel);
+				} else {
+					timer.stop();
+				}
+			}
+			
+		};
+//		startButton.setOnAction(e -> timer.start());
 
 		middleTitleConnectToHistory(awayScoreGrid);
-		new SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, "0");
+		awayScore = new Label(Integer.toString(aScoreVal));
+		new SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
 
 		HBox hbox = new HBox(homeScoreGrid, timerGrid, awayScoreGrid);
 
@@ -156,7 +176,10 @@ public class SpecificMatchMenu {
 		new SpecificMatchButtonSmallLeft(startGrid, 1, 1, startButton);
 		startButton.setMinWidth(304);
 		startButton.setMaxWidth(304);
-		startButton.setOnAction(e -> match.startMatch(2));
+		startButton.setOnAction(e -> {
+			timer.start();
+			match.startMatch();
+		});
 
 		GridPane pauseGrid = new GridPane();
 		gridRowOptions(pauseGrid);
@@ -190,8 +213,13 @@ public class SpecificMatchMenu {
 		Button addGoalButton = new Button("Goal");
 		new SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
 		addGoalButton.setOnAction(e -> {
-			match.addGoal(match.getHomeTeam());
+//			match.addGoal(match.getHomeTeam());
 			homeScoreGrid.getChildren().remove(homeScore);
+			hScoreVal++;
+			homeScore = new Label(Integer.toString(hScoreVal));
+			new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
+		
+			
 //			new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1,
 //					Integer.toString(match.countGoal(match.getHomeTeam())));
 		});
@@ -200,8 +228,17 @@ public class SpecificMatchMenu {
 		gridRowOptions(subGoalGrid);
 		Button subGoalButton = new Button("-Goal");
 		new SpecificMatchButtonSmallRight(subGoalGrid, 1, 1, subGoalButton);
-		subGoalButton.setOnAction(e -> match.deleteGoal(match.getHomeTeam()));
-
+		subGoalButton.setOnAction(e -> {
+			if(hScoreVal > 0) {
+//				match.deleteGoal(match.getAwayTeam());
+				homeScoreGrid.getChildren().remove(homeScore);
+				hScoreVal--;
+				homeScore = new Label(Integer.toString(hScoreVal));
+				new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
+			}
+		});
+		
+		
 		HBox hbox = new HBox(addGoalGrid, subGoalGrid);
 
 		return hbox;
@@ -313,13 +350,27 @@ public class SpecificMatchMenu {
 		gridRowOptions(addGoalGrid);
 		Button addGoalButton = new Button("Goal");
 		new SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
-		addGoalButton.setOnAction(e -> match.addGoal(match.getAwayTeam()));
+		addGoalButton.setOnAction(e -> {
+//			match.addGoal(match.getAwayTeam());
+			awayScoreGrid.getChildren().remove(awayScore);
+			aScoreVal++;
+			awayScore = new Label(Integer.toString(aScoreVal));
+			new SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
+		});
 
 		GridPane subGoalGrid = new GridPane();
 		gridRowOptions(subGoalGrid);
 		Button subGoalButton = new Button("-Goal");
 		new SpecificMatchButtonSmallRight(subGoalGrid, 1, 1, subGoalButton);
-		subGoalButton.setOnAction(e -> match.deleteGoal(match.getAwayTeam()));
+		subGoalButton.setOnAction(e -> {
+			if(aScoreVal > 0) {
+//				match.deleteGoal(match.getAwayTeam());
+				awayScoreGrid.getChildren().remove(awayScore);
+				aScoreVal--;
+				awayScore = new Label(Integer.toString(aScoreVal));
+				new SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
+			}
+		});
 
 		HBox hbox = new HBox(addGoalGrid, subGoalGrid);
 
@@ -432,7 +483,7 @@ public class SpecificMatchMenu {
 				"-fx-border-radius: 5 5 0 0; -fx-border-color: #707070; -fx-border-width: 3 3 1 3; -fx-background-radius: 7; "
 						+ "-fx-background-radius: 7; -fx-background: -fx-accent; -fx-background-color: #FFFFFF; -fx-border-radius: 5 5 0 0;");
 
-		grid.setAlignment(Pos.CENTER); 
+		grid.setAlignment(Pos.CENTER);
 		grid.setPrefWidth(608);
 	}
 

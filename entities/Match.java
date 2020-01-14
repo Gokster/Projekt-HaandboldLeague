@@ -106,12 +106,16 @@ public class Match {
 		}
 	}
 	
-	public void startMatch(int matchLength) {
+	public void startMatch() { //int matchLength) {
 		matchTime.startMatchTimer();
-		while (matchTime.getMinutes() < matchLength) {
-			matchTime.getMatchTime();
-		}
-		matchTime.stopMatchTimer();
+//		while (matchTime.getMinutes() < matchLength) {
+//			matchTime.getMatchTime();
+//		}
+//		matchTime.stopMatchTimer();
+	}
+	
+	public long getMatchSeconds() {
+		return matchTime.getSeconds();
 	}
 	
 	public void setMatchId (int matchId) {
