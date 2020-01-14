@@ -24,15 +24,17 @@ public class Matches {
 
 	public void createMatch (Match match) {
 		try {
-			String sql = "INSERT INTO matches VALUES (" + match.getHomeTeam() + ", " + match.getAwayTeam() + ", " + match.getMatchDate() + ")";
+			String sql = "INSERT INTO matches VALUES (" + match.getHomeTeam().getTeamId() + ", " + match.getAwayTeam().getTeamId() + ", NULL, '" + match.getMatchDate() + "')";
 
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(sql);
+			System.out.println("efter execute");
 
 			ResultSet resultSet = statement.executeQuery("SELECT SCOPE_IDENTITY()");
 			resultSet.next();
 			match.setMatchId(resultSet.getInt(1));
 		} catch (SQLException e) {
+			System.out.println("GSFDSGD");
 			e.printStackTrace();
 		}
 	}

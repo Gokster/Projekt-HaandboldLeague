@@ -1,7 +1,8 @@
 package entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 public class Match {
 	private int matchId;
@@ -21,12 +22,11 @@ public class Match {
 		this.goalList = goalList;
 		this.suspensionList = suspensionList;
 	}
-	public Match(Team homeTeam, Team awayTeam, Date matchDate) {
+	public Match(Team homeTeam, Team awayTeam, Date date) {
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
-		this.matchDate = matchDate;
-	}
-	
+		this.matchDate = date;
+	}	
 	
 	public int countGoal(Team team) {
 		int teamScore = 0;
