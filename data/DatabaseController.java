@@ -36,11 +36,18 @@ public class DatabaseController {
 	}
 
 	public Match readMatchById(int id) {
+		
 		return matches.readMatchById(id);
 	}
 
 	public ArrayList<Match> getAllMatches() {
-		return matches.getAllMatches();
+		ArrayList<Team> teamList = teams.getAllTeams();
+		return matches.getAllMatches(teamList);
+	}
+	
+	public ArrayList<Match> getAllMatchesNotDone() {
+		ArrayList<Team> teamList = teams.getAllTeams();
+		return matches.getAllMatchesNotDone(teamList);
 	}
 
 	public void createSuspension(int suspensionId, Team suspensionTeam, MatchTime matchTime, int matchId) {

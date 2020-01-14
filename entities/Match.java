@@ -22,6 +22,12 @@ public class Match {
 		this.goalList = goalList;
 		this.suspensionList = suspensionList;
 	}
+	public Match(int matchId, Team homeTeam, Team awayTeam, Date matchDate) {
+		this.matchId = matchId;
+		this.homeTeam = homeTeam;
+		this.awayTeam = awayTeam;
+		this.matchDate = matchDate;
+	}
 	public Match(Team homeTeam, Team awayTeam, Date date) {
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;

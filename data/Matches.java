@@ -88,7 +88,7 @@ public class Matches {
 			e.printStackTrace();
 		}
 	}
-	public ArrayList<Match> getAllMatches() {
+	public ArrayList<Match> getAllMatches(ArrayList<Team> teamList) {
 		ArrayList<Match> matchesList = new ArrayList<>();
 
 		try {
@@ -100,8 +100,21 @@ public class Matches {
 
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
-				Team homeTeam = teams.readTeamById(resultSet.getInt("hometeam"));
-				Team awayTeam = teams.readTeamById(resultSet.getInt("awayteam"));
+				Team homeTeam = null;
+				for (int i = 0; i < teamList.size(); i++) {
+					if (teamList.get(i).getTeamId() == resultSet.getInt("hometeam")) {
+						homeTeam = teamList.get(i);
+						break;
+					}
+				}
+				
+				Team awayTeam = null;
+				for (int i = 0; i < teamList.size(); i++) {
+					if (teamList.get(i).getTeamId() == resultSet.getInt("awayteam")) {
+						homeTeam = teamList.get(i);
+						break;
+					}
+				}				
 				Date matchDate = resultSet.getDate("matchdate");
 				ArrayList<Goal> goalList = goals.getAllGoals(id);
 				ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(id);
@@ -116,7 +129,7 @@ public class Matches {
 
 		return matchesList;
 	}
-	public ArrayList<Match> getAllMatchesNotDone() {
+	public ArrayList<Match> getAllMatchesNotDone(ArrayList<Team> teamList) {
 		ArrayList<Match> matchesList = new ArrayList<>();
 
 		try {
@@ -128,8 +141,21 @@ public class Matches {
 
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
-				Team homeTeam = teams.readTeamById(resultSet.getInt("hometeam"));
-				Team awayTeam = teams.readTeamById(resultSet.getInt("awayteam"));
+				Team homeTeam = null;
+				for (int i = 0; i < teamList.size(); i++) {
+					if (teamList.get(i).getTeamId() == resultSet.getInt("hometeam")) {
+						homeTeam = teamList.get(i);
+						break;
+					}
+				}
+				
+				Team awayTeam = null;
+				for (int i = 0; i < teamList.size(); i++) {
+					if (teamList.get(i).getTeamId() == resultSet.getInt("awayteam")) {
+						homeTeam = teamList.get(i);
+						break;
+					}
+				}				
 				Date matchDate = resultSet.getDate("matchdate");
 				
 				Match match = new Match(id, homeTeam, awayTeam, matchDate);

@@ -1,14 +1,10 @@
 package presentation;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
-import data.DataLayer;
 import data.DatabaseController;
-import data.Matches;
 import entities.Match;
-import entities.Team;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -25,7 +21,7 @@ import javafx.stage.Stage;
 public class ScheduleMenu {
 	private Stage primaryStage;
 	private DatabaseController dbController = new DatabaseController();
-	private ArrayList<Match> arrMatches = dbController.getAllMatches();
+	private ArrayList<Match> arrMatches = dbController.getAllMatchesNotDone();
 
 	public ScheduleMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;

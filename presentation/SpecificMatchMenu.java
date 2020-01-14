@@ -3,7 +3,6 @@ package presentation;
 import java.time.LocalTime;
 
 import entities.Match;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -433,7 +432,7 @@ public class SpecificMatchMenu {
 				"-fx-border-radius: 5 5 0 0; -fx-border-color: #707070; -fx-border-width: 3 3 1 3; -fx-background-radius: 7; "
 						+ "-fx-background-radius: 7; -fx-background: -fx-accent; -fx-background-color: #FFFFFF; -fx-border-radius: 5 5 0 0;");
 
-		grid.setAlignment(Pos.CENTER);
+		grid.setAlignment(Pos.CENTER); 
 		grid.setPrefWidth(608);
 	}
 

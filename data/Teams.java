@@ -41,6 +41,7 @@ public class Teams {
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			if (resultSet.next()) {
+
 				String teamName = resultSet.getString("teamname");
 				int teamPoints = resultSet.getInt("teampoints");
 
