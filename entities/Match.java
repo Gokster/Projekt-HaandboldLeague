@@ -26,6 +26,8 @@ public class Match {
 		this.awayTeam = awayTeam;
 		this.matchDate = matchDate;
 	}
+	
+	
 	public int countGoal(Team team) {
 		int teamScore = 0;
 		

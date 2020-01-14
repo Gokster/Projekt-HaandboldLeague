@@ -3,6 +3,7 @@ package presentation;
 import java.time.LocalTime;
 
 import entities.Match;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -10,6 +11,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -27,12 +29,15 @@ public class SpecificMatchMenu {
 	private Match match;
 	private GridPane homeScoreGrid = new GridPane();
 	private GridPane awayScoreGrid = new GridPane();
+	private Label homeScore;
 	
+//	private String homeScore = Integer.toString(match.countGoal(match.getHomeTeam()));
+
 	public SpecificMatchMenu(Stage primaryStage, Match match) {
 		this.primaryStage = primaryStage;
 		this.match = match;
 	}
-	
+
 	public SpecificMatchMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
@@ -128,7 +133,9 @@ public class SpecificMatchMenu {
 	private HBox scoreAndTime() {
 
 		middleTitleConnectToHistory(homeScoreGrid);
-		new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, "0");
+		homeScore = new Label("0");
+		//homeScore.textProperty().bind();
+		new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
 
 		LocalTime currentTime = LocalTime.now();
 		GridPane timerGrid = new GridPane();
@@ -144,7 +151,7 @@ public class SpecificMatchMenu {
 	}
 
 	private HBox startAndStop() {
-		
+
 		GridPane startGrid = new GridPane();
 		gridRowOptions(startGrid);
 		Button startButton = new Button("Start");
@@ -177,6 +184,7 @@ public class SpecificMatchMenu {
 		return hbox;
 	}
 
+	
 	private HBox hGoalsButtons() {
 
 		GridPane addGoalGrid = new GridPane();
@@ -185,8 +193,9 @@ public class SpecificMatchMenu {
 		new SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
 		addGoalButton.setOnAction(e -> {
 			match.addGoal(match.getHomeTeam());
-			homeScoreGrid.getChildren().remove(0);
-			new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, (String) match.countGoal(match.getHomeTeam()));
+			homeScoreGrid.getChildren().remove(homeScore);
+//			new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1,
+//					Integer.toString(match.countGoal(match.getHomeTeam())));
 		});
 
 		GridPane subGoalGrid = new GridPane();
