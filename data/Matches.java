@@ -24,7 +24,7 @@ public class Matches {
 
 	public void createMatch (Match match) {
 		try {
-			String sql = "INSERT INTO matches VALUES (" + match.getHomeTeam() + ", " + match.getAwayTeam() + ", " + match.getMatchDate() + ")";
+			String sql = "INSERT INTO matches VALUES (" + match.getHomeTeam().getTeamId() + ", " + match.getAwayTeam().getTeamId() + ", NULL, '" + match.getMatchDate() + "')";
 
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(sql);
@@ -33,6 +33,7 @@ public class Matches {
 			resultSet.next();
 			match.setMatchId(resultSet.getInt(1));
 		} catch (SQLException e) {
+			System.out.println("GSFDSGD"); 
 			e.printStackTrace();
 		}
 	}
@@ -106,6 +107,32 @@ public class Matches {
 				ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(id);
 				
 				Match match = new Match(id, homeTeam, awayTeam, matchDate, goalList, suspensionList);
+
+				matchesList.add(match);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return matchesList;
+	}
+	public ArrayList<Match> getAllMatchesNotDone() {
+		ArrayList<Match> matchesList = new ArrayList<>();
+
+		try {
+			String sql = "SELECT * FROM matches";
+
+			Statement statement = connection.createStatement();
+
+			ResultSet resultSet = statement.executeQuery(sql);
+
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				Team homeTeam = teams.readTeamById(resultSet.getInt("hometeam"));
+				Team awayTeam = teams.readTeamById(resultSet.getInt("awayteam"));
+				Date matchDate = resultSet.getDate("matchdate");
+				
+				Match match = new Match(id, homeTeam, awayTeam, matchDate);
 
 				matchesList.add(match);
 			}

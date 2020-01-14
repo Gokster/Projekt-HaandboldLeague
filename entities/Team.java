@@ -40,9 +40,5 @@ public class Team {
 	
 	public int getTeamPoints() {
 		return teamPoints;
-	}
-
-	
-	
-	
+	}	
 }

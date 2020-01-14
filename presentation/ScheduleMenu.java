@@ -1,10 +1,14 @@
 package presentation;
 
+import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import data.DataLayer;
+import data.DatabaseController;
 import data.Matches;
 import entities.Match;
+import entities.Team;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -20,6 +24,8 @@ import javafx.stage.Stage;
 
 public class ScheduleMenu {
 	private Stage primaryStage;
+	private DatabaseController dbController = new DatabaseController();
+	private ArrayList<Match> arrMatches = dbController.getAllMatches();
 
 	public ScheduleMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -31,10 +37,11 @@ public class ScheduleMenu {
 		topBarGridOptions(topBarGrid);
 
 		topBarElements(topBarGrid, typerOfUser);
+		readMatches();
 
-		VBox col1 = new VBox(dateOfMatches(), TimeOfMatches(typerOfUser));
+//		VBox col1 = new VBox(dateOfMatches(), TimeOfMatches(typerOfUser));
 
-		HBox calenderTimeline = new HBox(col1);
+		HBox calenderTimeline = new HBox();
 		calenderTimeline.setAlignment(Pos.BASELINE_CENTER);
 
 		VBox OuterBox = new VBox(topBarGrid, calenderTimeline);
@@ -44,6 +51,80 @@ public class ScheduleMenu {
 		stageMods(scene);
 	}
 
+
+	
+	private void readMatches() {
+		Date matchDate = dbController.readMatchById(1).getMatchDate();
+		for (int i = 0; i < arrMatches.size(); i++) {
+			System.out.println(dbController.readMatchById(i).getMatchDate().compareTo(matchDate));
+//			if () {
+//				
+//			}
+		}
+		
+	}
+
+//	private VBox dateOfMatches() {
+//		LocalDate today = LocalDate.now();
+//		GridPane dateLabelGrid = new GridPane();
+//		gridRowOptions(dateLabelGrid);
+//		new ScheduleLabelTitle(dateLabelGrid, 1, 1, today.toString());
+//
+//		VBox vbox = new VBox(dateLabelGrid);
+//
+//		return vbox;
+//	}
+//
+//	private VBox TimeOfMatchesOld(String typerOfUser) {
+//		GridPane timeLabelGrid = new GridPane();
+//		gridRowOptions(timeLabelGrid);
+//		new ScheduleLabel(timeLabelGrid, 1, 1, "16:00");
+//
+//		String matchName = "København vs. Herning";
+//
+//		GridPane matchGrid = new GridPane();
+//		gridRowOptions(matchGrid);
+//		Button matchButton = new Button(matchName);
+//		new ScheduleMatchButton(matchGrid, 1, 1, matchButton);
+//		matchButton.setOnAction(e -> new SpecificMatchMenu(primaryStage).init(matchName, typerOfUser));
+//
+//		String matchNameTemp = "Give vs. Herning";
+//
+//		GridPane matchGridTemp = new GridPane();
+//		gridRowOptions(matchGridTemp);
+//		Button matchButtonTemp = new Button(matchNameTemp);
+//		new ScheduleMatchButton(matchGridTemp, 1, 1, matchButtonTemp);
+//		matchButtonTemp.setOnAction(e -> new SpecificMatchMenu(primaryStage).init(matchNameTemp, typerOfUser));
+//
+//		VBox vbox = new VBox(timeLabelGrid, matchGrid, matchGridTemp);
+//
+//		return vbox;
+//	}
+//
+//	private VBox TimeOfMatches(String typerOfUser) {
+//		GridPane timeLabelGrid = new GridPane();
+//		gridRowOptions(timeLabelGrid);
+//		new ScheduleLabel(timeLabelGrid, 1, 1, "16:00");
+//
+//		DataLayer dataLayer = new DataLayer();
+//
+//		Matches matches = new Matches(dataLayer.getConnection());
+//
+//		Match match = matches.readMatchById(1);
+//
+//		String matchName = match.getHomeTeam().getTeamName() + " vs. " + match.getAwayTeam().getTeamName();
+//
+//		GridPane matchGrid = new GridPane();
+//		gridRowOptions(matchGrid);
+//		Button matchButton = new Button(matchName);
+//		new ScheduleMatchButton(matchGrid, 1, 1, matchButton);
+//		matchButton.setOnAction(e -> new SpecificMatchMenu(primaryStage).init(matchName, typerOfUser));
+//
+//		VBox vbox = new VBox(timeLabelGrid, matchGrid);
+//
+//		return vbox;
+//	}
+	
 	private void topBarElements(GridPane grid, String typerOfUser) {
 		buttonsNavigation(grid, typerOfUser);
 		new HeadlineLabelTitle(grid, 3, 1, "Schedule");
@@ -68,67 +149,6 @@ public class ScheduleMenu {
 		Button deleteTeam = new Button("Delete");
 		new NavigationButton(grid, 5, 1, deleteTeam);
 		deleteTeam.setOnAction(e -> new NewScheduleDeleteMenu(primaryStage).init(typerOfUser));
-	}
-
-	private VBox dateOfMatches() {
-		LocalDate today = LocalDate.now();
-		GridPane dateLabelGrid = new GridPane();
-		gridRowOptions(dateLabelGrid);
-		new ScheduleLabelTitle(dateLabelGrid, 1, 1, today.toString());
-
-		VBox vbox = new VBox(dateLabelGrid);
-
-		return vbox;
-	}
-
-	private VBox TimeOfMatchesOld(String typerOfUser) {
-		GridPane timeLabelGrid = new GridPane();
-		gridRowOptions(timeLabelGrid);
-		new ScheduleLabel(timeLabelGrid, 1, 1, "16:00");
-
-		String matchName = "København vs. Herning";
-
-		GridPane matchGrid = new GridPane();
-		gridRowOptions(matchGrid);
-		Button matchButton = new Button(matchName);
-		new ScheduleMatchButton(matchGrid, 1, 1, matchButton);
-		matchButton.setOnAction(e -> new SpecificMatchMenu(primaryStage).init(matchName, typerOfUser));
-
-		String matchNameTemp = "Give vs. Herning";
-
-		GridPane matchGridTemp = new GridPane();
-		gridRowOptions(matchGridTemp);
-		Button matchButtonTemp = new Button(matchNameTemp);
-		new ScheduleMatchButton(matchGridTemp, 1, 1, matchButtonTemp);
-		matchButtonTemp.setOnAction(e -> new SpecificMatchMenu(primaryStage).init(matchNameTemp, typerOfUser));
-
-		VBox vbox = new VBox(timeLabelGrid, matchGrid, matchGridTemp);
-
-		return vbox;
-	}
-
-	private VBox TimeOfMatches(String typerOfUser) {
-		GridPane timeLabelGrid = new GridPane();
-		gridRowOptions(timeLabelGrid);
-		new ScheduleLabel(timeLabelGrid, 1, 1, "16:00");
-
-		DataLayer dataLayer = new DataLayer();
-
-		Matches matches = new Matches(dataLayer.getConnection());
-
-		Match match = matches.readMatchById(1);
-
-		String matchName = match.getHomeTeam().getTeamName() + " vs. " + match.getAwayTeam().getTeamName();
-
-		GridPane matchGrid = new GridPane();
-		gridRowOptions(matchGrid);
-		Button matchButton = new Button(matchName);
-		new ScheduleMatchButton(matchGrid, 1, 1, matchButton);
-		matchButton.setOnAction(e -> new SpecificMatchMenu(primaryStage).init(matchName, typerOfUser));
-
-		VBox vbox = new VBox(timeLabelGrid, matchGrid);
-
-		return vbox;
 	}
 
 	private void topBarGridOptions(GridPane grid) {
