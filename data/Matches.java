@@ -34,7 +34,7 @@ public class Matches {
 			resultSet.next();
 			match.setMatchId(resultSet.getInt(1));
 		} catch (SQLException e) {
-			System.out.println("GSFDSGD");
+			System.out.println("GSFDSGD"); 
 			e.printStackTrace();
 		}
 	}
