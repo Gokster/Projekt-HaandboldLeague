@@ -155,6 +155,7 @@ public class SpecificMatchMenu {
 					timer.stop();
 				}
 			}
+			
 		};
 //		startButton.setOnAction(e -> timer.start());
 
