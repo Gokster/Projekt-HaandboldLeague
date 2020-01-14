@@ -116,4 +116,30 @@ public class Matches {
 
 		return matchesList;
 	}
+	public ArrayList<Match> getAllMatchesNotDone() {
+		ArrayList<Match> matchesList = new ArrayList<>();
+
+		try {
+			String sql = "SELECT * FROM matches";
+
+			Statement statement = connection.createStatement();
+
+			ResultSet resultSet = statement.executeQuery(sql);
+
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				Team homeTeam = teams.readTeamById(resultSet.getInt("hometeam"));
+				Team awayTeam = teams.readTeamById(resultSet.getInt("awayteam"));
+				Date matchDate = resultSet.getDate("matchdate");
+				
+				Match match = new Match(id, homeTeam, awayTeam, matchDate);
+
+				matchesList.add(match);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return matchesList;
+	}
 }
