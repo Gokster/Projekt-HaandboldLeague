@@ -31,7 +31,6 @@ public class SpecificMatchMenu {
 	private GridPane awayScoreGrid = new GridPane();
 	private Label homeScore;
 	
-//	private String homeScore = Integer.toString(match.countGoal(match.getHomeTeam()));
 
 	public SpecificMatchMenu(Stage primaryStage, Match match) {
 		this.primaryStage = primaryStage;
