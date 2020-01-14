@@ -28,7 +28,6 @@ public class Matches {
 
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(sql);
-			System.out.println("efter execute");
 
 			ResultSet resultSet = statement.executeQuery("SELECT SCOPE_IDENTITY()");
 			resultSet.next();

@@ -300,14 +300,12 @@ public class MatchMakingMenu {
 				break;
 			}
 		}
-		System.out.println(team);
 		return team;
 	}
 
 	private void createMatch() {
 		Team team1 = convertCBToTeam(team1CB);
 		Team team2 = convertCBToTeam(team2CB);
-		System.out.println(date);
 		dbController.createMatch(team1, team2, date);
 
 	}
