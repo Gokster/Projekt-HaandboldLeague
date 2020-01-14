@@ -20,7 +20,7 @@ public class Main {
 		DatabaseController dbcon = new DatabaseController();
 		Team team2 = new Team("Ikast IF");
 		
-		dbcon.createTeam(team2);
+//		dbcon.createTeam(team2);
 		System.out.println("Success!");
 		
 		
