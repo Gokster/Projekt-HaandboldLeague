@@ -85,13 +85,9 @@ public class MainMenu {
 		Button schedule = new Button("Schedule");
 		new MainMenuButton(grid, 1, 4, schedule);
 		schedule.setOnAction(e -> new ScheduleMenu(primaryStage).init(typerOfUser));
-
-		Button teams = new Button("Teams");
-		new MainMenuButton(grid, 1, 5, teams);
-		teams.setOnAction(e -> new TeamsMenu(primaryStage).init(typerOfUser));
 		
 		Button logout = new Button("Log out");
-		new MainMenuButton(grid, 1, 6, logout);
+		new MainMenuButton(grid, 1, 5, logout);
 		logout.setOnAction(e -> new LoginMenu(primaryStage).init());
 	}
 
