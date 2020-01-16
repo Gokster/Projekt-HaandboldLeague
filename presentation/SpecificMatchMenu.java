@@ -159,7 +159,6 @@ public class SpecificMatchMenu {
 				}
 			}
 		};
-//		startButton.setOnAction(e -> timer.start());
 
 		middleTitleConnectToHistory(awayScoreGrid);
 		awayScore = new Label(Integer.toString(aScoreVal));
