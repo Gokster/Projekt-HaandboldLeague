@@ -35,6 +35,7 @@ public class SpecificMatchMenu {
 	private int aScoreVal = 0;
 	private AnimationTimer timer;
 	private Label timerLabel;
+	private boolean matchStarted = false;
 
 	public SpecificMatchMenu(Stage primaryStage, Match match) {
 		this.primaryStage = primaryStage;
@@ -177,8 +178,11 @@ public class SpecificMatchMenu {
 		startButton.setMinWidth(304);
 		startButton.setMaxWidth(304);
 		startButton.setOnAction(e -> {
-			timer.start();
-			match.startMatch();
+			if(matchStarted == false) {
+				timer.start();
+				match.startMatch();
+				matchStarted = true;
+			}
 		});
 
 		GridPane pauseGrid = new GridPane();
