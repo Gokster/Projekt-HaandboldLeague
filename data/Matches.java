@@ -149,26 +149,8 @@ public class Matches {
 
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
-				Team homeTeam = null;
-				for (int i = 0; i < teamList.size(); i++) {
-					if (teamList.get(i).getTeamId() == resultSet.getInt("hometeam")) {
-						homeTeam = teamList.get(i);
-						break;
-					}
-				}
 				
-				Team awayTeam = null;
-				for (int i = 0; i < teamList.size(); i++) {
-					if (teamList.get(i).getTeamId() == resultSet.getInt("awayteam")) {
-						homeTeam = teamList.get(i);
-						break;
-					}
-				}				
-				ArrayList<Goal> goalList = goals.getAllGoals(id, teamList);
-				ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(id);
-				Date matchDate = resultSet.getDate("matchdate");
-				
-				Match match = new Match(id, homeTeam, awayTeam, matchDate, goalList, suspensionList);
+				Match match = readMatchById(id, teamList);
 
 				matchesList.add(match);
 			}
