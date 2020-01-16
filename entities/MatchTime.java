@@ -43,7 +43,8 @@ public class MatchTime {
 	}
 
 	public long getSeconds() {
-		return seconds;
+		long second = watch.getElapsedSecs();
+		return second;
 	}
 
 	public long getMinutes() {

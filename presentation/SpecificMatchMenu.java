@@ -146,13 +146,14 @@ public class SpecificMatchMenu {
 		new SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, timerLabel);
 		
 		timer = new AnimationTimer() {
+			@Override
 			public void handle(long now) {
 				long time = match.getMatchSeconds();
 				if (time <= 120) {
 					System.out.println(time);
 					timerGrid.getChildren().remove(timerLabel);
 					timerLabel = new Label(Long.toString(time));
-					new SpecificMatchScoreLabelAndGridMiddle(homeScoreGrid, 1, 1, timerLabel);
+					new SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, timerLabel);
 				} else {
 					timer.stop();
 				}
