@@ -1,7 +1,9 @@
 package presentation;
 
+import java.lang.reflect.Array;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import data.DatabaseController;
 import entities.Match;
@@ -46,16 +48,39 @@ public class ScheduleMenu {
 		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
 	}
-	
+
 	private void readMatches() {
-		Date matchDate = dbController.readMatchById(1).getMatchDate();
-		for (int i = 0; i < arrMatches.size(); i++) {
-			System.out.println(dbController.readMatchById(i).getMatchDate().compareTo(matchDate));
-//			if () {
-//				
-//			}
+		ArrayList<Match> arrWithTimes = new ArrayList<Match>();
+		GridPane grid = new GridPane();
+
+		for (Match match : arrMatches) {
+			if (!arrWithTimes.contains(match.getMatchDate())) {
+				arrWithTimes.add(match);
+			}
+
 		}
 		
+		System.out.println(arrMatches.size());
+		for (int i = 0; i < arrWithTimes.size(); i++) {
+			System.out.println(arrWithTimes.get(i).getMatchDate());
+		}
+
+//		for (int i = 0; i < arrMatches.size(); i++) {
+//			for (int j = 0; j < arrWithTimes.size(); j++) {
+//				if (condition) {
+//					
+//				}
+//			}
+
+//		System.out.println(dbController.readMatchById(1).getMatchDate().compareTo(matchDate));
+//			if (dbController.readMatchById(i).getMatchDate().compareTo(matchDate)) {
+
+//				arrWithTimes
+//			}
+//		}
+
+		Button btn = new Button("hrj");
+//		new ScheduleMatchButton(grid, 0, i, btn);
 	}
 
 //	private VBox dateOfMatches() {
@@ -118,7 +143,7 @@ public class ScheduleMenu {
 //
 //		return vbox;
 //	}
-	
+
 	private void topBarElements(GridPane grid, String typerOfUser) {
 		buttonsNavigation(grid, typerOfUser);
 		new HeadlineLabelTitle(grid, 3, 1, "Schedule");
