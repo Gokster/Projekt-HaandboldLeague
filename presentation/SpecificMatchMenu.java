@@ -35,6 +35,12 @@ public class SpecificMatchMenu {
 	private int aScoreVal = 0;
 	private AnimationTimer timer;
 	private Label timerLabel;
+	private Label homeS;
+	private int homeSVal = 0;
+	private Label timeS;
+	private int timeSVal = 0;
+	private Label awayS;
+	private int awaySVal = 0;
 
 	public SpecificMatchMenu(Stage primaryStage, Match match) {
 		this.primaryStage = primaryStage;
@@ -102,9 +108,7 @@ public class SpecificMatchMenu {
 		GridPane historyGrid = new GridPane();
 
 		final ObservableList<SpecificMatchHistoryTable> data = FXCollections.observableArrayList(
-				new SpecificMatchHistoryTable("", "01:32", "Goal 1"),
-				new SpecificMatchHistoryTable("Goal 2", "01:56", ""),
-				new SpecificMatchHistoryTable("2 Min #7", "03:30", "")
+				new SpecificMatchHistoryTable(homeS, timeS, awayS)
 				);
 
 		TableColumn homeColumn = new TableColumn("");
@@ -221,7 +225,9 @@ public class SpecificMatchMenu {
 			new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
 			
 //			new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1,
-//					Integer.toString(match.countGoal(match.getHomeTeam())));x
+//					Integer.toString(match.countGoal(match.getHomeTeam())));
+			
+			
 		
 		});
 
