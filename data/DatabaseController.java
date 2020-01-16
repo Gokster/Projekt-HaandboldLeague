@@ -39,8 +39,13 @@ public class DatabaseController {
 	}
 
 	public Match readMatchById(int id) {
-		
-		return matches.readMatchById(id);
+		ArrayList<Team> teamList = teams.getAllTeams();
+		return matches.readMatchById(id, teamList);
+	}
+	
+	public Match readMatchByIdNotPlayed(int id) {
+		ArrayList<Team> teamList = teams.getAllTeams();
+		return matches.readMatchByIdNotPlayed(id, teamList);
 	}
 
 	public ArrayList<Match> getAllMatches() {
