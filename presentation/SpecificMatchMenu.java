@@ -104,7 +104,8 @@ public class SpecificMatchMenu {
 		final ObservableList<SpecificMatchHistoryTable> data = FXCollections.observableArrayList(
 				new SpecificMatchHistoryTable("", "01:32", "Goal 1"),
 				new SpecificMatchHistoryTable("Goal 2", "01:56", ""),
-				new SpecificMatchHistoryTable("2 Min #7", "03:30", ""));
+				new SpecificMatchHistoryTable("2 Min #7", "03:30", "")
+				);
 
 		TableColumn homeColumn = new TableColumn("");
 		homeColumn.setMinWidth(250);
@@ -218,10 +219,10 @@ public class SpecificMatchMenu {
 			hScoreVal++;
 			homeScore = new Label(Integer.toString(hScoreVal));
 			new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
-		
 			
 //			new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1,
-//					Integer.toString(match.countGoal(match.getHomeTeam())));
+//					Integer.toString(match.countGoal(match.getHomeTeam())));x
+		
 		});
 
 		GridPane subGoalGrid = new GridPane();
