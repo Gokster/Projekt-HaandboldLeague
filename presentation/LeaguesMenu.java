@@ -3,7 +3,7 @@ package presentation;
 import java.util.ArrayList;
 
 import data.DatabaseController;
-import entities.Ranking;
+
 import entities.Team;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -72,7 +72,7 @@ public class LeaguesMenu {
 					int rowData = row.getItem().getTeamId();
 					//syso for test -> call Team specific schedule instead
 		            System.out.println(rowData);
-		            return rowData;
+		           
 					new MainMenu(primaryStage).init(typerOfUser);
 				}
 			});

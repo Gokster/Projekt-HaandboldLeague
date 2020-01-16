@@ -115,6 +115,7 @@ public class Match {
 	}
 	
 	public long getMatchSeconds() {
+		matchTime.getMatchTime();
 		return matchTime.getSeconds();
 	}
 	

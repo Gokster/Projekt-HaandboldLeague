@@ -86,7 +86,34 @@ public class Suspensions {
 		}
 	}
 
-	public ArrayList<Suspension> getAllSuspensions(int matchId) {
+	public ArrayList<Suspension> getAllSuspensions() {
+		ArrayList<Suspension> suspensionsList = new ArrayList<>();
+
+		try {
+			String sql = "SELECT * FROM suspensions";
+
+			Statement statement = connection.createStatement();
+
+			ResultSet resultSet = statement.executeQuery(sql);
+
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				Team suspensionTeam = teams.readTeamById(resultSet.getInt("suspensionteam"));
+				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
+				int matchId = resultSet.getInt("matchid");
+				
+				Suspension suspension = new Suspension(id, suspensionTeam, matchTime, matchId);
+
+				suspensionsList.add(suspension);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return suspensionsList;
+	}
+	
+	public ArrayList<Suspension> getAllSuspensionsById(int matchId) {
 		ArrayList<Suspension> suspensionsList = new ArrayList<>();
 
 		try {
@@ -100,7 +127,7 @@ public class Suspensions {
 				int id = resultSet.getInt("id");
 				Team suspensionTeam = teams.readTeamById(resultSet.getInt("suspensionteam"));
 				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
-
+				
 				Suspension suspension = new Suspension(id, suspensionTeam, matchTime, matchId);
 
 				suspensionsList.add(suspension);

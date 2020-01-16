@@ -36,7 +36,7 @@ public class StopWatch {
 		} else {
 			elapsed = ((stopTime - startTime) / 1000);
 		}
-
+		
 		return elapsed;
 	}
 	

@@ -39,8 +39,13 @@ public class DatabaseController {
 	}
 
 	public Match readMatchById(int id) {
-		
-		return matches.readMatchById(id);
+		ArrayList<Team> teamList = teams.getAllTeams();
+		return matches.readMatchById(id, teamList);
+	}
+	
+	public Match readMatchByIdNotPlayed(int id) {
+		ArrayList<Team> teamList = teams.getAllTeams();
+		return matches.readMatchByIdNotPlayed(id, teamList);
 	}
 
 	public ArrayList<Match> getAllMatches() {
@@ -53,31 +58,25 @@ public class DatabaseController {
 		return matches.getAllMatchesNotDone(teamList);
 	}
 
-//<<<<<<< HEAD
-//	public void createSuspension(int suspensionId, Team suspensionTeam, MatchTime timestamp, int matchId) {
-//		Suspension suspension = new Suspension(suspensionId, suspensionTeam, timestamp, matchId);
-//=======
-//	public void createSuspension(int suspensionId, Team suspensionTeam, MatchTime matchTime, int matchId) {
-//		Suspension suspension = new Suspension(suspensionId, suspensionTeam, matchTime, matchId);
-//>>>>>>> branch 'master' of https://github.com/Gokster/Projekt-HaandboldLeague.git
-//		suspensions.createSuspension(suspension);
-//	}
+	public void createSuspension(int suspensionId, Team suspensionTeam, MatchTime matchTime, int matchId) {
+		Suspension suspension = new Suspension(suspensionId, suspensionTeam, matchTime, matchId);
 
-	public ArrayList<Suspension> getAllSuspensions(int matchId) {
-		return suspensions.getAllSuspensions(matchId);
+		suspensions.createSuspension(suspension);
 	}
 
-//<<<<<<< HEAD
-//	public void createGoal(int goalId, Team scoringTeam, MatchTime timestamp, int matchId) {
-//		Goal goal = new Goal(goalId, scoringTeam, timestamp, matchId);
-//=======
-//	public void createGoal(int goalId, Team scoringTeam, MatchTime matchTime, int matchId) {
-//		Goal goal = new Goal(goalId, scoringTeam, matchTime, matchId);
-//>>>>>>> branch 'master' of https://github.com/Gokster/Projekt-HaandboldLeague.git
-//		goals.createGoal(goal);
-//	}
+	public ArrayList<Suspension> getAllSuspensions(int matchId) {
+		return suspensions.getAllSuspensionsById(matchId);
+	}
+
+
+	public void createGoal(int goalId, Team scoringTeam, MatchTime matchTime, int matchId) {
+		Goal goal = new Goal(goalId, scoringTeam, matchTime, matchId);
+		
+		goals.createGoal(goal);
+	}
 
 	public ArrayList<Goal> getAllGoals(int matchId) {
-		return goals.getAllGoals(matchId);
+		ArrayList<Team> teamList = teams.getAllTeams();
+		return goals.getAllGoalsById(matchId, teamList);
 	}
 }
