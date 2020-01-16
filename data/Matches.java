@@ -39,8 +39,8 @@ public class Matches {
 	}
 
 	public Match readMatchById (int id, ArrayList<Team> teamList) {
-		ArrayList<Goal> goalList = goals.getAllGoals(id, teamList);
-		ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(id);
+		ArrayList<Goal> goalList = goals.getAllGoalsById(id, teamList);
+		ArrayList<Suspension> suspensionList = suspensions.getAllSuspensionsById(id);
 		try {
 			String sql = "SELECT * FROM matches WHERE id=" + id;
 
@@ -139,6 +139,8 @@ public class Matches {
 	}
 	public ArrayList<Match> getAllMatches(ArrayList<Team> teamList) {
 		ArrayList<Match> matchesList = new ArrayList<>();
+		ArrayList<Goal> goalList = goals.getAllGoals(teamList);
+		ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions();
 
 		try {
 			String sql = "SELECT * FROM matches";
@@ -149,8 +151,39 @@ public class Matches {
 
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
+				Team homeTeam = null;
+				for (int i = 0; i < teamList.size(); i++) {
+					if (teamList.get(i).getTeamId() == resultSet.getInt("hometeam")) {
+						homeTeam = teamList.get(i);
+						break;
+					}
+				}
 				
-				Match match = readMatchById(id, teamList);
+				Team awayTeam = null;
+				for (int i = 0; i < teamList.size(); i++) {
+					if (teamList.get(i).getTeamId() == resultSet.getInt("awayteam")) {
+						homeTeam = teamList.get(i);
+						break;
+					}
+				}
+				
+				ArrayList<Goal> matchGoalList = new ArrayList<Goal>();
+				for(Goal goal : goalList) {
+					if(id == goal.getMatchId()) {
+						matchGoalList.add(goal);
+					}
+				}
+				
+				ArrayList<Suspension> matchSuspensionList = new ArrayList<Suspension>();
+				for(Suspension suspension : suspensionList) {
+					if(id == suspension.getMatchId()) {
+						matchSuspensionList.add(suspension);
+					}
+				}
+				
+				Date matchDate = resultSet.getDate("matchdate");
+				
+				Match match = new Match(id, homeTeam, awayTeam, matchDate, goalList, suspensionList);
 
 				matchesList.add(match);
 			}
@@ -160,6 +193,7 @@ public class Matches {
 
 		return matchesList;
 	}
+	
 	public ArrayList<Match> getAllMatchesNotDone(ArrayList<Team> teamList) {
 		ArrayList<Match> matchesList = new ArrayList<>();
 

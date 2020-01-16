@@ -65,7 +65,7 @@ public class DatabaseController {
 	}
 
 	public ArrayList<Suspension> getAllSuspensions(int matchId) {
-		return suspensions.getAllSuspensions(matchId);
+		return suspensions.getAllSuspensionsById(matchId);
 	}
 
 
@@ -77,6 +77,6 @@ public class DatabaseController {
 
 	public ArrayList<Goal> getAllGoals(int matchId) {
 		ArrayList<Team> teamList = teams.getAllTeams();
-		return goals.getAllGoals(matchId, teamList);
+		return goals.getAllGoalsById(matchId, teamList);
 	}
 }

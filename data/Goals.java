@@ -83,8 +83,43 @@ public class Goals {
 			e.printStackTrace();
 		}
 	}
+	
+	public ArrayList<Goal> getAllGoals(ArrayList<Team> teamList) {
+		ArrayList<Goal> goalsList = new ArrayList<>();
 
-	public ArrayList<Goal> getAllGoals(int matchId, ArrayList<Team> teamList) {
+		try {
+			String sql = "SELECT * FROM goals";
+
+			Statement statement = connection.createStatement();
+
+			ResultSet resultSet = statement.executeQuery(sql);
+
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				Team scoringTeam = null;
+				for (int i = 0; i < teamList.size(); i++) {
+					if (teamList.get(i).getTeamId() == resultSet.getInt("scoringteam")) {
+						scoringTeam = teamList.get(i);
+						break;
+					}
+				}
+			
+//				Team scoringTeam = teams.readTeamById(resultSet.getInt("scoringteam"));
+				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
+				int matchId = resultSet.getInt("matchid");
+
+				Goal goal = new Goal(id, scoringTeam, matchTime, matchId);
+
+				goalsList.add(goal);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return goalsList;
+	}
+
+	public ArrayList<Goal> getAllGoalsById(int matchId, ArrayList<Team> teamList) {
 		ArrayList<Goal> goalsList = new ArrayList<>();
 
 		try {
