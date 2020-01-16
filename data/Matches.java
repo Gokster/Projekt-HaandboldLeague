@@ -39,6 +39,8 @@ public class Matches {
 	}
 
 	public Match readMatchById (int id, ArrayList<Team> teamList) {
+		ArrayList<Goal> goalList = goals.getAllGoals(id, teamList);
+		ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(id);
 		try {
 			String sql = "SELECT * FROM matches WHERE id=" + id;
 
@@ -63,8 +65,6 @@ public class Matches {
 					}
 				}
 				Date matchDate = resultSet.getDate("matchdate");
-				ArrayList<Goal> goalList = goals.getAllGoals(id);
-				ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(id);
 
 				return new Match(id, homeTeam, awayTeam, matchDate, goalList, suspensionList);
 			}
@@ -164,9 +164,9 @@ public class Matches {
 						break;
 					}
 				}				
-				Date matchDate = resultSet.getDate("matchdate");
-				ArrayList<Goal> goalList = goals.getAllGoals(id);
+				ArrayList<Goal> goalList = goals.getAllGoals(id, teamList);
 				ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(id);
+				Date matchDate = resultSet.getDate("matchdate");
 				
 				Match match = new Match(id, homeTeam, awayTeam, matchDate, goalList, suspensionList);
 

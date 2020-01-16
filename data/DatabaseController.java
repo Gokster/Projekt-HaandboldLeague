@@ -76,6 +76,7 @@ public class DatabaseController {
 	}
 
 	public ArrayList<Goal> getAllGoals(int matchId) {
-		return goals.getAllGoals(matchId);
+		ArrayList<Team> teamList = teams.getAllTeams();
+		return goals.getAllGoals(matchId, teamList);
 	}
 }

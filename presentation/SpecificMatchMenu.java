@@ -150,7 +150,6 @@ public class SpecificMatchMenu {
 			public void handle(long now) {
 				long time = match.getMatchSeconds();
 				if (time <= 120) {
-					System.out.println(time);
 					timerGrid.getChildren().remove(timerLabel);
 					timerLabel = new Label(Long.toString(time));
 					new SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, timerLabel);

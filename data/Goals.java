@@ -84,7 +84,7 @@ public class Goals {
 		}
 	}
 
-	public ArrayList<Goal> getAllGoals(int matchId) {
+	public ArrayList<Goal> getAllGoals(int matchId, ArrayList<Team> teamList) {
 		ArrayList<Goal> goalsList = new ArrayList<>();
 
 		try {
@@ -96,7 +96,15 @@ public class Goals {
 
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
-				Team scoringTeam = teams.readTeamById(resultSet.getInt("scoringteam"));
+				Team scoringTeam = null;
+				for (int i = 0; i < teamList.size(); i++) {
+					if (teamList.get(i).getTeamId() == resultSet.getInt("scoringteam")) {
+						scoringTeam = teamList.get(i);
+						break;
+					}
+				}
+			
+//				Team scoringTeam = teams.readTeamById(resultSet.getInt("scoringteam"));
 				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
 
 				Goal goal = new Goal(id, scoringTeam, matchTime, matchId);

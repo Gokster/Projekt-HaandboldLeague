@@ -46,8 +46,6 @@ public class ScheduleMenu {
 		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
 	}
-
-
 	
 	private void readMatches() {
 		Date matchDate = dbController.readMatchById(1).getMatchDate();
