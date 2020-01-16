@@ -52,6 +52,21 @@ public class Teams {
 		}
 		return null;
 	}
+//	public int countTeams() {
+//		try {
+//			String sql = "SELECT COUNT(*) AS teams FROM teams";
+//
+//			Statement statement = connection.createStatement();
+//
+//			ResultSet resultSet = statement.executeQuery(sql);
+//
+//			return new int;
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 
 	public void updateTeam (Team team) {
 		try {

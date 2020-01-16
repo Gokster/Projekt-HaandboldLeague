@@ -1,18 +1,26 @@
 package entities;
 
-public class Team {
-	private int teamID;
+public class Team implements Comparable<Team>{
+	private int teamId;
 	private String teamName;
 	private int teamPoints;
+	private int ranking;
 	
+	public Team(int teamId, String teamName, int teamPoints, int ranking) {
+		this.teamId = teamId;
+		this.teamName = teamName;
+		this.teamPoints = teamPoints;
+		this.ranking = ranking;
+	}
+
 	public Team(int teamId, String teamName, int teamPoints) {
-		this.teamID = teamId;
+		this.teamId = teamId;
 		this.teamName = teamName;
 		this.teamPoints = teamPoints;
 	}
 	
 	public Team(int teamId, String teamName) {
-		this.teamID = teamId;
+		this.teamId = teamId;
 		this.teamName = teamName;
 		this.teamPoints = 0;
 	}
@@ -22,12 +30,16 @@ public class Team {
 		this.teamPoints = 0;
 	}
 
+	public void setRanking(int ranking) {
+		this.ranking = ranking;
+	}
+
 	public void setTeamId (int teamId) {
-		this.teamID = teamId;
+		this.teamId = teamId;
 	}
 	
 	public int getTeamId() {
-		return teamID;
+		return teamId;
 	}
 
 	public String getTeamName() {
@@ -41,4 +53,12 @@ public class Team {
 	public int getTeamPoints() {
 		return teamPoints;
 	}	
+	@Override
+	public int compareTo(Team team) {
+		return (this.getTeamPoints() < team.getTeamPoints() ? -1 : (this.getTeamPoints() == team.getTeamPoints() ? 0 : 1));
+	}
+	@Override
+	public String toString() {
+		return " Id: " + this.teamId + ", Team Name: " + this.teamName + ", Team Points:" + this.teamPoints + ", Ranking:" + this.ranking;
+	}
 }

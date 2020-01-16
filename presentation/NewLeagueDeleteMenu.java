@@ -5,17 +5,14 @@ import java.util.Optional;
 
 import data.DatabaseController;
 import entities.Team;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -48,7 +45,7 @@ public class NewLeagueDeleteMenu {
 
 		VBox OuterBox = new VBox(topBarGrid, selecters);
 		OuterBox.setBackground(background());
-
+		
 		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
 	}
@@ -116,20 +113,21 @@ public class NewLeagueDeleteMenu {
 		hbox.setAlignment(Pos.CENTER);
 //		hbox.setPadding(new Insets(100));
 		return hbox;
-		
+
 	}
 
 	private void deleteTeamFromLeage(String typerOfUser) {
 		System.out.println((String) teamNameCB.getValue());
-		Alert deleteAlert = new Alert(AlertType.NONE, ("Are you sure you would like to delete the team:  " + teamNameCB.getValue()
-				+ "?"), ButtonType.YES, ButtonType.NO);
+		Alert deleteAlert = new Alert(AlertType.NONE,
+				("Are you sure you would like to delete the team:  " + teamNameCB.getValue() + "?"), ButtonType.YES,
+				ButtonType.NO);
 
 		Optional<ButtonType> result = deleteAlert.showAndWait();
 
 		if (result.get() == ButtonType.YES) {
 			dbController.deleteTeam((String) teamNameCB.getValue());
 			new LeaguesMenu(primaryStage).init(typerOfUser);
-			
+
 		}
 	}
 

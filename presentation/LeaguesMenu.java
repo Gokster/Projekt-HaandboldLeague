@@ -1,6 +1,9 @@
 package presentation;
 
+import java.util.ArrayList;
+
 import data.DatabaseController;
+import entities.Ranking;
 import entities.Team;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Background;
@@ -29,25 +33,51 @@ public class LeaguesMenu {
 	}
 
 	public void init(String typerOfUser) {
-
 		GridPane topBarGrid = new GridPane();
-		
+
 		topBarGridOptions(topBarGrid);
 
 		topBarElements(topBarGrid, typerOfUser);
 
-		final ObservableList<Team> teams = FXCollections.observableArrayList(); 
+		final ObservableList<Team> teams = FXCollections.observableArrayList();
 		teams.addAll(dbController.getAllTeams());
-		
+
 		TableColumn<Team, String> teamNameCol = new TableColumn<Team, String>("Team Name");
 		teamNameCol.setCellValueFactory(new PropertyValueFactory<Team, String>("teamName"));
 
 		TableColumn<Team, Integer> teamPointsCol = new TableColumn<Team, Integer>("Team Points");
 		teamPointsCol.setCellValueFactory(new PropertyValueFactory<Team, Integer>("teamPoints"));
 
+		// TableColumn<Ranking, Integer> teamPlacement = new TableColumn<Ranking,
+		// Integer>("Rank");
+//		final ObservableList<Ranking> teamPR = FXCollections.observableArrayList();
+//		ArrayList<Ranking> teamRanking = new ArrayList<Ranking>();
+//		for (int i = 0; i < teams.size(); i++) {
+//			int rank = i;
+//			Ranking ranking = new Ranking(rank);
+//			teamRanking.add(ranking);
+//		}
+//		
+//		teamPR.addAll(teamRanking);
+
 		TableView<Team> table = new TableView<Team>();
-		GridPane.setColumnSpan(table, 2);
+		GridPane.setColumnSpan(table, 3);
 		GridPane.setRowSpan(table, 14);
+
+		//select team in row
+		table.setRowFactory(e -> {
+			TableRow<Team> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && (!row.isEmpty())) {
+					int rowData = row.getItem().getTeamId();
+					//syso for test -> call Team specific schedule instead
+		            System.out.println(rowData);
+		            return rowData;
+					new MainMenu(primaryStage).init(typerOfUser);
+				}
+			});
+			return row;
+		});
 		
 		table.setItems(teams);
 		table.getColumns().addAll(teamNameCol, teamPointsCol);
