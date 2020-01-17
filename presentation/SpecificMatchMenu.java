@@ -40,8 +40,7 @@ public class SpecificMatchMenu {
 	private String awayTable;
 	private boolean matchStarted = false;
 	
-	ObservableList<SpecificMatchHistoryTable> data = FXCollections.observableArrayList(
-			);
+	ObservableList<SpecificMatchHistoryTable> data = FXCollections.observableArrayList();
 
 	public SpecificMatchMenu(Stage primaryStage, Match match) {
 		this.primaryStage = primaryStage;
@@ -59,14 +58,14 @@ public class SpecificMatchMenu {
 
 		topBarElements(topBarGrid, matchName, typerOfUser);
 
-		VBox homeBox = new VBox(homeTitle(), hGoalsButtons(), hTwoMinButtons(), hYellowButtons(), hRedButtons(),
-				hTimeOutButton(), hPenaltyButton());
+		VBox homeBox = new VBox(homeTitle(), hGoalsButtons(), hTwoMinButtons()/*, hYellowButtons(), hRedButtons(),
+				hTimeOutButton(), hPenaltyButton()*/);
 
 		VBox middleBox = new VBox(historyTitle(), history(), scoreAndTime(), startAndStop());
 		middleBox.setPadding(new Insets(60, 40, 0, 40));
 
-		VBox awayBox = new VBox(awayTitle(), aGoalsButtons(), aTwoMinButtons(), aYellowButtons(), aRedButtons(),
-				aTimeOutButton(), aPenaltyButton());
+		VBox awayBox = new VBox(awayTitle(), aGoalsButtons(), aTwoMinButtons()/*, aYellowButtons(), aRedButtons(),
+				aTimeOutButton(), aPenaltyButton()*/);
 
 		HBox matchControls = new HBox(homeBox, middleBox, awayBox);
 		matchControls.setAlignment(Pos.CENTER);
@@ -144,7 +143,7 @@ public class SpecificMatchMenu {
 
 //		LocalTime currentTime = LocalTime.now();
 		GridPane timerGrid = new GridPane();
-		timerLabel = new Label();
+		timerLabel = new Label("0");
 		new SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, timerLabel);
 		timer = new AnimationTimer() {
 			public void handle(long now) {
@@ -152,7 +151,7 @@ public class SpecificMatchMenu {
 				if(time < 120) {
 					timerGrid.getChildren().remove(timerLabel);
 					timerLabel = new Label(Long.toString(time));
-					new SpecificMatchScoreLabelAndGridMiddle(homeScoreGrid, 1, 1, timerLabel);
+					new SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, timerLabel);
 				} else {
 					timer.stop();
 				}
@@ -186,15 +185,18 @@ public class SpecificMatchMenu {
 			}
 		});
 
-		GridPane pauseGrid = new GridPane();
-		gridRowOptions(pauseGrid);
-		Button pauseButton = new Button("Pause");
-		new SpecificMatchButtonSmallRight(pauseGrid, 1, 1, pauseButton);
-		pauseButton.setMinWidth(304);
-		pauseButton.setMaxWidth(304);
-		pauseButton.setOnAction(e -> System.out.println("Pause"));
+		GridPane stopGrid = new GridPane();
+		gridRowOptions(stopGrid);
+		Button stopButton = new Button("Stop");
+		new SpecificMatchButtonSmallRight(stopGrid, 1, 1, stopButton);
+		stopButton.setMinWidth(304);
+		stopButton.setMaxWidth(304);
+		stopButton.setOnAction(e -> {
+			timer.stop();
+			
+		});
 
-		HBox hbox = new HBox(startGrid, pauseGrid);
+		HBox hbox = new HBox(startGrid, stopGrid);
 
 		return hbox;
 	}
@@ -218,14 +220,17 @@ public class SpecificMatchMenu {
 		Button addGoalButton = new Button("Goal");
 		new SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
 		addGoalButton.setOnAction(e -> {
-//			match.addGoal(match.getHomeTeam());
+			match.addGoal(match.getHomeTeam());
 			homeScoreGrid.getChildren().remove(homeScore);
 			hScoreVal++;
 			homeScore = new Label(Integer.toString(hScoreVal));
 			new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
 			
-			new SpecificMatchHistoryTable(homeTable, timeTable, awayTable);
+			homeTable = "Goal";
+			timeTable = Long.toString(match.getMatchSeconds());
+			awayTable = "";
 			
+			data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
 //			new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1,
 //					Integer.toString(match.countGoal(match.getHomeTeam())));		
 		
@@ -237,11 +242,18 @@ public class SpecificMatchMenu {
 		new SpecificMatchButtonSmallRight(subGoalGrid, 1, 1, subGoalButton);
 		subGoalButton.setOnAction(e -> {
 			if(hScoreVal > 0) {
-//				match.deleteGoal(match.getAwayTeam());
+				match.deleteGoal(match.getAwayTeam());
 				homeScoreGrid.getChildren().remove(homeScore);
 				hScoreVal--;
 				homeScore = new Label(Integer.toString(hScoreVal));
 				new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
+			}
+			for(int i = data.size() - 1; i >= 0 ; i--) {
+				System.out.println(data.get(i).getHome());
+				if(data.get(i).getHome().compareTo("Goal") == 0) {
+					data.remove(i);
+					break;
+				}
 			}
 		});
 		
@@ -265,80 +277,87 @@ public class SpecificMatchMenu {
 		gridRowOptions(twoMinGrid);
 		Button twoMinButton = new Button("2 Min");
 		new SpecificMatchButtonMedium(twoMinGrid, 1, 1, twoMinButton);
-		twoMinButton.setOnAction(e -> match.addSuspension(match.getHomeTeam()));
+		twoMinButton.setOnAction(e -> {
+			match.addSuspension(match.getHomeTeam());
+			homeTable = "2 min";
+			timeTable = Long.toString(match.getMatchSeconds());
+			awayTable = "";
+			
+			data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
+		});
 
 		HBox hbox = new HBox(playerTwoMinGrid, twoMinGrid);
 
 		return hbox;
 	}
 
-	private HBox hYellowButtons() {
+//	private HBox hYellowButtons() {
+//
+//		GridPane playerYellowGrid = new GridPane();
+//		gridRowOptions(playerYellowGrid);
+//		ComboBox playerYellowCB = new ComboBox();
+//		playerYellowCB.getItems().add("#3");
+//		playerYellowCB.getItems().add("#99");
+//		playerYellowCB.getItems().add("#7");
+//		new SpecificMatchComboBoxSmall(playerYellowGrid, 1, 1, playerYellowCB);
+//
+//		GridPane yellowGrid = new GridPane();
+//		gridRowOptions(yellowGrid);
+//		Button yellowButton = new Button("Yellow");
+//		new SpecificMatchButtonMedium(yellowGrid, 1, 1, yellowButton);
+//		yellowButton.setOnAction(e -> System.out.println("Yellow"));
+//
+//		HBox hbox = new HBox(playerYellowGrid, yellowGrid);
+//
+//		return hbox;
+//	}
 
-		GridPane playerYellowGrid = new GridPane();
-		gridRowOptions(playerYellowGrid);
-		ComboBox playerYellowCB = new ComboBox();
-		playerYellowCB.getItems().add("#3");
-		playerYellowCB.getItems().add("#99");
-		playerYellowCB.getItems().add("#7");
-		new SpecificMatchComboBoxSmall(playerYellowGrid, 1, 1, playerYellowCB);
+//	private HBox hRedButtons() {
+//
+//		GridPane playerRedGrid = new GridPane();
+//		gridRowOptions(playerRedGrid);
+//		ComboBox playerRedCB = new ComboBox();
+//		playerRedCB.getItems().add("#3");
+//		playerRedCB.getItems().add("#99");
+//		playerRedCB.getItems().add("#7");
+//		new SpecificMatchComboBoxSmall(playerRedGrid, 1, 1, playerRedCB);
+//
+//		GridPane redGrid = new GridPane();
+//		gridRowOptions(redGrid);
+//		Button redButton = new Button("Red");
+//		new SpecificMatchButtonMedium(redGrid, 1, 1, redButton);
+//		redButton.setOnAction(e -> System.out.println("Red"));
+//
+//		HBox hbox = new HBox(playerRedGrid, redGrid);
+//
+//		return hbox;
+//	}
 
-		GridPane yellowGrid = new GridPane();
-		gridRowOptions(yellowGrid);
-		Button yellowButton = new Button("Yellow");
-		new SpecificMatchButtonMedium(yellowGrid, 1, 1, yellowButton);
-		yellowButton.setOnAction(e -> System.out.println("Yellow"));
+//	private HBox hTimeOutButton() {
+//
+//		GridPane timeOutGrid = new GridPane();
+//		gridRowOptions(timeOutGrid);
+//		Button timeOutButton = new Button("Time Out");
+//		new SpecificMatchButtonBig(timeOutGrid, 1, 1, timeOutButton);
+//		timeOutButton.setOnAction(e -> System.out.println("Time Out"));
+//
+//		HBox hbox = new HBox(timeOutGrid);
+//
+//		return hbox;
+//	}
 
-		HBox hbox = new HBox(playerYellowGrid, yellowGrid);
-
-		return hbox;
-	}
-
-	private HBox hRedButtons() {
-
-		GridPane playerRedGrid = new GridPane();
-		gridRowOptions(playerRedGrid);
-		ComboBox playerRedCB = new ComboBox();
-		playerRedCB.getItems().add("#3");
-		playerRedCB.getItems().add("#99");
-		playerRedCB.getItems().add("#7");
-		new SpecificMatchComboBoxSmall(playerRedGrid, 1, 1, playerRedCB);
-
-		GridPane redGrid = new GridPane();
-		gridRowOptions(redGrid);
-		Button redButton = new Button("Red");
-		new SpecificMatchButtonMedium(redGrid, 1, 1, redButton);
-		redButton.setOnAction(e -> System.out.println("Red"));
-
-		HBox hbox = new HBox(playerRedGrid, redGrid);
-
-		return hbox;
-	}
-
-	private HBox hTimeOutButton() {
-
-		GridPane timeOutGrid = new GridPane();
-		gridRowOptions(timeOutGrid);
-		Button timeOutButton = new Button("Time Out");
-		new SpecificMatchButtonBig(timeOutGrid, 1, 1, timeOutButton);
-		timeOutButton.setOnAction(e -> System.out.println("Time Out"));
-
-		HBox hbox = new HBox(timeOutGrid);
-
-		return hbox;
-	}
-
-	private HBox hPenaltyButton() {
-
-		GridPane penaltyGrid = new GridPane();
-		gridRowOptions(penaltyGrid);
-		Button penaltyButton = new Button("Penalty");
-		new SpecificMatchButtonBig(penaltyGrid, 1, 1, penaltyButton);
-		penaltyButton.setOnAction(e -> System.out.println("Penalty"));
-
-		HBox hbox = new HBox(penaltyGrid);
-
-		return hbox;
-	}
+//	private HBox hPenaltyButton() {
+//
+//		GridPane penaltyGrid = new GridPane();
+//		gridRowOptions(penaltyGrid);
+//		Button penaltyButton = new Button("Penalty");
+//		new SpecificMatchButtonBig(penaltyGrid, 1, 1, penaltyButton);
+//		penaltyButton.setOnAction(e -> System.out.println("Penalty"));
+//
+//		HBox hbox = new HBox(penaltyGrid);
+//
+//		return hbox;
+//	}
 
 	private HBox awayTitle() {
 
@@ -358,11 +377,18 @@ public class SpecificMatchMenu {
 		Button addGoalButton = new Button("Goal");
 		new SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
 		addGoalButton.setOnAction(e -> {
-//			match.addGoal(match.getAwayTeam());
+			match.addGoal(match.getAwayTeam());
 			awayScoreGrid.getChildren().remove(awayScore);
 			aScoreVal++;
 			awayScore = new Label(Integer.toString(aScoreVal));
 			new SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
+			
+			homeTable = "";
+			timeTable = Long.toString(match.getMatchSeconds());
+			awayTable = "Goal";
+			
+			data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
+			
 		});
 
 		GridPane subGoalGrid = new GridPane();
@@ -371,11 +397,19 @@ public class SpecificMatchMenu {
 		new SpecificMatchButtonSmallRight(subGoalGrid, 1, 1, subGoalButton);
 		subGoalButton.setOnAction(e -> {
 			if(aScoreVal > 0) {
-//				match.deleteGoal(match.getAwayTeam());
+				match.deleteGoal(match.getAwayTeam());
 				awayScoreGrid.getChildren().remove(awayScore);
 				aScoreVal--;
 				awayScore = new Label(Integer.toString(aScoreVal));
 				new SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
+				
+				for(int i = data.size() - 1; i >= 0 ; i--) {
+					System.out.println(data.get(i).getAway());
+					if(data.get(i).getAway().compareTo("Goal") == 0) {
+						data.remove(i);
+						break;
+					}
+				}
 			}
 		});
 
@@ -398,80 +432,88 @@ public class SpecificMatchMenu {
 		gridRowOptions(twoMinGrid);
 		Button twoMinButton = new Button("2 Min");
 		new SpecificMatchButtonMedium(twoMinGrid, 1, 1, twoMinButton);
-		twoMinButton.setOnAction(e -> match.addSuspension(match.getAwayTeam()));
+		twoMinButton.setOnAction(e -> {
+			match.addSuspension(match.getAwayTeam());
+			
+			homeTable = "";
+			timeTable = Long.toString(match.getMatchSeconds());
+			awayTable = "2 min";
+			
+			data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
+		});
 
 		HBox hbox = new HBox(playerTwoMinGrid, twoMinGrid);
 
 		return hbox;
 	}
 
-	private HBox aYellowButtons() {
-
-		GridPane playerYellowGrid = new GridPane();
-		gridRowOptions(playerYellowGrid);
-		ComboBox playerYellowCB = new ComboBox();
-		playerYellowCB.getItems().add("#3");
-		playerYellowCB.getItems().add("#99");
-		playerYellowCB.getItems().add("#7");
-		new SpecificMatchComboBoxSmall(playerYellowGrid, 1, 1, playerYellowCB);
-
-		GridPane yellowGrid = new GridPane();
-		gridRowOptions(yellowGrid);
-		Button yellowButton = new Button("Yellow");
-		new SpecificMatchButtonMedium(yellowGrid, 1, 1, yellowButton);
-		yellowButton.setOnAction(e -> System.out.println("Yellow"));
-
-		HBox hbox = new HBox(playerYellowGrid, yellowGrid);
-
-		return hbox;
-	}
-
-	private HBox aRedButtons() {
-
-		GridPane playerRedGrid = new GridPane();
-		gridRowOptions(playerRedGrid);
-		ComboBox playerRedCB = new ComboBox();
-		playerRedCB.getItems().add("#3");
-		playerRedCB.getItems().add("#99");
-		playerRedCB.getItems().add("#7");
-		new SpecificMatchComboBoxSmall(playerRedGrid, 1, 1, playerRedCB);
-
-		GridPane redGrid = new GridPane();
-		gridRowOptions(redGrid);
-		Button redButton = new Button("Red");
-		new SpecificMatchButtonMedium(redGrid, 1, 1, redButton);
-		redButton.setOnAction(e -> System.out.println("Red"));
-
-		HBox hbox = new HBox(playerRedGrid, redGrid);
-
-		return hbox;
-	}
-
-	private HBox aTimeOutButton() {
-
-		GridPane timeOutGrid = new GridPane();
-		gridRowOptions(timeOutGrid);
-		Button timeOutButton = new Button("Time Out");
-		new SpecificMatchButtonBig(timeOutGrid, 1, 1, timeOutButton);
-		timeOutButton.setOnAction(e -> System.out.println("Time Out"));
-
-		HBox hbox = new HBox(timeOutGrid);
-
-		return hbox;
-	}
-
-	private HBox aPenaltyButton() {
-
-		GridPane penaltyGrid = new GridPane();
-		gridRowOptions(penaltyGrid);
-		Button penaltyButton = new Button("Penalty");
-		new SpecificMatchButtonBig(penaltyGrid, 1, 1, penaltyButton);
-		penaltyButton.setOnAction(e -> System.out.println("Penalty"));
-
-		HBox hbox = new HBox(penaltyGrid);
-
-		return hbox;
-	}
+//	private HBox aYellowButtons() {
+//
+//		GridPane playerYellowGrid = new GridPane();
+//		gridRowOptions(playerYellowGrid);
+//		ComboBox playerYellowCB = new ComboBox();
+//		playerYellowCB.getItems().add("#3");
+//		playerYellowCB.getItems().add("#99");
+//		playerYellowCB.getItems().add("#7");
+//		new SpecificMatchComboBoxSmall(playerYellowGrid, 1, 1, playerYellowCB);
+//
+//		GridPane yellowGrid = new GridPane();
+//		gridRowOptions(yellowGrid);
+//		Button yellowButton = new Button("Yellow");
+//		new SpecificMatchButtonMedium(yellowGrid, 1, 1, yellowButton);
+//		yellowButton.setOnAction(e -> System.out.println("Yellow"));
+//
+//		HBox hbox = new HBox(playerYellowGrid, yellowGrid);
+//
+//		return hbox;
+//	}
+//
+//	private HBox aRedButtons() {
+//
+//		GridPane playerRedGrid = new GridPane();
+//		gridRowOptions(playerRedGrid);
+//		ComboBox playerRedCB = new ComboBox();
+//		playerRedCB.getItems().add("#3");
+//		playerRedCB.getItems().add("#99");
+//		playerRedCB.getItems().add("#7");
+//		new SpecificMatchComboBoxSmall(playerRedGrid, 1, 1, playerRedCB);
+//
+//		GridPane redGrid = new GridPane();
+//		gridRowOptions(redGrid);
+//		Button redButton = new Button("Red");
+//		new SpecificMatchButtonMedium(redGrid, 1, 1, redButton);
+//		redButton.setOnAction(e -> System.out.println("Red"));
+//
+//		HBox hbox = new HBox(playerRedGrid, redGrid);
+//
+//		return hbox;
+//	}
+//
+//	private HBox aTimeOutButton() {
+//
+//		GridPane timeOutGrid = new GridPane();
+//		gridRowOptions(timeOutGrid);
+//		Button timeOutButton = new Button("Time Out");
+//		new SpecificMatchButtonBig(timeOutGrid, 1, 1, timeOutButton);
+//		timeOutButton.setOnAction(e -> System.out.println("Time Out"));
+//
+//		HBox hbox = new HBox(timeOutGrid);
+//
+//		return hbox;
+//	}
+//
+//	private HBox aPenaltyButton() {
+//
+//		GridPane penaltyGrid = new GridPane();
+//		gridRowOptions(penaltyGrid);
+//		Button penaltyButton = new Button("Penalty");
+//		new SpecificMatchButtonBig(penaltyGrid, 1, 1, penaltyButton);
+//		penaltyButton.setOnAction(e -> System.out.println("Penalty"));
+//
+//		HBox hbox = new HBox(penaltyGrid);
+//
+//		return hbox;
+//	}
 
 	private void topBarGridOptions(GridPane grid) {
 		grid.setHgap(40);
