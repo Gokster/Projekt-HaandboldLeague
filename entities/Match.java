@@ -2,6 +2,7 @@ package entities;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
@@ -11,10 +12,10 @@ public class Match {
 	private Team awayTeam;
 	private Team winningTeam;
 	private Date matchDate;
+	private int matchDateInt;
 	private MatchTime matchTime = new MatchTime();
 	private ArrayList<Goal> goalList = new ArrayList<Goal>();
 	private ArrayList<Suspension> suspensionList = new ArrayList<Suspension>();
-
 
 	public Match(int matchId, Team homeTeam, Team awayTeam, Date matchDate, ArrayList<Goal> goalList,
 			ArrayList<Suspension> suspensionList) {
@@ -37,6 +38,12 @@ public class Match {
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
 		this.matchDate = date;
+	}
+
+	public Match(Team homeTeam, Team awayTeam, int date) {
+		this.homeTeam = homeTeam;
+		this.awayTeam = awayTeam;
+		this.matchDateInt = date;
 	}
 
 	public int countGoal(Team team) {
@@ -147,6 +154,10 @@ public class Match {
 		return matchDate;
 	}
 
+	public int getMatchDateInt() {
+		return matchDateInt;
+	}
+
 	public ArrayList<Goal> getGoalList() {
 		return goalList;
 	}
@@ -154,5 +165,12 @@ public class Match {
 	public ArrayList<Suspension> getSuspensionList() {
 		return suspensionList;
 	}
+
+	public static Comparator<Match> dateCompare = new Comparator<Match>() {
+		@Override
+		public int compare(Match m1, Match m2) {
+			return m1.getMatchDate().compareTo(m2.getMatchDate());
+		}
+	};
 
 }

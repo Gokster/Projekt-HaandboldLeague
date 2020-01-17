@@ -218,7 +218,7 @@ public class Matches {
 				Team awayTeam = null;
 				for (int i = 0; i < teamList.size(); i++) {
 					if (teamList.get(i).getTeamId() == resultSet.getInt("awayteam")) {
-						homeTeam = teamList.get(i);
+						awayTeam = teamList.get(i);
 						break;
 					}
 				}				
