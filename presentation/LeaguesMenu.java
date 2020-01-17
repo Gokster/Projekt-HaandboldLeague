@@ -1,6 +1,7 @@
 package presentation;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import data.DatabaseController;
 
@@ -28,7 +29,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import logic.LeagueRanking;
 
 public class LeaguesMenu {
 	private Stage primaryStage;
@@ -60,8 +60,7 @@ public class LeaguesMenu {
 		teamsList.add(team4);
 		//***Test***
 		
-		LeagueRanking teamPointsSorter = new LeagueRanking(teamsList);
-		teamsList = teamPointsSorter.getSortedTeamsByTeamPoints();
+		Collections.sort(teamsList, Collections.reverseOrder());
 		
 		//Sets ranks for all teams
 		for (int i = 0; i < teamsList.size(); i++) {

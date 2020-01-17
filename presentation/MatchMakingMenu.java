@@ -101,10 +101,6 @@ public class MatchMakingMenu {
 	}
 
 	private VBox middleSelections() {
-		GridPane halftimesLabel = new GridPane();
-		gridRowOptions(halftimesLabel);
-		NewLabel(halftimesLabel, 1, 1, "Halftimes");
-
 		GridPane gameTimeLabel = new GridPane();
 		gridRowOptions(gameTimeLabel);
 		NewLabel(gameTimeLabel, 1, 1, "Game Time");
@@ -203,7 +199,7 @@ public class MatchMakingMenu {
 		GridPane doneGrid = new GridPane();
 		Button doneButton = new Button("Done");
 		gridRowOptions(doneGrid);
-		MatchMakingButton(doneGrid, 1, 2, doneButton);
+		MatchMakingButton(doneGrid, 1, 1, doneButton);
 		doneButton.setOnAction(e -> {
 			date = Date.valueOf(selectedDate);
 			createMatch();
@@ -330,6 +326,7 @@ public class MatchMakingMenu {
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
+
 	public void NewTextField(GridPane grid, int row, int col, TextField obj) {
 		obj.getStylesheets().add("/presentation/MatchMakingTextFieldCss.css");
 
@@ -348,6 +345,7 @@ public class MatchMakingMenu {
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
+
 	public void LabelTitle(GridPane grid, int row, int col, String text) {
 		Label obj = new Label(text);
 
@@ -356,7 +354,7 @@ public class MatchMakingMenu {
 		obj.setMinWidth(200);
 		obj.setAlignment(Pos.CENTER);
 		obj.setUnderline(true);
-		
+
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
