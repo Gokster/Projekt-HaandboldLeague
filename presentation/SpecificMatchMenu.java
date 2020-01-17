@@ -54,7 +54,6 @@ public class SpecificMatchMenu {
 	}
 
 	public void init(String matchName, String typerOfUser) {
-
 		GridPane topBarGrid = new GridPane();
 		topBarGridOptions(topBarGrid);
 
@@ -99,7 +98,6 @@ public class SpecificMatchMenu {
 	}
 
 	private HBox historyTitle() {
-
 		GridPane homeLabelGrid = new GridPane();
 		middleTitleConnectToHistory(homeLabelGrid);
 		SpecificMatchLabelTitleHistory(homeLabelGrid, 1, 1, "First Half");
@@ -110,7 +108,6 @@ public class SpecificMatchMenu {
 	}
 
 	private VBox history() {
-
 		GridPane historyGrid = new GridPane();
 
 		TableColumn homeColumn = new TableColumn("");
@@ -141,7 +138,6 @@ public class SpecificMatchMenu {
 	}
 
 	private HBox scoreAndTime() {
-
 		middleTitleConnectToHistory(homeScoreGrid);
 		homeScore = new Label(Integer.toString(hScoreVal));
 		// homeScore.textProperty().bind(Integer.toString(hScoreVal));

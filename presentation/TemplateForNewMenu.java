@@ -23,7 +23,6 @@ public class TemplateForNewMenu {
 	}
 
 	public void init(String typerOfUser) {
-
 		GridPane topBarGrid = new GridPane();
 		topBarGridOptions(topBarGrid);
 

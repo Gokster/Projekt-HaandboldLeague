@@ -330,7 +330,6 @@ public class MatchMakingMenu {
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
-
 	public void NewTextField(GridPane grid, int row, int col, TextField obj) {
 		obj.getStylesheets().add("/presentation/MatchMakingTextFieldCss.css");
 
@@ -375,7 +374,6 @@ public class MatchMakingMenu {
 	}
 
 	private Background background() {
-
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#9A9A9A"), CornerRadii.EMPTY, Insets.EMPTY);
 		Background background = new Background(background_fill);
 
@@ -383,7 +381,6 @@ public class MatchMakingMenu {
 	}
 
 	private void stageMods(Scene scene) {
-
 		primaryStage.setTitle("Main Menu");
 		primaryStage.setScene(scene);
 		primaryStage.show();

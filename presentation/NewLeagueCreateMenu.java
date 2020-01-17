@@ -137,7 +137,6 @@ public class NewLeagueCreateMenu {
 		return false;
 	}
 	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
-
 		obj.setFont(Font.font("Calibri", 30));
 		obj.setMinWidth(170);
 		obj.setMinHeight(120);
@@ -153,7 +152,6 @@ public class NewLeagueCreateMenu {
 		grid.getChildren().add(obj);
 	}
 	public void NewButton(GridPane grid, int row, int col, Button obj) {
-
 		obj.setFont(Font.font("Calibri", 30));
 		obj.setMinWidth(400);
 		obj.setMinHeight(60);

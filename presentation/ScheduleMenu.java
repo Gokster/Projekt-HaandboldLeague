@@ -252,7 +252,6 @@ public class ScheduleMenu {
 		deleteTeam.setOnAction(e -> new NewScheduleDeleteMenu(primaryStage).init(typerOfUser));
 	}
 	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
-
 		obj.setFont(Font.font("Calibri", 30));
 		obj.setMinWidth(170);
 		obj.setMinHeight(120);
@@ -281,7 +280,6 @@ public class ScheduleMenu {
 	}
 
 	private Background background() {
-
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#9A9A9A"), CornerRadii.EMPTY, Insets.EMPTY);
 		Background background = new Background(background_fill);
 
@@ -289,7 +287,6 @@ public class ScheduleMenu {
 	}
 
 	private void stageMods(Scene scene) {
-
 		primaryStage.setTitle("Main Menu");
 		primaryStage.setScene(scene);
 		primaryStage.show();
