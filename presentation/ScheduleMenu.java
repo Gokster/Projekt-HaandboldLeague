@@ -39,11 +39,8 @@ public class ScheduleMenu {
 		topBarGridOptions(topBarGrid);
 
 		topBarElements(topBarGrid, typerOfUser);
-		readMatches();
 
-//		VBox col1 = new VBox(dateOfMatches(), TimeOfMatches(typerOfUser));
-
-		HBox calenderTimeline = new HBox(readMatches());
+		HBox calenderTimeline = new HBox(readMatchesNotDone());
 		calenderTimeline.setAlignment(Pos.BASELINE_CENTER);
 
 		VBox OuterBox = new VBox(topBarGrid, calenderTimeline);
@@ -61,18 +58,37 @@ public class ScheduleMenu {
 		}
 	}
 
-	private HBox readMatches() {
+//	private HBox readMatchesDone() {
+//		sortArrayList();
+//		HBox hbox = new HBox();
+//		Date tempDate = Date.valueOf(LocalDate.now());
+//		boolean firstDateSet = false;
+//
+//		for (int i = 0; i < arrMatches.size(); i++) {
+//			if (arrMatches.get(i).getMatchDate().compareTo(tempDate) > 0) {
+//				tempDate = arrMatches.get(i).getMatchDate();
+//				hbox.getChildren().add(matchDateVBox(i));
+//			} else if (arrMatches.get(i).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) == 0
+//					&& firstDateSet == false) {
+//				hbox.getChildren().add(matchDateVBox(i));
+//				firstDateSet = true;
+//			}
+//		}
+//		return hbox;
+//	}
+
+	private HBox readMatchesNotDone() {
 		sortArrayList();
 		HBox hbox = new HBox();
-		Date tempDate = Date.valueOf(LocalDate.now());
+		Date tempDate = arrMatches.get(0).getMatchDate();
 		boolean firstDateSet = false;
 
 		for (int i = 0; i < arrMatches.size(); i++) {
 			if (arrMatches.get(i).getMatchDate().compareTo(tempDate) > 0) {
+
 				tempDate = arrMatches.get(i).getMatchDate();
 				hbox.getChildren().add(matchDateVBox(i));
-			} else if (arrMatches.get(i).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) == 0
-					&& firstDateSet == false) {
+			} else if (firstDateSet == false) {
 				hbox.getChildren().add(matchDateVBox(i));
 				firstDateSet = true;
 			}
@@ -87,7 +103,6 @@ public class ScheduleMenu {
 		for (int j = i; j < arrMatches.size(); j++) {
 			if (arrMatches.get(i).getMatchDate().compareTo(arrMatches.get(j).getMatchDate()) == 0) {
 				vbox.getChildren().add(infMatchButton(j));
-				System.out.println(j);
 			} else {
 				break;
 			}
@@ -99,9 +114,18 @@ public class ScheduleMenu {
 	private Button infMatchButton(int j) {
 		String matchTitle = arrMatches.get(j).getHomeTeam().getTeamName() + " vs. "
 				+ arrMatches.get(j).getAwayTeam().getTeamName();
-		Button btn = new Button(matchTitle);
-		btn.setOnAction(e -> new SpecificMatchMenu(primaryStage, arrMatches.get(j)).init(matchTitle, typeOfUser));
-//		VBox vbox = new VBox(btn);
+		Button btn = null;
+
+		if (arrMatches.get(j).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) < 0) {
+			btn = new Button(matchTitle);
+			btn.setPrefSize(300, 300);
+			btn.setOnAction(e -> new SpecificMatchMenu(primaryStage, arrMatches.get(j)).init(matchTitle, typeOfUser));
+
+		} else {
+			btn = new Button(matchTitle);
+			btn.setOnAction(e -> new SpecificMatchMenu(primaryStage, arrMatches.get(j)).init(matchTitle, typeOfUser));
+		}
+
 		return btn;
 	}
 
