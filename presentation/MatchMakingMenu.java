@@ -52,7 +52,7 @@ public class MatchMakingMenu {
 		HBox row1 = new HBox(team1(), middleSelections(), team2());
 		row1.setAlignment(Pos.CENTER);
 
-		HBox row2 = new HBox(dateOfMatch(), timeOuts(), matchTitle());
+		HBox row2 = new HBox(dateOfMatch());
 		row2.setAlignment(Pos.CENTER);
 
 		VBox OuterBox = new VBox(topBarGrid, row1, row2, done(typerOfUser));
@@ -92,14 +92,6 @@ public class MatchMakingMenu {
 	}
 
 	private void team1Dropdowns(GridPane grid) {
-
-		// Nice To Have
-		ComboBox leagueCB = new ComboBox();
-		leagueCB.getItems().add("League 1");
-		leagueCB.getItems().add("League 2");
-		leagueCB.getItems().add("League 3");
-		MatchMakingComboBox(grid, 1, 1, leagueCB);
-
 		team1CB = new ComboBox();
 		for (int i = 0; i < arrTeams.size(); i++) {
 			team1CB.getItems().add(arrTeams.get(i).getTeamName());
@@ -109,21 +101,9 @@ public class MatchMakingMenu {
 	}
 
 	private VBox middleSelections() {
-		GridPane typeLabel = new GridPane();
-		gridRowOptions(typeLabel);
-		NewLabel(typeLabel, 1, 1, "Type");
-
-		GridPane typeOptions = new GridPane();
-		gridRowOptions(typeOptions);
-		typeDropdowns(typeOptions);
-
 		GridPane halftimesLabel = new GridPane();
 		gridRowOptions(halftimesLabel);
 		NewLabel(halftimesLabel, 1, 1, "Halftimes");
-
-		GridPane halftimesOptions = new GridPane();
-		gridRowOptions(halftimesOptions);
-		halftimesDropdowns(halftimesOptions);
 
 		GridPane gameTimeLabel = new GridPane();
 		gridRowOptions(gameTimeLabel);
@@ -133,11 +113,9 @@ public class MatchMakingMenu {
 		gridRowOptions(gameTimeOptions);
 		gameTimeDropdowns(gameTimeOptions);
 
-		VBox typeVBox = new VBox(typeLabel, typeOptions);
-		VBox talftimesVBox = new VBox(halftimesLabel, halftimesOptions);
 		VBox GameTimeVBox = new VBox(gameTimeLabel, gameTimeOptions);
 
-		VBox vbox = new VBox(typeVBox, talftimesVBox, GameTimeVBox);
+		VBox vbox = new VBox(GameTimeVBox);
 
 		return vbox;
 	}
@@ -157,36 +135,12 @@ public class MatchMakingMenu {
 	}
 
 	private void team2Dropdowns(GridPane grid) {
-
-		// Nice To Have
-		ComboBox leagueCB = new ComboBox();
-		leagueCB.getItems().add("League 1");
-		leagueCB.getItems().add("League 2");
-		leagueCB.getItems().add("League 3");
-		MatchMakingComboBox(grid, 1, 1, leagueCB);
-
 		team2CB = new ComboBox();
 		for (int i = 0; i < arrTeams.size(); i++) {
 			team2CB.getItems().add(arrTeams.get(i).getTeamName());
 		}
 
 		MatchMakingComboBox(grid, 1, 2, team2CB);
-	}
-
-	// Nice To Have
-	private void typeDropdowns(GridPane grid) {
-		ComboBox leagueCB = new ComboBox();
-		leagueCB.getItems().add("Show Match");
-		leagueCB.getItems().add("League Match");
-		MatchMakingComboBox(grid, 1, 1, leagueCB);
-	}
-
-	// Nice To Have
-	private void halftimesDropdowns(GridPane grid) {
-		ComboBox leagueCB = new ComboBox();
-		leagueCB.getItems().add("1");
-		leagueCB.getItems().add("2");
-		MatchMakingComboBox(grid, 1, 1, leagueCB);
 	}
 
 	private void gameTimeDropdowns(GridPane grid) {
@@ -242,40 +196,6 @@ public class MatchMakingMenu {
 
 		dateButtonGrid.getChildren().add(popupContent);
 
-	}
-
-	private VBox timeOuts() {
-		GridPane timeOutsGrid = new GridPane();
-		gridRowOptions(timeOutsGrid);
-		NewLabel(timeOutsGrid, 1, 1, "Time Outs");
-
-		GridPane timeOutsCBGrid = new GridPane();
-		gridRowOptions(timeOutsCBGrid);
-		ComboBox timeOutsCB = new ComboBox();
-		timeOutsCB.getItems().add("1");
-		timeOutsCB.getItems().add("2");
-		timeOutsCB.getItems().add("3");
-		timeOutsCB.getItems().add("4");
-		MatchMakingComboBox(timeOutsCBGrid, 1, 2, timeOutsCB);
-
-		VBox vbox = new VBox(timeOutsGrid, timeOutsCBGrid);
-
-		return vbox;
-	}
-
-	private VBox matchTitle() {
-		GridPane matchTitleGrid = new GridPane();
-		gridRowOptions(matchTitleGrid);
-		NewLabel(matchTitleGrid, 1, 1, "Match Title");
-
-		GridPane matchTitleOutsCBGrid = new GridPane();
-		gridRowOptions(matchTitleOutsCBGrid);
-		TextField matchTitleOutsCB = new TextField();
-		NewTextField(matchTitleOutsCBGrid, 1, 2, matchTitleOutsCB);
-
-		VBox vbox = new VBox(matchTitleGrid, matchTitleOutsCBGrid);
-
-		return vbox;
 	}
 
 	private VBox done(String typerOfUser) {

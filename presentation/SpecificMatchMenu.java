@@ -1,13 +1,12 @@
 package presentation;
 
-import java.time.LocalTime;
 import entities.Match;
 import javafx.animation.AnimationTimer;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -22,6 +21,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class SpecificMatchMenu {
@@ -38,8 +39,9 @@ public class SpecificMatchMenu {
 	private String homeTable;
 	private String timeTable;
 	private String awayTable;
+	private ButtonEffect buttonEffect = new ButtonEffect();
 	private boolean matchStarted = false;
-	
+
 	ObservableList<SpecificMatchHistoryTable> data = FXCollections.observableArrayList();
 
 	public SpecificMatchMenu(Stage primaryStage, Match match) {
@@ -58,14 +60,18 @@ public class SpecificMatchMenu {
 
 		topBarElements(topBarGrid, matchName, typerOfUser);
 
-		VBox homeBox = new VBox(homeTitle(), hGoalsButtons(), hTwoMinButtons()/*, hYellowButtons(), hRedButtons(),
-				hTimeOutButton(), hPenaltyButton()*/);
+		VBox homeBox = new VBox(homeTitle(), hGoalsButtons(),
+				hTwoMinButtons()/*
+								 * , hYellowButtons(), hRedButtons(), hTimeOutButton(), hPenaltyButton()
+								 */);
 
 		VBox middleBox = new VBox(historyTitle(), history(), scoreAndTime(), startAndStop());
 		middleBox.setPadding(new Insets(60, 40, 0, 40));
 
-		VBox awayBox = new VBox(awayTitle(), aGoalsButtons(), aTwoMinButtons()/*, aYellowButtons(), aRedButtons(),
-				aTimeOutButton(), aPenaltyButton()*/);
+		VBox awayBox = new VBox(awayTitle(), aGoalsButtons(),
+				aTwoMinButtons()/*
+								 * , aYellowButtons(), aRedButtons(), aTimeOutButton(), aPenaltyButton()
+								 */);
 
 		HBox matchControls = new HBox(homeBox, middleBox, awayBox);
 		matchControls.setAlignment(Pos.CENTER);
@@ -84,11 +90,11 @@ public class SpecificMatchMenu {
 
 	private void buttonsNavigation(GridPane grid, String typerOfUser) {
 		Button home = new Button("Home");
-		new NavigationButton(grid, 1, 1, home);
+		NavigationButton(grid, 1, 1, home);
 		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
 
 		Button back = new Button("Back");
-		new NavigationButton(grid, 2, 1, back);
+		NavigationButton(grid, 2, 1, back);
 		back.setOnAction(e -> new ScheduleMenu(primaryStage).init(typerOfUser));
 	}
 
@@ -96,7 +102,7 @@ public class SpecificMatchMenu {
 
 		GridPane homeLabelGrid = new GridPane();
 		middleTitleConnectToHistory(homeLabelGrid);
-		new SpecificMatchLabelTitleHistory(homeLabelGrid, 1, 1, "First Half");
+		SpecificMatchLabelTitleHistory(homeLabelGrid, 1, 1, "First Half");
 
 		HBox hbox = new HBox(homeLabelGrid);
 
@@ -138,32 +144,32 @@ public class SpecificMatchMenu {
 
 		middleTitleConnectToHistory(homeScoreGrid);
 		homeScore = new Label(Integer.toString(hScoreVal));
-		//homeScore.textProperty().bind(Integer.toString(hScoreVal));
-		new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
+		// homeScore.textProperty().bind(Integer.toString(hScoreVal));
+		SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
 
 //		LocalTime currentTime = LocalTime.now();
 		GridPane timerGrid = new GridPane();
 		timerLabel = new Label("0");
-		new SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, timerLabel);
+		SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, timerLabel);
 		timer = new AnimationTimer() {
 			public void handle(long now) {
 				long time = match.getMatchSeconds();
-				if(time < 120) {
+				if (time < 120) {
 					timerGrid.getChildren().remove(timerLabel);
 					timerLabel = new Label(Long.toString(time));
-					new SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, timerLabel);
+					SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, timerLabel);
 				} else {
 					timer.stop();
 					matchStarted = false;
 				}
 			}
-			
+
 		};
 //		startButton.setOnAction(e -> timer.start());
 
 		middleTitleConnectToHistory(awayScoreGrid);
 		awayScore = new Label(Integer.toString(aScoreVal));
-		new SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
+		SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
 
 		HBox hbox = new HBox(homeScoreGrid, timerGrid, awayScoreGrid);
 
@@ -175,11 +181,11 @@ public class SpecificMatchMenu {
 		GridPane startGrid = new GridPane();
 		gridRowOptions(startGrid);
 		Button startButton = new Button("Start");
-		new SpecificMatchButtonSmallLeft(startGrid, 1, 1, startButton);
+		SpecificMatchButtonSmallLeft(startGrid, 1, 1, startButton);
 		startButton.setMinWidth(304);
 		startButton.setMaxWidth(304);
 		startButton.setOnAction(e -> {
-			if(matchStarted == false) {
+			if (matchStarted == false) {
 				timer.start();
 				match.startMatch();
 				matchStarted = true;
@@ -189,7 +195,7 @@ public class SpecificMatchMenu {
 		GridPane stopGrid = new GridPane();
 		gridRowOptions(stopGrid);
 		Button stopButton = new Button("Stop");
-		new SpecificMatchButtonSmallRight(stopGrid, 1, 1, stopButton);
+		SpecificMatchButtonSmallRight(stopGrid, 1, 1, stopButton);
 		stopButton.setMinWidth(304);
 		stopButton.setMaxWidth(304);
 		stopButton.setOnAction(e -> {
@@ -205,7 +211,7 @@ public class SpecificMatchMenu {
 	private HBox homeTitle() {
 
 		GridPane homeLabelGrid = new GridPane();
-		new SpecificMatchLabelTitle(homeLabelGrid, 1, 1, "Home");
+		LabelTitle(homeLabelGrid, 1, 1, "Home");
 
 		HBox hbox = new HBox(homeLabelGrid);
 		hbox.setAlignment(Pos.CENTER);
@@ -213,56 +219,54 @@ public class SpecificMatchMenu {
 		return hbox;
 	}
 
-	
 	private HBox hGoalsButtons() {
 
 		GridPane addGoalGrid = new GridPane();
 		gridRowOptions(addGoalGrid);
 		Button addGoalButton = new Button("Goal");
-		new SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
+		SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
 		addGoalButton.setOnAction(e -> {
-			if (matchStarted == true)	{
+			if (matchStarted == true) {
 				match.addGoal(match.getHomeTeam());
 				homeScoreGrid.getChildren().remove(homeScore);
 				hScoreVal++;
 				homeScore = new Label(Integer.toString(hScoreVal));
-				new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
-				
+				SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
+
 				homeTable = "Goal";
 				timeTable = Long.toString(match.getMatchSeconds());
 				awayTable = "";
-				
+
 				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
 			}
 //					new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1,
 //					Integer.toString(match.countGoal(match.getHomeTeam())));		
-		
+
 		});
 
 		GridPane subGoalGrid = new GridPane();
 		gridRowOptions(subGoalGrid);
 		Button subGoalButton = new Button("-Goal");
-		new SpecificMatchButtonSmallRight(subGoalGrid, 1, 1, subGoalButton);
+		SpecificMatchButtonSmallRight(subGoalGrid, 1, 1, subGoalButton);
 		subGoalButton.setOnAction(e -> {
-			if(matchStarted == true)	{
-				if(hScoreVal > 0) {
+			if (matchStarted == true) {
+				if (hScoreVal > 0) {
 					match.deleteGoal(match.getAwayTeam());
 					homeScoreGrid.getChildren().remove(homeScore);
 					hScoreVal--;
 					homeScore = new Label(Integer.toString(hScoreVal));
-					new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
+					SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
 				}
-				for(int i = data.size() - 1; i >= 0 ; i--) {
+				for (int i = data.size() - 1; i >= 0; i--) {
 					System.out.println(data.get(i).getHome());
-					if(data.get(i).getHome().compareTo("Goal") == 0) {
+					if (data.get(i).getHome().compareTo("Goal") == 0) {
 						data.remove(i);
 						break;
 					}
 				}
 			}
 		});
-		
-		
+
 		HBox hbox = new HBox(addGoalGrid, subGoalGrid);
 
 		return hbox;
@@ -276,19 +280,19 @@ public class SpecificMatchMenu {
 		playerTwoMinCB.getItems().add("#3");
 		playerTwoMinCB.getItems().add("#99");
 		playerTwoMinCB.getItems().add("#7");
-		new SpecificMatchComboBoxSmall(playerTwoMinGrid, 1, 1, playerTwoMinCB);
+		SpecificMatchComboBoxSmall(playerTwoMinGrid, 1, 1, playerTwoMinCB);
 
 		GridPane twoMinGrid = new GridPane();
 		gridRowOptions(twoMinGrid);
 		Button twoMinButton = new Button("2 Min");
-		new SpecificMatchButtonMedium(twoMinGrid, 1, 1, twoMinButton);
+		SpecificMatchButtonMedium(twoMinGrid, 1, 1, twoMinButton);
 		twoMinButton.setOnAction(e -> {
-			if(matchStarted == true)	{
+			if (matchStarted == true) {
 				match.addSuspension(match.getHomeTeam());
 				homeTable = "2 min";
 				timeTable = Long.toString(match.getMatchSeconds());
 				awayTable = "";
-				
+
 				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
 			}
 		});
@@ -369,7 +373,7 @@ public class SpecificMatchMenu {
 	private HBox awayTitle() {
 
 		GridPane homeLabelGrid = new GridPane();
-		new SpecificMatchLabelTitle(homeLabelGrid, 1, 1, "Away");
+		LabelTitle(homeLabelGrid, 1, 1, "Away");
 
 		HBox hbox = new HBox(homeLabelGrid);
 		hbox.setAlignment(Pos.CENTER);
@@ -382,19 +386,19 @@ public class SpecificMatchMenu {
 		GridPane addGoalGrid = new GridPane();
 		gridRowOptions(addGoalGrid);
 		Button addGoalButton = new Button("Goal");
-		new SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
+		SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
 		addGoalButton.setOnAction(e -> {
-			if (matchStarted == true)	{
+			if (matchStarted == true) {
 				match.addGoal(match.getAwayTeam());
 				awayScoreGrid.getChildren().remove(awayScore);
 				aScoreVal++;
 				awayScore = new Label(Integer.toString(aScoreVal));
-				new SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
-				
+				SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
+
 				homeTable = "";
 				timeTable = Long.toString(match.getMatchSeconds());
 				awayTable = "Goal";
-				
+
 				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
 			}
 		});
@@ -402,26 +406,26 @@ public class SpecificMatchMenu {
 		GridPane subGoalGrid = new GridPane();
 		gridRowOptions(subGoalGrid);
 		Button subGoalButton = new Button("-Goal");
-		new SpecificMatchButtonSmallRight(subGoalGrid, 1, 1, subGoalButton);
+		SpecificMatchButtonSmallRight(subGoalGrid, 1, 1, subGoalButton);
 		subGoalButton.setOnAction(e -> {
-			if(matchStarted == true)	{
-				if(aScoreVal > 0) {
+			if (matchStarted == true) {
+				if (aScoreVal > 0) {
 					match.deleteGoal(match.getAwayTeam());
 					awayScoreGrid.getChildren().remove(awayScore);
 					aScoreVal--;
 					awayScore = new Label(Integer.toString(aScoreVal));
-					new SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
-					
-					for(int i = data.size() - 1; i >= 0 ; i--) {
+					SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
+
+					for (int i = data.size() - 1; i >= 0; i--) {
 						System.out.println(data.get(i).getAway());
-						if(data.get(i).getAway().compareTo("Goal") == 0) {
+						if (data.get(i).getAway().compareTo("Goal") == 0) {
 							data.remove(i);
 							break;
 						}
 					}
 				}
 			}
-			
+
 		});
 
 		HBox hbox = new HBox(addGoalGrid, subGoalGrid);
@@ -437,20 +441,20 @@ public class SpecificMatchMenu {
 		playerTwoMinCB.getItems().add("#3");
 		playerTwoMinCB.getItems().add("#99");
 		playerTwoMinCB.getItems().add("#7");
-		new SpecificMatchComboBoxSmall(playerTwoMinGrid, 1, 1, playerTwoMinCB);
+		SpecificMatchComboBoxSmall(playerTwoMinGrid, 1, 1, playerTwoMinCB);
 
 		GridPane twoMinGrid = new GridPane();
 		gridRowOptions(twoMinGrid);
 		Button twoMinButton = new Button("2 Min");
-		new SpecificMatchButtonMedium(twoMinGrid, 1, 1, twoMinButton);
+		SpecificMatchButtonMedium(twoMinGrid, 1, 1, twoMinButton);
 		twoMinButton.setOnAction(e -> {
-			if (matchStarted == true)	{
+			if (matchStarted == true) {
 				match.addSuspension(match.getAwayTeam());
-				
+
 				homeTable = "";
 				timeTable = Long.toString(match.getMatchSeconds());
 				awayTable = "2 min";
-				
+
 				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
 			}
 		});
@@ -527,6 +531,253 @@ public class SpecificMatchMenu {
 //
 //		return hbox;
 //	}
+	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
+
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(170);
+		obj.setMinHeight(120);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	public void SpecificMatchButtonMedium(GridPane grid, int row, int col, Button obj) {
+
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(300);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(300);
+
+		SpecificMatchButtonDefaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> SpecificMatchButtonEnterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> SpecificMatchButtonDefaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	private void SpecificMatchButtonEnterEffect(Button obj) {
+		BackgroundFill background_fill = new BackgroundFill(Color.web("#707070"), new CornerRadii(7), Insets.EMPTY);
+		Background background = new Background(background_fill);
+
+		obj.setBackground(background);
+		obj.setStyle("-fx-border-radius: 0 5 5 0; -fx-border-color: #707070; -fx-border-width: 3 3 3 1;");
+		obj.setCursor(Cursor.HAND);
+
+		obj.setTextFill(Color.web("#FFFFFF"));
+	}
+
+	private void SpecificMatchButtonDefaultEffect(Button obj) {
+		BackgroundFill background_fill = new BackgroundFill(Color.web("#FFFFFF"), new CornerRadii(7), Insets.EMPTY);
+		Background background = new Background(background_fill);
+
+		obj.setBackground(background);
+		obj.setStyle("-fx-border-radius: 0 5 5 0; -fx-border-color: #707070; -fx-border-width: 3 3 3 1;");
+		obj.setCursor(Cursor.DEFAULT);
+
+		obj.setTextFill(Color.web("#707070"));
+	}
+
+	public void SpecificMatchButtonSmallLeft(GridPane grid, int row, int col, Button obj) {
+
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(200);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(200);
+
+		SmallLeftSpecificMatchButtonDefaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> SmallLeftSpecificMatchButtonEnterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> SmallLeftSpecificMatchButtonDefaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	private void SmallLeftSpecificMatchButtonEnterEffect(Button obj) {
+		BackgroundFill background_fill = new BackgroundFill(Color.web("#707070"), new CornerRadii(7), Insets.EMPTY);
+		Background background = new Background(background_fill);
+
+		obj.setBackground(background);
+		obj.setStyle("-fx-border-radius: 5 0 0 5; -fx-border-color: #707070; -fx-border-width: 3 1 3 3;");
+		obj.setCursor(Cursor.HAND);
+
+		obj.setTextFill(Color.web("#FFFFFF"));
+	}
+
+	private void SmallLeftSpecificMatchButtonDefaultEffect(Button obj) {
+		BackgroundFill background_fill = new BackgroundFill(Color.web("#FFFFFF"), new CornerRadii(7), Insets.EMPTY);
+		Background background = new Background(background_fill);
+
+		obj.setBackground(background);
+		obj.setStyle("-fx-border-radius: 5 0 0 5; -fx-border-color: #707070; -fx-border-width: 3 1 3 3;");
+		obj.setCursor(Cursor.DEFAULT);
+
+		obj.setTextFill(Color.web("#707070"));
+	}
+
+	public void SpecificMatchButtonSmallRight(GridPane grid, int row, int col, Button obj) {
+
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(200);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(200);
+
+		SmallRightSpecificMatchButtonDefaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> SmallRightSpecificMatchButtonEnterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> SmallRightSpecificMatchButtonDefaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	private void SmallRightSpecificMatchButtonEnterEffect(Button obj) {
+		BackgroundFill background_fill = new BackgroundFill(Color.web("#707070"), new CornerRadii(7), Insets.EMPTY);
+		Background background = new Background(background_fill);
+
+		obj.setBackground(background);
+		obj.setStyle("-fx-border-radius: 0 5 5 0; -fx-border-color: #707070; -fx-border-width: 3 3 3 1;");
+		obj.setCursor(Cursor.HAND);
+
+		obj.setTextFill(Color.web("#FFFFFF"));
+	}
+
+	private void SmallRightSpecificMatchButtonDefaultEffect(Button obj) {
+		BackgroundFill background_fill = new BackgroundFill(Color.web("#FFFFFF"), new CornerRadii(7), Insets.EMPTY);
+		Background background = new Background(background_fill);
+
+		obj.setBackground(background);
+		obj.setStyle("-fx-border-radius: 0 5 5 0; -fx-border-color: #707070; -fx-border-width: 3 3 3 1;");
+		obj.setCursor(Cursor.DEFAULT);
+
+		obj.setTextFill(Color.web("#707070"));
+	}
+
+	public void SpecificMatchComboBoxSmall(GridPane grid, int row, int col, ComboBox obj) {
+
+		obj.getStylesheets().add("/presentation/SpecificMatchComboBoxSmallCss.css");
+
+		obj.setMinWidth(100);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(100);
+
+		obj.getSelectionModel().select(0);
+		SmallSpecificMatchComboBoxDefaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> SmallSpecificMatchComboBoxEnterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> SmallSpecificMatchComboBoxDefaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	private void SmallSpecificMatchComboBoxEnterEffect(ComboBox obj) {
+		BackgroundFill background_fill = new BackgroundFill(Color.web("#707070"), new CornerRadii(7), Insets.EMPTY);
+		Background background = new Background(background_fill);
+
+		obj.setBackground(background);
+		obj.setStyle("-fx-border-radius: 5 0 0 5; -fx-border-color: #707070; -fx-border-width: 3 1 3 3;");
+		obj.setCursor(Cursor.HAND);
+	}
+
+	private void SmallSpecificMatchComboBoxDefaultEffect(ComboBox obj) {
+		BackgroundFill background_fill = new BackgroundFill(Color.web("#FFFFFF"), new CornerRadii(7), Insets.EMPTY);
+		Background background = new Background(background_fill);
+
+		obj.setBackground(background);
+		obj.setStyle("-fx-border-radius: 5 0 0 5; -fx-border-color: #707070; -fx-border-width: 3 1 3 3;");
+		obj.setCursor(Cursor.DEFAULT);
+	}
+
+	public void LabelTitle(GridPane grid, int row, int col, String text) {
+		Label obj = new Label(text);
+
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 60));
+		obj.setTextFill(Color.web("#707070"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+		obj.setUnderline(true);
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	public void SpecificMatchLabelTitleHistory(GridPane grid, int row, int col, String text) {
+		Label obj = new Label(text);
+
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
+		obj.setTextFill(Color.web("#707070"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	public void SpecificMatchScoreLabelAndGridLeft(GridPane grid, int row, int col, Label obj) {
+
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
+		obj.setTextFill(Color.web("#707070"));
+//		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+
+		grid.setStyle(
+				"-fx-border-radius: 0 0 0 5; -fx-border-color: #707070; -fx-border-width: 1 1 3 3; -fx-background-radius: 0 0 0 7; "
+						+ "-fx-background: -fx-accent; -fx-background-color: #FFFFFF;");
+
+		grid.setAlignment(Pos.CENTER);
+		grid.setPrefWidth(100);
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+	public void SpecificMatchScoreLabelAndGridRight(GridPane grid, int row, int col, Label obj) {
+
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
+		obj.setTextFill(Color.web("#707070"));
+//		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+		
+		grid.setStyle(
+				"-fx-border-radius: 0 0 5 0; -fx-border-color: #707070; -fx-border-width: 1 3 3 1; -fx-background-radius: 0 0 7 0; "
+				+ "-fx-background: -fx-accent; -fx-background-color: #FFFFFF;");
+
+		grid.setAlignment(Pos.CENTER);
+		grid.setPrefWidth(100);
+		
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+	public void SpecificMatchScoreLabelAndGridMiddle(GridPane grid, int row, int col, Label obj) { 
+
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
+		obj.setTextFill(Color.web("#707070"));
+//		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+		
+		grid.setStyle(
+				"-fx-border-radius: 0 0 0 0; -fx-border-color: #707070; -fx-border-width: 1 1 3 1; -fx-background-radius: 0 0 0 0; "
+				+ "-fx-background: -fx-accent; -fx-background-color: #FFFFFF;");
+
+		grid.setAlignment(Pos.CENTER);
+		grid.setPrefWidth(408);
+		
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
 
 	private void topBarGridOptions(GridPane grid) {
 		grid.setHgap(40);
