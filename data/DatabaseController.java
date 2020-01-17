@@ -57,7 +57,7 @@ public class DatabaseController {
 		ArrayList<Team> teamList = teams.getAllTeams();
 		return matches.getAllMatchesNotDone(teamList);
 	}
-
+	
 	public void createSuspension(int suspensionId, Team suspensionTeam, MatchTime matchTime, int matchId) {
 		Suspension suspension = new Suspension(suspensionId, suspensionTeam, matchTime, matchId);
 
