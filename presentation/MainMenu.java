@@ -19,7 +19,7 @@ public class MainMenu {
 	public MainMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
-
+	
 	public void init(String typerOfUser) {
 
 		if (typerOfUser == "Organizer") {
@@ -71,7 +71,6 @@ public class MainMenu {
 			Scene scene = new Scene(vbox, 1800, 1100);
 			stageMods(scene);
 		}
-
 	}
 
 	private void buttonsOrganizer(GridPane grid, String typerOfUser) {

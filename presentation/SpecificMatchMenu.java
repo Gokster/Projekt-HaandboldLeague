@@ -22,6 +22,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class SpecificMatchMenu {
@@ -35,6 +36,7 @@ public class SpecificMatchMenu {
 	private int aScoreVal = 0;
 	private AnimationTimer timer;
 	private Label timerLabel;
+	private ButtonEffect buttonEffect = new ButtonEffect();
 	private boolean matchStarted = false;
 
 	public SpecificMatchMenu(Stage primaryStage, Match match) {
@@ -79,11 +81,11 @@ public class SpecificMatchMenu {
 
 	private void buttonsNavigation(GridPane grid, String typerOfUser) {
 		Button home = new Button("Home");
-		new NavigationButton(grid, 1, 1, home);
+		NavigationButton(grid, 1, 1, home);
 		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
 
 		Button back = new Button("Back");
-		new NavigationButton(grid, 2, 1, back);
+		NavigationButton(grid, 2, 1, back);
 		back.setOnAction(e -> new ScheduleMenu(primaryStage).init(typerOfUser));
 	}
 
@@ -465,6 +467,22 @@ public class SpecificMatchMenu {
 		HBox hbox = new HBox(penaltyGrid);
 
 		return hbox;
+	}
+	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
+
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(170);
+		obj.setMinHeight(120);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
 	}
 
 	private void topBarGridOptions(GridPane grid) {

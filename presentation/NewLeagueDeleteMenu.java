@@ -13,6 +13,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -20,6 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class NewLeagueDeleteMenu {
@@ -27,6 +29,7 @@ public class NewLeagueDeleteMenu {
 	private ComboBox teamNameCB;
 	private Team team;
 	private ArrayList<Team> teamsList;
+	private ButtonEffect buttonEffect = new ButtonEffect();
 	private DatabaseController dbController = new DatabaseController();
 
 	public NewLeagueDeleteMenu(Stage primaryStage) {
@@ -45,7 +48,7 @@ public class NewLeagueDeleteMenu {
 
 		VBox OuterBox = new VBox(topBarGrid, selecters);
 		OuterBox.setBackground(background());
-		
+
 		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
 	}
@@ -57,11 +60,11 @@ public class NewLeagueDeleteMenu {
 
 	private void buttonsNavigation(GridPane grid, String typerOfUser) {
 		Button home = new Button("Home");
-		new NavigationButton(grid, 1, 1, home);
+		NavigationButton(grid, 1, 1, home);
 		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
 
 		Button back = new Button("Back");
-		new NavigationButton(grid, 2, 1, back);
+		NavigationButton(grid, 2, 1, back);
 		back.setOnAction(e -> new LeaguesMenu(primaryStage).init(typerOfUser));
 	}
 
@@ -76,7 +79,7 @@ public class NewLeagueDeleteMenu {
 
 		GridPane teamNameGrid = new GridPane();
 		gridRowOptions(teamNameGrid);
-		new NewLabel(teamNameGrid, 1, 1, "Team name:	");
+		NewLabel(teamNameGrid, 1, 1, "Team name:	");
 
 		GridPane teamNameCBGrid = new GridPane();
 		gridRowOptions(teamNameCBGrid);
@@ -85,7 +88,7 @@ public class NewLeagueDeleteMenu {
 			teamNameCB.getItems().add(teamsList.get(i).getTeamName());
 		}
 
-		new NewComboBox(teamNameCBGrid, 1, 2, teamNameCB);
+		NewComboBox(teamNameCBGrid, 1, 2, teamNameCB);
 
 		HBox hbox2 = new HBox(teamNameGrid, teamNameCBGrid);
 		hbox2.setAlignment(Pos.CENTER);
@@ -100,13 +103,13 @@ public class NewLeagueDeleteMenu {
 		GridPane createTeamGrid = new GridPane();
 		gridRowOptions(createTeamGrid);
 		Button createTeamButton = new Button("Delete Team");
-		new NewButton(createTeamGrid, 1, 1, createTeamButton);
+		NewButton(createTeamGrid, 1, 1, createTeamButton);
 		createTeamButton.setOnAction(e -> deleteTeamFromLeage(typerOfUser));
 
 		GridPane cancelGrid = new GridPane();
 		gridRowOptions(cancelGrid);
 		Button cancelButton = new Button("Cancel");
-		new NewButton(cancelGrid, 1, 1, cancelButton);
+		NewButton(cancelGrid, 1, 1, cancelButton);
 		cancelButton.setOnAction(e -> new LeaguesMenu(primaryStage).init(typerOfUser));
 
 		HBox hbox = new HBox(createTeamGrid, cancelGrid);
@@ -129,6 +132,69 @@ public class NewLeagueDeleteMenu {
 			new LeaguesMenu(primaryStage).init(typerOfUser);
 
 		}
+	}
+
+	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
+
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(170);
+		obj.setMinHeight(120);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	public void NewComboBox(GridPane grid, int row, int col, ComboBox obj) {
+
+		obj.getStylesheets().add("/presentation/MatchMakingComboBoxCss.css");
+
+		obj.setMinWidth(400);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		obj.getSelectionModel().select(0);
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+	public void NewButton(GridPane grid, int row, int col, Button obj) {
+
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(400);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+	public void NewLabel(GridPane grid, int row, int col, String text) {
+		Label obj = new Label(text);
+
+		obj.setFont(Font.font("Calibri", 60));
+		obj.setTextFill(Color.web("#707070"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+		
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
 	}
 
 	private void topBarGridOptions(GridPane grid) {

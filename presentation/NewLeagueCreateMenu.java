@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Background;
@@ -19,12 +20,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class NewLeagueCreateMenu {
 	private Stage primaryStage;
 	private TextField teamNameTF;
 	private ArrayList<Team> teamsList;
+	private ButtonEffect buttonEffect = new ButtonEffect();
 	private DatabaseController dbController = new DatabaseController();
 
 	public NewLeagueCreateMenu(Stage primaryStage) {
@@ -55,11 +58,11 @@ public class NewLeagueCreateMenu {
 
 	private void buttonsNavigation(GridPane grid, String typerOfUser) {
 		Button home = new Button("Home");
-		new NavigationButton(grid, 1, 1, home);
+		NavigationButton(grid, 1, 1, home);
 		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
 
 		Button back = new Button("Back");
-		new NavigationButton(grid, 2, 1, back);
+		NavigationButton(grid, 2, 1, back);
 		back.setOnAction(e -> new LeaguesMenu(primaryStage).init(typerOfUser));
 	}
 
@@ -72,12 +75,12 @@ public class NewLeagueCreateMenu {
 
 		GridPane teamNameGrid = new GridPane();
 		gridRowOptions(teamNameGrid);
-		new NewLabel(teamNameGrid, 1, 1, "Team name:	");
+		NewLabel(teamNameGrid, 1, 1, "Team name:	");
 
 		GridPane teamNameCBGrid = new GridPane();
 		gridRowOptions(teamNameCBGrid);
 		teamNameTF = new TextField();
-		new NewTextField(teamNameCBGrid, 1, 2, teamNameTF);
+		NewTextField(teamNameCBGrid, 1, 2, teamNameTF);
 
 		HBox hbox2 = new HBox(teamNameGrid, teamNameCBGrid);
 		hbox2.setAlignment(Pos.CENTER);
@@ -92,13 +95,13 @@ public class NewLeagueCreateMenu {
 		GridPane createTeamGrid = new GridPane();
 		gridRowOptions(createTeamGrid);
 		Button createTeamButton = new Button("Create Team");
-		new NewButton(createTeamGrid, 1, 1, createTeamButton);
+		NewButton(createTeamGrid, 1, 1, createTeamButton);
 		createTeamButton.setOnAction(e -> checkIfTeamExists(typerOfUser));
 
 		GridPane cancelGrid = new GridPane();
 		gridRowOptions(cancelGrid);
 		Button cancelButton = new Button("Cancel");
-		new NewButton(cancelGrid, 1, 1, cancelButton);
+		NewButton(cancelGrid, 1, 1, cancelButton);
 		cancelButton.setOnAction(e -> new LeaguesMenu(primaryStage).init(typerOfUser));
 
 		HBox hbox = new HBox(createTeamGrid, cancelGrid);
@@ -133,6 +136,67 @@ public class NewLeagueCreateMenu {
 		dbController.createTeam(teamNameTF.getText());
 		return false;
 	}
+	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
+
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(170);
+		obj.setMinHeight(120);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+	public void NewButton(GridPane grid, int row, int col, Button obj) {
+
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(400);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+	public void NewLabel(GridPane grid, int row, int col, String text) {
+		Label obj = new Label(text);
+
+		obj.setFont(Font.font("Calibri", 60));
+		obj.setTextFill(Color.web("#707070"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+		
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+	public void NewTextField(GridPane grid, int row, int col, TextField obj) {
+		obj.getStylesheets().add("/presentation/MatchMakingTextFieldCss.css");
+
+		obj.setFont(Font.font("Calibri", 24));
+		obj.setAlignment(Pos.CENTER);
+		obj.setMinWidth(400);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
 
 	private void topBarGridOptions(GridPane grid) {
 		grid.setHgap(40);
@@ -147,7 +211,6 @@ public class NewLeagueCreateMenu {
 	}
 
 	private Background background() {
-
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#9A9A9A"), CornerRadii.EMPTY, Insets.EMPTY);
 		Background background = new Background(background_fill);
 

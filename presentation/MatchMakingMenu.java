@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.skin.DatePickerSkin;
 import javafx.scene.layout.Background;
@@ -22,6 +23,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class MatchMakingMenu {
@@ -31,6 +34,7 @@ public class MatchMakingMenu {
 	private Button dateButton;
 	private LocalDate selectedDate = LocalDate.now();
 	private Date date;
+	private ButtonEffect buttonEffect = new ButtonEffect();
 	private DatabaseController dbController = new DatabaseController();
 	private ArrayList<Team> arrTeams = dbController.getAllTeams();
 
@@ -65,18 +69,18 @@ public class MatchMakingMenu {
 
 	private void buttonsNavigation(GridPane grid, String typerOfUser) {
 		Button home = new Button("Home");
-		new NavigationButton(grid, 1, 1, home);
+		NavigationButton(grid, 1, 1, home);
 		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
 
 		Button back = new Button("Back");
-		new NavigationButton(grid, 2, 1, back);
+		NavigationButton(grid, 2, 1, back);
 		back.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
 	}
 
 	private VBox team1() {
 		GridPane gridLabel = new GridPane();
 		gridRowOptions(gridLabel);
-		new MatchMakingLabelTitle(gridLabel, 1, 1, "Team 1");
+		LabelTitle(gridLabel, 1, 1, "Team 1");
 
 		GridPane gridOptions = new GridPane();
 		gridRowOptions(gridOptions);
@@ -94,20 +98,20 @@ public class MatchMakingMenu {
 		leagueCB.getItems().add("League 1");
 		leagueCB.getItems().add("League 2");
 		leagueCB.getItems().add("League 3");
-		new MatchMakingComboBox(grid, 1, 1, leagueCB);
+		MatchMakingComboBox(grid, 1, 1, leagueCB);
 
 		team1CB = new ComboBox();
 		for (int i = 0; i < arrTeams.size(); i++) {
 			team1CB.getItems().add(arrTeams.get(i).getTeamName());
 		}
 
-		new MatchMakingComboBox(grid, 1, 2, team1CB);
+		MatchMakingComboBox(grid, 1, 2, team1CB);
 	}
 
 	private VBox middleSelections() {
 		GridPane typeLabel = new GridPane();
 		gridRowOptions(typeLabel);
-		new MatchMakingLabel(typeLabel, 1, 1, "Type");
+		NewLabel(typeLabel, 1, 1, "Type");
 
 		GridPane typeOptions = new GridPane();
 		gridRowOptions(typeOptions);
@@ -115,7 +119,7 @@ public class MatchMakingMenu {
 
 		GridPane halftimesLabel = new GridPane();
 		gridRowOptions(halftimesLabel);
-		new MatchMakingLabel(halftimesLabel, 1, 1, "Halftimes");
+		NewLabel(halftimesLabel, 1, 1, "Halftimes");
 
 		GridPane halftimesOptions = new GridPane();
 		gridRowOptions(halftimesOptions);
@@ -123,7 +127,7 @@ public class MatchMakingMenu {
 
 		GridPane gameTimeLabel = new GridPane();
 		gridRowOptions(gameTimeLabel);
-		new MatchMakingLabel(gameTimeLabel, 1, 1, "Game Time");
+		NewLabel(gameTimeLabel, 1, 1, "Game Time");
 
 		GridPane gameTimeOptions = new GridPane();
 		gridRowOptions(gameTimeOptions);
@@ -141,7 +145,7 @@ public class MatchMakingMenu {
 	private VBox team2() {
 		GridPane gridLabel = new GridPane();
 		gridRowOptions(gridLabel);
-		new MatchMakingLabelTitle(gridLabel, 1, 1, "Team 2");
+		LabelTitle(gridLabel, 1, 1, "Team 2");
 
 		GridPane gridOptions = new GridPane();
 		gridRowOptions(gridOptions);
@@ -159,14 +163,14 @@ public class MatchMakingMenu {
 		leagueCB.getItems().add("League 1");
 		leagueCB.getItems().add("League 2");
 		leagueCB.getItems().add("League 3");
-		new MatchMakingComboBox(grid, 1, 1, leagueCB);
+		MatchMakingComboBox(grid, 1, 1, leagueCB);
 
 		team2CB = new ComboBox();
 		for (int i = 0; i < arrTeams.size(); i++) {
 			team2CB.getItems().add(arrTeams.get(i).getTeamName());
 		}
 
-		new MatchMakingComboBox(grid, 1, 2, team2CB);
+		MatchMakingComboBox(grid, 1, 2, team2CB);
 	}
 
 	// Nice To Have
@@ -174,7 +178,7 @@ public class MatchMakingMenu {
 		ComboBox leagueCB = new ComboBox();
 		leagueCB.getItems().add("Show Match");
 		leagueCB.getItems().add("League Match");
-		new MatchMakingComboBox(grid, 1, 1, leagueCB);
+		MatchMakingComboBox(grid, 1, 1, leagueCB);
 	}
 
 	// Nice To Have
@@ -182,7 +186,7 @@ public class MatchMakingMenu {
 		ComboBox leagueCB = new ComboBox();
 		leagueCB.getItems().add("1");
 		leagueCB.getItems().add("2");
-		new MatchMakingComboBox(grid, 1, 1, leagueCB);
+		MatchMakingComboBox(grid, 1, 1, leagueCB);
 	}
 
 	private void gameTimeDropdowns(GridPane grid) {
@@ -191,13 +195,13 @@ public class MatchMakingMenu {
 		leagueCB.getItems().add("40");
 		leagueCB.getItems().add("50");
 		leagueCB.getItems().add("60");
-		new MatchMakingComboBox(grid, 1, 1, leagueCB);
+		MatchMakingComboBox(grid, 1, 1, leagueCB);
 	}
 
 	private VBox dateOfMatch() {
 		GridPane dateLabelGrid = new GridPane();
 		gridRowOptions(dateLabelGrid);
-		new MatchMakingLabel(dateLabelGrid, 1, 1, "Date");
+		NewLabel(dateLabelGrid, 1, 1, "Date");
 
 		GridPane dateButtonGrid = new GridPane();
 		gridRowOptions(dateButtonGrid);
@@ -212,7 +216,7 @@ public class MatchMakingMenu {
 
 	private void datePickerButtonMethod(GridPane dateButtonGrid, String date) {
 		dateButton = new Button(date);
-		new MatchMakingButtonCalendar(dateButtonGrid, 1, 1, dateButton);
+		MatchMakingButtonCalendar(dateButtonGrid, 1, 1, dateButton);
 
 		dateButtonGrid.getChildren().add(dateButton);
 		dateButton.setOnAction(e -> {
@@ -243,7 +247,7 @@ public class MatchMakingMenu {
 	private VBox timeOuts() {
 		GridPane timeOutsGrid = new GridPane();
 		gridRowOptions(timeOutsGrid);
-		new MatchMakingLabel(timeOutsGrid, 1, 1, "Time Outs");
+		NewLabel(timeOutsGrid, 1, 1, "Time Outs");
 
 		GridPane timeOutsCBGrid = new GridPane();
 		gridRowOptions(timeOutsCBGrid);
@@ -252,7 +256,7 @@ public class MatchMakingMenu {
 		timeOutsCB.getItems().add("2");
 		timeOutsCB.getItems().add("3");
 		timeOutsCB.getItems().add("4");
-		new MatchMakingComboBox(timeOutsCBGrid, 1, 2, timeOutsCB);
+		MatchMakingComboBox(timeOutsCBGrid, 1, 2, timeOutsCB);
 
 		VBox vbox = new VBox(timeOutsGrid, timeOutsCBGrid);
 
@@ -262,12 +266,12 @@ public class MatchMakingMenu {
 	private VBox matchTitle() {
 		GridPane matchTitleGrid = new GridPane();
 		gridRowOptions(matchTitleGrid);
-		new MatchMakingLabel(matchTitleGrid, 1, 1, "Match Title");
+		NewLabel(matchTitleGrid, 1, 1, "Match Title");
 
 		GridPane matchTitleOutsCBGrid = new GridPane();
 		gridRowOptions(matchTitleOutsCBGrid);
 		TextField matchTitleOutsCB = new TextField();
-		new MatchMakingTextField(matchTitleOutsCBGrid, 1, 2, matchTitleOutsCB);
+		NewTextField(matchTitleOutsCBGrid, 1, 2, matchTitleOutsCB);
 
 		VBox vbox = new VBox(matchTitleGrid, matchTitleOutsCBGrid);
 
@@ -279,7 +283,7 @@ public class MatchMakingMenu {
 		GridPane doneGrid = new GridPane();
 		Button doneButton = new Button("Done");
 		gridRowOptions(doneGrid);
-		new MatchMakingButton(doneGrid, 1, 2, doneButton);
+		MatchMakingButton(doneGrid, 1, 2, doneButton);
 		doneButton.setOnAction(e -> {
 			date = Date.valueOf(selectedDate);
 			createMatch();
@@ -308,6 +312,134 @@ public class MatchMakingMenu {
 		Team team2 = convertCBToTeam(team2CB);
 		dbController.createMatch(team1, team2, date);
 
+	}
+
+	public void MatchMakingButton(GridPane grid, int row, int col, Button obj) {
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(400);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	public void MatchMakingButtonCalendar(GridPane grid, int row, int col, Button obj) {
+
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(400);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+	}
+
+	public void MatchMakingComboBox(GridPane grid, int row, int col, ComboBox obj) {
+
+		obj.getStylesheets().add("/presentation/MatchMakingComboBoxCss.css");
+
+		obj.setMinWidth(400);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(60);
+		obj.setMaxWidth(120);
+
+		obj.getSelectionModel().select(0);
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
+
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(170);
+		obj.setMinHeight(120);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	public void NewComboBox(GridPane grid, int row, int col, ComboBox obj) {
+
+		obj.getStylesheets().add("/presentation/MatchMakingComboBoxCss.css");
+
+		obj.setMinWidth(400);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		obj.getSelectionModel().select(0);
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	public void NewLabel(GridPane grid, int row, int col, String text) {
+		Label obj = new Label(text);
+
+		obj.setFont(Font.font("Calibri", 60));
+		obj.setTextFill(Color.web("#707070"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	public void NewTextField(GridPane grid, int row, int col, TextField obj) {
+		obj.getStylesheets().add("/presentation/MatchMakingTextFieldCss.css");
+
+		obj.setFont(Font.font("Calibri", 24));
+		obj.setAlignment(Pos.CENTER);
+		obj.setMinWidth(400);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+	public void LabelTitle(GridPane grid, int row, int col, String text) {
+		Label obj = new Label(text);
+
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 60));
+		obj.setTextFill(Color.web("#707070"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+		obj.setUnderline(true);
+		
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
 	}
 
 	private void topBarGridOptions(GridPane grid) {

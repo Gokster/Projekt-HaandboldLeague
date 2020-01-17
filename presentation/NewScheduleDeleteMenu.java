@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -12,10 +13,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class NewScheduleDeleteMenu {
 	private Stage primaryStage;
+	private ButtonEffect buttonEffect = new ButtonEffect();
 
 	public NewScheduleDeleteMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -45,18 +48,18 @@ public class NewScheduleDeleteMenu {
 
 	private void buttonsNavigation(GridPane grid, String typerOfUser) {
 		Button home = new Button("Home");
-		new NavigationButton(grid, 1, 1, home);
+		NavigationButton(grid, 1, 1, home);
 		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
 
 		Button back = new Button("Back");
-		new NavigationButton(grid, 2, 1, back);
+		NavigationButton(grid, 2, 1, back);
 		back.setOnAction(e -> new ScheduleMenu(primaryStage).init(typerOfUser));
 	}
 
 	private VBox selectTeamAndName() {
 		GridPane leagueGrid = new GridPane();
 		gridRowOptions(leagueGrid);
-		new NewLabel(leagueGrid, 1, 1, "Date:		");
+		NewLabel(leagueGrid, 1, 1, "Date:		");
 
 		GridPane leagueCBGrid = new GridPane();
 		gridRowOptions(leagueCBGrid);
@@ -65,14 +68,14 @@ public class NewScheduleDeleteMenu {
 		leagueCB.getItems().add("2");
 		leagueCB.getItems().add("3");
 		leagueCB.getItems().add("4");
-		new NewComboBox(leagueCBGrid, 1, 2, leagueCB);
+		NewComboBox(leagueCBGrid, 1, 2, leagueCB);
 
 		HBox hbox1 = new HBox(leagueGrid, leagueCBGrid);
 		hbox1.setAlignment(Pos.CENTER);
 
 		GridPane teamNameGrid = new GridPane();
 		gridRowOptions(teamNameGrid);
-		new NewLabel(teamNameGrid, 1, 1, "Match name:	");
+		NewLabel(teamNameGrid, 1, 1, "Match name:	");
 
 		GridPane teamNameCBGrid = new GridPane();
 		gridRowOptions(teamNameCBGrid);
@@ -81,7 +84,7 @@ public class NewScheduleDeleteMenu {
 		teamNameCB.getItems().add("2");
 		teamNameCB.getItems().add("3");
 		teamNameCB.getItems().add("4");
-		new NewComboBox(teamNameCBGrid, 1, 2, teamNameCB);
+		NewComboBox(teamNameCBGrid, 1, 2, teamNameCB);
 
 		HBox hbox2 = new HBox(teamNameGrid, teamNameCBGrid);
 		hbox2.setAlignment(Pos.CENTER);
@@ -96,20 +99,66 @@ public class NewScheduleDeleteMenu {
 		GridPane createTeamGrid = new GridPane();
 		gridRowOptions(createTeamGrid);
 		Button createTeamButton = new Button("Delete Match");
-		new NewButton(createTeamGrid, 1, 1, createTeamButton);
-		createTeamButton.setOnAction(e -> new TeamsMenu(primaryStage).init(typerOfUser));
+		NewButton(createTeamGrid, 1, 1, createTeamButton);
+		// createTeamButton.setOnAction(e -> new
+		// TeamsMenu(primaryStage).init(typerOfUser));
 
 		GridPane cancelGrid = new GridPane();
 		gridRowOptions(cancelGrid);
 		Button cancelButton = new Button("Cancel");
-		new NewButton(cancelGrid, 1, 1, cancelButton);
-		cancelButton.setOnAction(e -> new TeamsMenu(primaryStage).init(typerOfUser));
+		NewButton(cancelGrid, 1, 1, cancelButton);
+		// cancelButton.setOnAction(e -> new TeamsMenu(primaryStage).init(typerOfUser));
 
 		HBox hbox = new HBox(createTeamGrid, cancelGrid);
 		hbox.setAlignment(Pos.CENTER);
 //		hbox.setPadding(new Insets(100));
 
 		return hbox;
+	}
+
+	public void NewComboBox(GridPane grid, int row, int col, ComboBox obj) {
+		obj.getStylesheets().add("/presentation/MatchMakingComboBoxCss.css");
+
+		obj.setMinWidth(400);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		obj.getSelectionModel().select(0);
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	public void NewButton(GridPane grid, int row, int col, Button obj) {
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(400);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+	public void NewLabel(GridPane grid, int row, int col, String text) {
+		Label obj = new Label(text);
+
+		obj.setFont(Font.font("Calibri", 60));
+		obj.setTextFill(Color.web("#707070"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+		
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
 	}
 
 	private void topBarGridOptions(GridPane grid) {
@@ -122,6 +171,23 @@ public class NewScheduleDeleteMenu {
 		grid.setHgap(40);
 		grid.setVgap(15);
 		grid.setAlignment(Pos.CENTER);
+	}
+
+	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
+
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(170);
+		obj.setMinHeight(120);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
 	}
 
 	private Background background() {

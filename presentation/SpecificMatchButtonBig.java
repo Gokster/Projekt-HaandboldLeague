@@ -12,7 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class SpecificMatchButtonBig {
-
 	public SpecificMatchButtonBig(GridPane grid, int row, int col, Button obj) {
 
 		obj.setFont(Font.font("Calibri", 30));
@@ -29,7 +28,6 @@ public class SpecificMatchButtonBig {
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
-
 	private void enterEffect(Button obj) {
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#707070"), new CornerRadii(10), Insets.EMPTY);
 		Background background = new Background(background_fill);

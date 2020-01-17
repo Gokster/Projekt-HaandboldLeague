@@ -24,7 +24,7 @@ public class LoginMenu {
 		GridPane grid = new GridPane();
 		gridOptions(grid);
 
-		new MainMenuLabelTitle(grid, 0, 1, "Gruppe 7 Håndbold");
+		new MainMenuLabelTitle(grid, 0, 1, "Gruppe 7 HÃ¥ndbold");
 
 		GridPane grid2 = new GridPane();
 		gridOptions(grid2);

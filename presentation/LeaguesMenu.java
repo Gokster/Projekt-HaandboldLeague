@@ -25,18 +25,19 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.LeagueRanking;
 
 public class LeaguesMenu {
 	private Stage primaryStage;
+	private ButtonEffect buttonEffect = new ButtonEffect();
 	private DatabaseController dbController = new DatabaseController();
 
 	public LeaguesMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
-
 
 	public void init(String typerOfUser) {
 		GridPane topBarGrid = new GridPane();
@@ -61,7 +62,7 @@ public class LeaguesMenu {
 		
 		LeagueRanking teamPointsSorter = new LeagueRanking(teamsList);
 		teamsList = teamPointsSorter.getSortedTeamsByTeamPoints();
-
+		
 		//Sets ranks for all teams
 		for (int i = 0; i < teamsList.size(); i++) {
 			teamsList.get(i).setRanking(i+1);
@@ -114,30 +115,47 @@ public class LeaguesMenu {
 
 	private void topBarElements(GridPane grid, String typerOfUser) {
 		buttonsNavigation(grid, typerOfUser);
-		new HeadlineLabelTitle(grid, 3, 1, "League Rankings");
-		buttonsCRUD(grid, typerOfUser);
+		new HeadlineLabelTitle(grid, 3, 1, "League Ranking");
+		buttonsCRUD(grid, typerOfUser);	
 	}
 
 	private void buttonsNavigation(GridPane grid, String typerOfUser) {
 		Button home = new Button("Home");
-		new NavigationButton(grid, 1, 1, home);
+		NavigationButton(grid, 1, 1, home);
 		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
 
 		Button back = new Button("Back");
-		new NavigationButton(grid, 2, 1, back);
+		NavigationButton(grid, 2, 1, back);
 		back.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
 	}
 
 	private void buttonsCRUD(GridPane grid, String typerOfUser) {
 		Button createTeam = new Button("Create Team");
-		new NavigationButton(grid, 4, 1, createTeam);
+		NavigationButton(grid, 4, 1, createTeam);
 		createTeam.setOnAction(e -> new NewLeagueCreateMenu(primaryStage).init(typerOfUser));
 
 		Button deleteTeam = new Button("Delete Team");
-		new NavigationButton(grid, 5, 1, deleteTeam);
+		NavigationButton(grid, 5, 1, deleteTeam);
 		deleteTeam.setOnAction(e -> new NewLeagueDeleteMenu(primaryStage).init(typerOfUser));
 	}
 
+	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
+
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(170);
+		obj.setMinHeight(120);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+	
 	private void topBarGridOptions(GridPane grid) {
 		grid.setHgap(40);
 		grid.setVgap(40);
