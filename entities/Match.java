@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
-public class Match {
+public class Match implements Comparable<Match>{
 	private int matchId;
 	private Team homeTeam;
 	private Team awayTeam;
 	private Team winningTeam;
 	private Date matchDate;
+	private int matchDateInt;
 	private MatchTime matchTime = new MatchTime();
 	private ArrayList<Goal> goalList = new ArrayList<Goal>();
 	private ArrayList<Suspension> suspensionList = new ArrayList<Suspension>();
@@ -37,6 +38,12 @@ public class Match {
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
 		this.matchDate = date;
+	}
+	
+	public Match(Team homeTeam, Team awayTeam, int date) {
+		this.homeTeam = homeTeam;
+		this.awayTeam = awayTeam;
+		this.matchDateInt = date;
 	}
 
 	public int countGoal(Team team) {
@@ -146,6 +153,10 @@ public class Match {
 	public Date getMatchDate() {
 		return matchDate;
 	}
+	
+	public int getMatchDateInt() {
+		return matchDateInt;
+	}
 
 	public ArrayList<Goal> getGoalList() {
 		return goalList;
@@ -153,6 +164,16 @@ public class Match {
 
 	public ArrayList<Suspension> getSuspensionList() {
 		return suspensionList;
+	}
+
+//	@Override
+//	public int compareTo(Match match) {
+//		return (this.matchDateInt < match.getMatchDateInt() ? -1 : (this.getMatchDateInt() == match.getMatchDateInt() ? 0 : 1));
+//	}
+	
+	@Override
+	public int compareTo(Match match) {
+		return (this.matchDateInt < match.getMatchDateInt() ? -1 : (this.getMatchDateInt() == match.getMatchDateInt() ? 0 : 1));
 	}
 
 }
