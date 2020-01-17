@@ -2,10 +2,11 @@ package entities;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
-public class Match implements Comparable<Match>{
+public class Match {
 	private int matchId;
 	private Team homeTeam;
 	private Team awayTeam;
@@ -15,7 +16,6 @@ public class Match implements Comparable<Match>{
 	private MatchTime matchTime = new MatchTime();
 	private ArrayList<Goal> goalList = new ArrayList<Goal>();
 	private ArrayList<Suspension> suspensionList = new ArrayList<Suspension>();
-
 
 	public Match(int matchId, Team homeTeam, Team awayTeam, Date matchDate, ArrayList<Goal> goalList,
 			ArrayList<Suspension> suspensionList) {
@@ -39,7 +39,7 @@ public class Match implements Comparable<Match>{
 		this.awayTeam = awayTeam;
 		this.matchDate = date;
 	}
-	
+
 	public Match(Team homeTeam, Team awayTeam, int date) {
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
@@ -153,7 +153,7 @@ public class Match implements Comparable<Match>{
 	public Date getMatchDate() {
 		return matchDate;
 	}
-	
+
 	public int getMatchDateInt() {
 		return matchDateInt;
 	}
@@ -166,14 +166,11 @@ public class Match implements Comparable<Match>{
 		return suspensionList;
 	}
 
-//	@Override
-//	public int compareTo(Match match) {
-//		return (this.matchDateInt < match.getMatchDateInt() ? -1 : (this.getMatchDateInt() == match.getMatchDateInt() ? 0 : 1));
-//	}
-	
-	@Override
-	public int compareTo(Match match) {
-		return (this.matchDateInt < match.getMatchDateInt() ? -1 : (this.getMatchDateInt() == match.getMatchDateInt() ? 0 : 1));
-	}
+	public static Comparator<Match> dateCompare = new Comparator<Match>() {
+		@Override
+		public int compare(Match m1, Match m2) {
+			return m1.getMatchDate().compareTo(m2.getMatchDate());
+		}
+	};
 
 }

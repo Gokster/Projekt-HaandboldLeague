@@ -1,5 +1,6 @@
 package presentation;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -49,34 +50,22 @@ public class ScheduleMenu {
 	}
 
 	private void readMatches() {
-		ArrayList<Match> arrSorted = new ArrayList<Match>();
-		for (int i = 0; i < arrMatches.size(); i++) {
-			Match match = new Match(arrMatches.get(i).getHomeTeam(), arrMatches.get(i).getAwayTeam(), stringToInt(i, arrMatches));
-			arrSorted.add(match);
-		}	
+		sortArrayList();
 		
-		Collections.sort(arrSorted);
-		for (int i = 0; i < arrSorted.size(); i++) {
-			System.out.println(arrSorted.get(i).getMatchDateInt());
-		}
-		System.out.println();
-		
-		for (int i = 0; i < arrMatches.size(); i++) {
-			System.out.println(arrMatches.get(i).getMatchDate().toString());
-		}
+//		for (int i = 0; i < arrMatches.size(); i++) {
+//			Date tempDate =;
+//			if (condition) {
+//				
+//			}
+//		}
 	}
 	
-	private int stringToInt(int i, ArrayList<Match> match) {
-		String tempString = "";
-		for (int j = 0; j < 10; j++) {
-			if (match.get(i).getMatchDate().toString().charAt(j) >= 48 && match.get(i).getMatchDate().toString().charAt(j) <= 57) {
-				tempString += match.get(i).getMatchDate().toString().charAt(j);
-			}
-			
+	private void sortArrayList() {
+		Collections.sort(arrMatches, Match.dateCompare);
+
+		for (int i = 0; i < arrMatches.size(); i++) {
+			System.out.println(arrMatches.get(i).getMatchDate()); 
 		}
-		int newMatchDate = Integer.parseInt(tempString);
-		return newMatchDate;
-		
 	}
 
 //	private void readMatches() {
