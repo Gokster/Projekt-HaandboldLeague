@@ -79,4 +79,5 @@ public class DatabaseController {
 		ArrayList<Team> teamList = teams.getAllTeams();
 		return goals.getAllGoalsById(matchId, teamList);
 	}
+	
 }
