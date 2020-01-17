@@ -68,17 +68,18 @@ public class LeaguesMenu {
 			teamsList.get(i).setRanking(i+1);
 		}
 		
-		TableColumn<Team, String> teamNameCol = new TableColumn<Team, String>("Team Name");
-		teamNameCol.setCellValueFactory(new PropertyValueFactory<Team, String>("teamName"));
-
-		TableColumn<Team, Integer> teamPointsCol = new TableColumn<Team, Integer>("Team Points");
-		teamPointsCol.setCellValueFactory(new PropertyValueFactory<Team, Integer>("teamPoints"));
-
 		TableColumn<Team, Integer> teamPlacement = new TableColumn<Team, Integer>("Rank");
 		teamPlacement.setCellValueFactory(new PropertyValueFactory<Team, Integer>("ranking"));
+		
+		TableColumn<Team, String> teamNameCol = new TableColumn<Team, String>("Team");
+		teamNameCol.setCellValueFactory(new PropertyValueFactory<Team, String>("teamName"));
 
+		TableColumn<Team, Integer> teamPointsCol = new TableColumn<Team, Integer>("Points");
+		teamPointsCol.setCellValueFactory(new PropertyValueFactory<Team, Integer>("teamPoints"));
 		
 		TableView<Team> table = new TableView<Team>();
+		table.getStylesheets().add("/presentation/LeaguesMenuTableViewCss.css");
+		table.setMinWidth(350);
 		GridPane.setColumnSpan(table, 3);
 		GridPane.setRowSpan(table, 14);
 
