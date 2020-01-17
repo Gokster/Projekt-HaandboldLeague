@@ -220,18 +220,20 @@ public class SpecificMatchMenu {
 		Button addGoalButton = new Button("Goal");
 		new SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
 		addGoalButton.setOnAction(e -> {
-			match.addGoal(match.getHomeTeam());
-			homeScoreGrid.getChildren().remove(homeScore);
-			hScoreVal++;
-			homeScore = new Label(Integer.toString(hScoreVal));
-			new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
-			
-			homeTable = "Goal";
-			timeTable = Long.toString(match.getMatchSeconds());
-			awayTable = "";
-			
-			data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
-//			new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1,
+			if (matchStarted == true)	{
+				match.addGoal(match.getHomeTeam());
+				homeScoreGrid.getChildren().remove(homeScore);
+				hScoreVal++;
+				homeScore = new Label(Integer.toString(hScoreVal));
+				new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
+				
+				homeTable = "Goal";
+				timeTable = Long.toString(match.getMatchSeconds());
+				awayTable = "";
+				
+				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
+			}
+//					new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1,
 //					Integer.toString(match.countGoal(match.getHomeTeam())));		
 		
 		});
@@ -241,18 +243,20 @@ public class SpecificMatchMenu {
 		Button subGoalButton = new Button("-Goal");
 		new SpecificMatchButtonSmallRight(subGoalGrid, 1, 1, subGoalButton);
 		subGoalButton.setOnAction(e -> {
-			if(hScoreVal > 0) {
-				match.deleteGoal(match.getAwayTeam());
-				homeScoreGrid.getChildren().remove(homeScore);
-				hScoreVal--;
-				homeScore = new Label(Integer.toString(hScoreVal));
-				new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
-			}
-			for(int i = data.size() - 1; i >= 0 ; i--) {
-				System.out.println(data.get(i).getHome());
-				if(data.get(i).getHome().compareTo("Goal") == 0) {
-					data.remove(i);
-					break;
+			if(matchStarted == true)	{
+				if(hScoreVal > 0) {
+					match.deleteGoal(match.getAwayTeam());
+					homeScoreGrid.getChildren().remove(homeScore);
+					hScoreVal--;
+					homeScore = new Label(Integer.toString(hScoreVal));
+					new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
+				}
+				for(int i = data.size() - 1; i >= 0 ; i--) {
+					System.out.println(data.get(i).getHome());
+					if(data.get(i).getHome().compareTo("Goal") == 0) {
+						data.remove(i);
+						break;
+					}
 				}
 			}
 		});
@@ -377,18 +381,19 @@ public class SpecificMatchMenu {
 		Button addGoalButton = new Button("Goal");
 		new SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
 		addGoalButton.setOnAction(e -> {
-			match.addGoal(match.getAwayTeam());
-			awayScoreGrid.getChildren().remove(awayScore);
-			aScoreVal++;
-			awayScore = new Label(Integer.toString(aScoreVal));
-			new SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
-			
-			homeTable = "";
-			timeTable = Long.toString(match.getMatchSeconds());
-			awayTable = "Goal";
-			
-			data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
-			
+			if (matchStarted == true)	{
+				match.addGoal(match.getAwayTeam());
+				awayScoreGrid.getChildren().remove(awayScore);
+				aScoreVal++;
+				awayScore = new Label(Integer.toString(aScoreVal));
+				new SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
+				
+				homeTable = "";
+				timeTable = Long.toString(match.getMatchSeconds());
+				awayTable = "Goal";
+				
+				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
+			}
 		});
 
 		GridPane subGoalGrid = new GridPane();
@@ -396,21 +401,24 @@ public class SpecificMatchMenu {
 		Button subGoalButton = new Button("-Goal");
 		new SpecificMatchButtonSmallRight(subGoalGrid, 1, 1, subGoalButton);
 		subGoalButton.setOnAction(e -> {
-			if(aScoreVal > 0) {
-				match.deleteGoal(match.getAwayTeam());
-				awayScoreGrid.getChildren().remove(awayScore);
-				aScoreVal--;
-				awayScore = new Label(Integer.toString(aScoreVal));
-				new SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
-				
-				for(int i = data.size() - 1; i >= 0 ; i--) {
-					System.out.println(data.get(i).getAway());
-					if(data.get(i).getAway().compareTo("Goal") == 0) {
-						data.remove(i);
-						break;
+			if(matchStarted == true)	{
+				if(aScoreVal > 0) {
+					match.deleteGoal(match.getAwayTeam());
+					awayScoreGrid.getChildren().remove(awayScore);
+					aScoreVal--;
+					awayScore = new Label(Integer.toString(aScoreVal));
+					new SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
+					
+					for(int i = data.size() - 1; i >= 0 ; i--) {
+						System.out.println(data.get(i).getAway());
+						if(data.get(i).getAway().compareTo("Goal") == 0) {
+							data.remove(i);
+							break;
+						}
 					}
 				}
 			}
+			
 		});
 
 		HBox hbox = new HBox(addGoalGrid, subGoalGrid);
