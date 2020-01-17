@@ -154,6 +154,7 @@ public class SpecificMatchMenu {
 					new SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, timerLabel);
 				} else {
 					timer.stop();
+					matchStarted = false;
 				}
 			}
 			
@@ -193,7 +194,7 @@ public class SpecificMatchMenu {
 		stopButton.setMaxWidth(304);
 		stopButton.setOnAction(e -> {
 			timer.stop();
-			
+			matchStarted = false;
 		});
 
 		HBox hbox = new HBox(startGrid, stopGrid);
@@ -282,12 +283,14 @@ public class SpecificMatchMenu {
 		Button twoMinButton = new Button("2 Min");
 		new SpecificMatchButtonMedium(twoMinGrid, 1, 1, twoMinButton);
 		twoMinButton.setOnAction(e -> {
-			match.addSuspension(match.getHomeTeam());
-			homeTable = "2 min";
-			timeTable = Long.toString(match.getMatchSeconds());
-			awayTable = "";
-			
-			data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
+			if(matchStarted == true)	{
+				match.addSuspension(match.getHomeTeam());
+				homeTable = "2 min";
+				timeTable = Long.toString(match.getMatchSeconds());
+				awayTable = "";
+				
+				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
+			}
 		});
 
 		HBox hbox = new HBox(playerTwoMinGrid, twoMinGrid);
@@ -441,13 +444,15 @@ public class SpecificMatchMenu {
 		Button twoMinButton = new Button("2 Min");
 		new SpecificMatchButtonMedium(twoMinGrid, 1, 1, twoMinButton);
 		twoMinButton.setOnAction(e -> {
-			match.addSuspension(match.getAwayTeam());
-			
-			homeTable = "";
-			timeTable = Long.toString(match.getMatchSeconds());
-			awayTable = "2 min";
-			
-			data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
+			if (matchStarted == true)	{
+				match.addSuspension(match.getAwayTeam());
+				
+				homeTable = "";
+				timeTable = Long.toString(match.getMatchSeconds());
+				awayTable = "2 min";
+				
+				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
+			}
 		});
 
 		HBox hbox = new HBox(playerTwoMinGrid, twoMinGrid);
