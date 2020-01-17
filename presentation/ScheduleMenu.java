@@ -2,15 +2,23 @@ package presentation;
 
 import java.lang.reflect.Array;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 
 import data.DatabaseController;
 import entities.Match;
+import entities.Team;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -37,6 +45,8 @@ public class ScheduleMenu {
 		topBarElements(topBarGrid, typerOfUser);
 		readMatches();
 
+		
+
 //		VBox col1 = new VBox(dateOfMatches(), TimeOfMatches(typerOfUser));
 
 		HBox calenderTimeline = new HBox();
@@ -59,7 +69,7 @@ public class ScheduleMenu {
 			}
 
 		}
-		
+
 		System.out.println(arrMatches.size());
 		for (int i = 0; i < arrWithTimes.size(); i++) {
 			System.out.println(arrWithTimes.get(i).getMatchDate());
@@ -99,7 +109,7 @@ public class ScheduleMenu {
 //		gridRowOptions(timeLabelGrid);
 //		new ScheduleLabel(timeLabelGrid, 1, 1, "16:00");
 //
-//		String matchName = "København vs. Herning";
+//		String matchName = "Kï¿½benhavn vs. Herning";
 //
 //		GridPane matchGrid = new GridPane();
 //		gridRowOptions(matchGrid);
