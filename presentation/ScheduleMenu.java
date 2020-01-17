@@ -45,8 +45,6 @@ public class ScheduleMenu {
 		topBarElements(topBarGrid, typerOfUser);
 		readMatches();
 
-		
-
 //		VBox col1 = new VBox(dateOfMatches(), TimeOfMatches(typerOfUser));
 
 		HBox calenderTimeline = new HBox();
