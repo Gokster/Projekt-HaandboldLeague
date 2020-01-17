@@ -38,6 +38,7 @@ public class SpecificMatchMenu {
 	private String homeTable;
 	private String timeTable;
 	private String awayTable;
+	private boolean matchStarted = false;
 	
 	ObservableList<SpecificMatchHistoryTable> data = FXCollections.observableArrayList(
 			);
@@ -178,8 +179,11 @@ public class SpecificMatchMenu {
 		startButton.setMinWidth(304);
 		startButton.setMaxWidth(304);
 		startButton.setOnAction(e -> {
-			timer.start();
-			match.startMatch();
+			if(matchStarted == false) {
+				timer.start();
+				match.startMatch();
+				matchStarted = true;
+			}
 		});
 
 		GridPane pauseGrid = new GridPane();

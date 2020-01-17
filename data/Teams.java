@@ -41,6 +41,7 @@ public class Teams {
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			if (resultSet.next()) {
+
 				String teamName = resultSet.getString("teamname");
 				int teamPoints = resultSet.getInt("teampoints");
 
@@ -51,6 +52,21 @@ public class Teams {
 		}
 		return null;
 	}
+//	public int countTeams() {
+//		try {
+//			String sql = "SELECT COUNT(*) AS teams FROM teams";
+//
+//			Statement statement = connection.createStatement();
+//
+//			ResultSet resultSet = statement.executeQuery(sql);
+//
+//			return new int;
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 
 	public void updateTeam (Team team) {
 		try {
@@ -66,9 +82,9 @@ public class Teams {
 		}
 	}
 
-	public void deleteTeam (Team team) {
+	public void deleteTeam (String teamName) {
 		try {
-			String sql = "DELETE FROM teams WHERE id=" + team.getTeamId();
+			String sql = "DELETE FROM teams WHERE teamname='" + teamName + "'";
 
 			Statement statement = connection.createStatement();
 

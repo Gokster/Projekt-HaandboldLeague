@@ -1,18 +1,24 @@
 package presentation;
 
+import java.lang.reflect.Array;
 import java.sql.Date;
-import java.time.LocalDate;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 
-import data.DataLayer;
 import data.DatabaseController;
-import data.Matches;
 import entities.Match;
 import entities.Team;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -25,7 +31,7 @@ import javafx.stage.Stage;
 public class ScheduleMenu {
 	private Stage primaryStage;
 	private DatabaseController dbController = new DatabaseController();
-	private ArrayList<Match> arrMatches = dbController.getAllMatches();
+	private ArrayList<Match> arrMatches = dbController.getAllMatchesNotDone();
 
 	public ScheduleMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -51,17 +57,38 @@ public class ScheduleMenu {
 		stageMods(scene);
 	}
 
-
-	
 	private void readMatches() {
-		Date matchDate = dbController.readMatchById(1).getMatchDate();
-		for (int i = 0; i < arrMatches.size(); i++) {
-			System.out.println(dbController.readMatchById(i).getMatchDate().compareTo(matchDate));
-//			if () {
-//				
-//			}
+		ArrayList<Match> arrWithTimes = new ArrayList<Match>();
+		GridPane grid = new GridPane();
+
+		for (Match match : arrMatches) {
+			if (!arrWithTimes.contains(match.getMatchDate())) {
+				arrWithTimes.add(match);
+			}
+
 		}
-		
+
+		System.out.println(arrMatches.size());
+		for (int i = 0; i < arrWithTimes.size(); i++) {
+			System.out.println(arrWithTimes.get(i).getMatchDate());
+		}
+
+//		for (int i = 0; i < arrMatches.size(); i++) {
+//			for (int j = 0; j < arrWithTimes.size(); j++) {
+//				if (condition) {
+//					
+//				}
+//			}
+
+//		System.out.println(dbController.readMatchById(1).getMatchDate().compareTo(matchDate));
+//			if (dbController.readMatchById(i).getMatchDate().compareTo(matchDate)) {
+
+//				arrWithTimes
+//			}
+//		}
+
+		Button btn = new Button("hrj");
+//		new ScheduleMatchButton(grid, 0, i, btn);
 	}
 
 //	private VBox dateOfMatches() {
@@ -80,7 +107,7 @@ public class ScheduleMenu {
 //		gridRowOptions(timeLabelGrid);
 //		new ScheduleLabel(timeLabelGrid, 1, 1, "16:00");
 //
-//		String matchName = "København vs. Herning";
+//		String matchName = "Kï¿½benhavn vs. Herning";
 //
 //		GridPane matchGrid = new GridPane();
 //		gridRowOptions(matchGrid);
@@ -124,7 +151,7 @@ public class ScheduleMenu {
 //
 //		return vbox;
 //	}
-	
+
 	private void topBarElements(GridPane grid, String typerOfUser) {
 		buttonsNavigation(grid, typerOfUser);
 		new HeadlineLabelTitle(grid, 3, 1, "Schedule");

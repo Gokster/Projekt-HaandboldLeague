@@ -1,9 +1,23 @@
 package presentation;
 
+import java.util.ArrayList;
+
+import data.DatabaseController;
+
+import entities.Team;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -12,28 +26,87 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import logic.LeagueRanking;
 
 public class LeaguesMenu {
 	private Stage primaryStage;
-	
+	private DatabaseController dbController = new DatabaseController();
 
 	public LeaguesMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
- 
-	public void init(String typerOfUser) {
 
+
+	public void init(String typerOfUser) {
 		GridPane topBarGrid = new GridPane();
+
 		topBarGridOptions(topBarGrid);
 
 		topBarElements(topBarGrid, typerOfUser);
 
-		HBox row1 = new HBox(rowOneLabel1(typerOfUser), rowOneLabel2(typerOfUser), rowOneLabel3(typerOfUser), rowOneLabel4(typerOfUser));
+		ObservableList<Team> teamsList = FXCollections.observableArrayList();
+		teamsList.addAll(dbController.getAllTeams());
 		
-		HBox row2 = new HBox();
+		//***Test***
+		Team team1 = new Team(1, "Ikast FC", 26);
+		Team team2 = new Team(2, "Herning FC", 23);
+		Team team3 = new Team(3, "Viborg FC", 20);
+		Team team4 = new Team(4, "Vejle FC", 24);
+		teamsList.add(team1);
+		teamsList.add(team2);
+		teamsList.add(team3);
+		teamsList.add(team4);
+		//***Test***
+		
+		LeagueRanking teamPointsSorter = new LeagueRanking(teamsList);
+		teamsList = teamPointsSorter.getSortedTeamsByTeamPoints();
 
-		VBox OuterBox = new VBox(topBarGrid, row1, row2);
+		//Sets ranks for all teams
+		for (int i = 0; i < teamsList.size(); i++) {
+			teamsList.get(i).setRanking(i+1);
+		}
+		
+		TableColumn<Team, Integer> teamPlacement = new TableColumn<Team, Integer>("Rank");
+		teamPlacement.setCellValueFactory(new PropertyValueFactory<Team, Integer>("ranking"));
+		
+		TableColumn<Team, String> teamNameCol = new TableColumn<Team, String>("Team");
+		teamNameCol.setCellValueFactory(new PropertyValueFactory<Team, String>("teamName"));
+
+		TableColumn<Team, Integer> teamPointsCol = new TableColumn<Team, Integer>("Points");
+		teamPointsCol.setCellValueFactory(new PropertyValueFactory<Team, Integer>("teamPoints"));
+		
+		TableView<Team> table = new TableView<Team>();
+		table.getStylesheets().add("/presentation/LeaguesMenuTableViewCss.css");
+		table.setMinWidth(350);
+		GridPane.setColumnSpan(table, 3);
+		GridPane.setRowSpan(table, 14);
+
+		// select team in row
+		table.setRowFactory(e -> {
+			TableRow<Team> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && (!row.isEmpty())) {
+					int rowData = row.getItem().getTeamId();
+					// syso for test -> call Team specific schedule instead
+					//System.out.println(rowData);
+
+					new ScheduleMenu(primaryStage).init(typerOfUser);
+				}
+			});
+			return row;
+		});
+
+		table.setItems(teamsList);
+		table.getColumns().addAll(teamPlacement, teamNameCol, teamPointsCol);
+		topBarGrid.getChildren().add(table);
+
+		HBox hbox = new HBox(table);
+		hbox.setAlignment(Pos.CENTER);
+
+		VBox OuterBox = new VBox(topBarGrid, hbox);
 		OuterBox.setBackground(background());
+		OuterBox.setAlignment(Pos.TOP_CENTER);
 
 		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
@@ -56,91 +129,13 @@ public class LeaguesMenu {
 	}
 
 	private void buttonsCRUD(GridPane grid, String typerOfUser) {
-		Button createTeam = new Button("Create");
+		Button createTeam = new Button("Create Team");
 		new NavigationButton(grid, 4, 1, createTeam);
 		createTeam.setOnAction(e -> new NewLeagueCreateMenu(primaryStage).init(typerOfUser));
 
-		Button deleteTeam = new Button("Delete");
+		Button deleteTeam = new Button("Delete Team");
 		new NavigationButton(grid, 5, 1, deleteTeam);
 		deleteTeam.setOnAction(e -> new NewLeagueDeleteMenu(primaryStage).init(typerOfUser));
-	}
-
-	private VBox rowOneLabel1(String typerOfUser) {
-		GridPane gridLabel = new GridPane();
-		gridRowOptions(gridLabel);
-		new LeaguesLabelTitle(gridLabel, 1, 1, "League 1");
-
-		GridPane gridButtons = new GridPane();
-		gridRowOptions(gridButtons);
-		team1(gridButtons, typerOfUser);
-		team2(gridButtons, typerOfUser);
-
-		VBox vbox = new VBox(gridLabel, gridButtons);
-
-		return vbox;
-	}
-
-	private VBox rowOneLabel2(String typerOfUser) {
-		GridPane gridLabel = new GridPane();
-		gridRowOptions(gridLabel);
-		new LeaguesLabelTitle(gridLabel, 1, 1, "League 2");
-
-		GridPane gridButtons = new GridPane();
-		gridRowOptions(gridButtons);
-		team1(gridButtons, typerOfUser);
-		team2(gridButtons, typerOfUser);
-
-		VBox vbox = new VBox(gridLabel, gridButtons);
-
-		return vbox;
-	}
-
-	private VBox rowOneLabel3(String typerOfUser) {
-		GridPane gridLabel = new GridPane();
-		gridRowOptions(gridLabel);
-		new LeaguesLabelTitle(gridLabel, 1, 1, "League 3");
-
-		GridPane gridButtons = new GridPane();
-		gridRowOptions(gridButtons);
-		team1(gridButtons, typerOfUser);
-		team2(gridButtons, typerOfUser);
-
-		VBox vbox = new VBox(gridLabel, gridButtons);
-
-		return vbox;
-	}
-
-	private VBox rowOneLabel4(String typerOfUser) {
-		GridPane gridLabel = new GridPane();
-		gridRowOptions(gridLabel);
-		new LeaguesLabelTitle(gridLabel, 1, 1, "League 4");
-
-		GridPane gridButtons = new GridPane();
-		gridRowOptions(gridButtons);
-		team1(gridButtons, typerOfUser);
-		team2(gridButtons, typerOfUser);
-
-		VBox vbox = new VBox(gridLabel, gridButtons);
-
-		return vbox;
-	}
-
-	private void team1(GridPane grid, String typerOfUser) {
-		int team1Score = 3;
-		String teamName = "Herning IF";
-		
-		Button team = new Button(teamName + "			   |   " + team1Score);
-		new LeaguesTeamButton(grid, 1, 2, team);
-		team.setOnAction(e -> new SpecificTeamMenu(primaryStage).init(teamName, typerOfUser));
-	}
-	
-	private void team2(GridPane grid, String typerOfUser) {
-		int team1Score = 5;
-		String teamName = "København IF";
-		
-		Button team = new Button(teamName + "		   |   " + team1Score);
-		new LeaguesTeamButton(grid, 1, 3, team);
-		team.setOnAction(e -> new SpecificTeamMenu(primaryStage).init(teamName, typerOfUser));
 	}
 
 	private void topBarGridOptions(GridPane grid) {

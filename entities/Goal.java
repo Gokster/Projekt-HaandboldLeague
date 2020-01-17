@@ -5,20 +5,20 @@ import java.sql.Time;
 public class Goal {
 	private int goalId;
 	private Team scoringTeam;
-	private MatchTime timeStamp;
+	private MatchTime timestamp;
 	private int matchId;
 	
 	// 09-01-2020 �ndret matchTime fra typen Time til int
 	public Goal(int goalId, Team scoringTeam, MatchTime matchTime, int matchId) {
 		this.goalId = goalId;
 		this.scoringTeam = scoringTeam;
-		this.timeStamp = matchTime;
+		this.timestamp = matchTime;
 		this.matchId = matchId; 
 	}
 	
 	public Goal(Team scoringTeam, MatchTime matchTime, int matchId) {
 		this.scoringTeam = scoringTeam;
-		this.timeStamp = matchTime;
+		this.timestamp = matchTime;
 		this.matchId = matchId;
 	}
 
@@ -39,11 +39,11 @@ public class Goal {
 	}
 
 	public MatchTime getMatchTime() {
-		return timeStamp;
+		return timestamp;
 	}
 
 	public void setMatchTime(MatchTime matchTime) {
-		this.timeStamp = matchTime;
+		this.timestamp = matchTime;
 	}
 
 	public int getMatchId() {

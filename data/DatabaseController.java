@@ -26,6 +26,9 @@ public class DatabaseController {
 		return teams.readTeamById(id);
 	}
 
+	public void deleteTeam(String teamName) { 
+		teams.deleteTeam(teamName);
+	}
 	public ArrayList<Team> getAllTeams() {
 		return teams.getAllTeams();
 	}
@@ -36,28 +39,44 @@ public class DatabaseController {
 	}
 
 	public Match readMatchById(int id) {
-		return matches.readMatchById(id);
+		ArrayList<Team> teamList = teams.getAllTeams();
+		return matches.readMatchById(id, teamList);
+	}
+	
+	public Match readMatchByIdNotPlayed(int id) {
+		ArrayList<Team> teamList = teams.getAllTeams();
+		return matches.readMatchByIdNotPlayed(id, teamList);
 	}
 
 	public ArrayList<Match> getAllMatches() {
-		return matches.getAllMatches();
+		ArrayList<Team> teamList = teams.getAllTeams();
+		return matches.getAllMatches(teamList);
 	}
-
+	
+	public ArrayList<Match> getAllMatchesNotDone() {
+		ArrayList<Team> teamList = teams.getAllTeams();
+		return matches.getAllMatchesNotDone(teamList);
+	}
+	
 	public void createSuspension(int suspensionId, Team suspensionTeam, MatchTime matchTime, int matchId) {
 		Suspension suspension = new Suspension(suspensionId, suspensionTeam, matchTime, matchId);
+
 		suspensions.createSuspension(suspension);
 	}
 
 	public ArrayList<Suspension> getAllSuspensions(int matchId) {
-		return suspensions.getAllSuspensions(matchId);
+		return suspensions.getAllSuspensionsById(matchId);
 	}
+
 
 	public void createGoal(int goalId, Team scoringTeam, MatchTime matchTime, int matchId) {
 		Goal goal = new Goal(goalId, scoringTeam, matchTime, matchId);
+		
 		goals.createGoal(goal);
 	}
 
 	public ArrayList<Goal> getAllGoals(int matchId) {
-		return goals.getAllGoals(matchId);
+		ArrayList<Team> teamList = teams.getAllTeams();
+		return goals.getAllGoalsById(matchId, teamList);
 	}
 }
