@@ -53,7 +53,6 @@ public class LeaguesMenu {
 		Team team2 = new Team(2, "Herning FC", 23);
 		Team team3 = new Team(3, "Viborg FC", 20);
 		Team team4 = new Team(4, "Vejle FC", 24);
-
 		teamsList.add(team1);
 		teamsList.add(team2);
 		teamsList.add(team3);
