@@ -1,12 +1,9 @@
 package data;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.sql.Date;
-
 import entities.Goal;
 import entities.Match;
-import entities.MatchTime;
 import entities.Suspension;
 import entities.Team;
 
@@ -17,21 +14,26 @@ public class DatabaseController {
 	private Suspensions suspensions = new Suspensions(dataLayer.getConnection());
 	private Goals goals = new Goals(dataLayer.getConnection());
 
+	/***********************************
+	 * TEAMS
+	 ***********************************/
+	
 	public void createTeam(String teamName) {
 		Team team = new Team(teamName);
 		teams.createTeam(team);
 	}
 
-	public Team readTeamById(int id) {
-		return teams.readTeamById(id);
-	}
-
 	public void deleteTeam(String teamName) { 
 		teams.deleteTeam(teamName);
 	}
+	
 	public ArrayList<Team> getAllTeams() {
-		return teams.getAllTeams();
+		return teams.readAllTeams();
 	}
+	
+	/***********************************
+	 * MATCHES
+	 ***********************************/
 
 	public void createMatch(Team homeTeam, Team awayTeam, Date date) {
 		Match match = new Match(homeTeam, awayTeam, date);
@@ -42,44 +44,33 @@ public class DatabaseController {
 		matches.deleteMatch(match);
 	}
 
-	public Match readMatchById(int id) {
-		ArrayList<Team> teamList = teams.getAllTeams();
-		return matches.readMatchById(id, teamList);
-	}
-	
-	public Match readMatchByIdNotPlayed(int id) {
-		ArrayList<Team> teamList = teams.getAllTeams();
-		return matches.readMatchByIdNotPlayed(id, teamList);
-	}
-
 	public ArrayList<Match> getAllMatches() {
-		ArrayList<Team> teamList = teams.getAllTeams();
+		ArrayList<Team> teamList = teams.readAllTeams();
 		return matches.getAllMatches(teamList);
 	}
 	
 	public ArrayList<Match> getAllMatchesNotDone() {
-		ArrayList<Team> teamList = teams.getAllTeams();
-		return matches.getAllMatchesNotDone(teamList);
+		ArrayList<Team> teamList = teams.readAllTeams();
+		return matches.getAllMatchesNotPlayed(teamList);
 	}
 	
-	public void createSuspension(int suspensionId, Team suspensionTeam, MatchTime matchTime, int matchId) {
-		Suspension suspension = new Suspension(suspensionId, suspensionTeam, matchTime, matchId);
-
-		suspensions.createSuspension(suspension);
+	/***********************************
+	 * SUSPENSIONS
+	 ***********************************/
+	
+	public void createSuspensions(ArrayList<Suspension> suspensionList) {
+		for(Suspension suspension : suspensionList) {
+			suspensions.createSuspension(suspension);
+		}
 	}
 
-	public ArrayList<Suspension> getAllSuspensions(int matchId) {
-		return suspensions.getAllSuspensionsById(matchId);
-	}
-
-	public void createGoal(int goalId, Team scoringTeam, MatchTime matchTime, int matchId) {
-		Goal goal = new Goal(goalId, scoringTeam, matchTime, matchId);
-		
-		goals.createGoal(goal);
-	}
-
-	public ArrayList<Goal> getAllGoals(int matchId) {
-		ArrayList<Team> teamList = teams.getAllTeams();
-		return goals.getAllGoalsById(matchId, teamList);
+	/***********************************
+	 * GOALS
+	 ***********************************/
+	
+	public void createGoal(ArrayList<Goal> goalList) {
+		for(Goal goal : goalList) {
+			goals.createGoal(goal);
+		}
 	}
 }

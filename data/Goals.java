@@ -1,24 +1,21 @@
 package data;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Time;
+import java.sql.*;
 import java.util.ArrayList;
-
 import entities.Goal;
 import entities.MatchTime;
 import entities.Team;
 
 public class Goals {
 	private Connection connection;
-	private Teams teams = new Teams(connection);
 
 	public Goals(Connection connection) {
 		this.connection = connection;
 	}
+	
+	/***********************************
+	 * CREATE
+	 ***********************************/
 	
 	public void createGoal(Goal goal) {
 		try {
@@ -35,54 +32,10 @@ public class Goals {
 			e.printStackTrace();
 		}
 	}
-
-	public Goal readGoalById(int id) {
-		try {
-			String sql = "SELECT * FROM goal WHERE id=" + id;
-
-			Statement statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(sql);
-
-			if (resultSet.next()) {
-				Team scoringTeam = teams.readTeamById(resultSet.getInt("scoringteam"));
-				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
-				int matchId = resultSet.getInt("matchId");
-
-				return new Goal(id, scoringTeam, matchTime, matchId);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public void updateGoal(Goal goal) {
-		try {
-			String sql = "UPDATE matches SET scoringteam=" + goal.getScoringTeam() + ", matchtime="
-					+ goal.getMatchTime() + ", matchid=" + goal.getMatchId() + " WHERE id=" + goal.getGoalId();
-
-			Statement statement = connection.createStatement();
-
-			if (statement.executeUpdate(sql) == 0)
-				System.out.println("No goals to update!");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void deleteGoal(Goal goal) {
-		try {
-			String sql = "DELETE FROM goal WHERE id=" + goal.getGoalId();
-
-			Statement statement = connection.createStatement();
-
-			if (statement.executeUpdate(sql) == 0)
-				System.out.println("No goals to delete!");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+	
+	/***********************************
+	 * READ
+	 ***********************************/
 	
 	public ArrayList<Goal> getAllGoals(ArrayList<Team> teamList) {
 		ArrayList<Goal> goalsList = new ArrayList<>();
@@ -103,8 +56,7 @@ public class Goals {
 						break;
 					}
 				}
-			
-//				Team scoringTeam = teams.readTeamById(resultSet.getInt("scoringteam"));
+
 				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
 				int matchId = resultSet.getInt("matchid");
 
@@ -119,7 +71,7 @@ public class Goals {
 		return goalsList;
 	}
 
-	public ArrayList<Goal> getAllGoalsById(int matchId, ArrayList<Team> teamList) {
+	public ArrayList<Goal> getAllGoals(int matchId, ArrayList<Team> teamList) {
 		ArrayList<Goal> goalsList = new ArrayList<>();
 
 		try {
@@ -139,7 +91,6 @@ public class Goals {
 					}
 				}
 			
-//				Team scoringTeam = teams.readTeamById(resultSet.getInt("scoringteam"));
 				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
 
 				Goal goal = new Goal(id, scoringTeam, matchTime, matchId);
@@ -152,4 +103,39 @@ public class Goals {
 
 		return goalsList;
 	}
+	
+	/***********************************
+	 * UPDATE
+	 ***********************************/
+
+//	public void updateGoal(Goal goal) {
+//		try {
+//			String sql = "UPDATE matches SET scoringteam=" + goal.getScoringTeam() + ", matchtime="
+//					+ goal.getMatchTime() + ", matchid=" + goal.getMatchId() + " WHERE id=" + goal.getGoalId();
+//
+//			Statement statement = connection.createStatement();
+//
+//			if (statement.executeUpdate(sql) == 0)
+//				System.out.println("No goals to update!");
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
+	/***********************************
+	 * DELETE
+	 ***********************************/
+
+//	public void deleteGoal(Goal goal) {
+//		try {
+//			String sql = "DELETE FROM goal WHERE id=" + goal.getGoalId();
+//
+//			Statement statement = connection.createStatement();
+//
+//			if (statement.executeUpdate(sql) == 0)
+//				System.out.println("No goals to delete!");
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
 }

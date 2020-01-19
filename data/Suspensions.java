@@ -1,25 +1,21 @@
 package data;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Time;
+import java.sql.*;
 import java.util.ArrayList;
-
-import entities.Goal;
 import entities.MatchTime;
 import entities.Suspension;
 import entities.Team;
 
 public class Suspensions {
 	private Connection connection;
-	private Teams teams = new Teams(connection);
 	
 	public Suspensions(Connection connection) {
 		this.connection = connection;
 	}
+	
+	/***********************************
+	 * CREATE
+	 ***********************************/
 
 	public void createSuspension(Suspension suspension) {
 		try {
@@ -36,57 +32,12 @@ public class Suspensions {
 			e.printStackTrace();
 		}
 	}
-
-	public Suspension readSuspensionById(int id) {
-		try {
-			String sql = "SELECT * FROM suspensions WHERE id=" + id;
-
-			Statement statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(sql);
-
-			if (resultSet.next()) {
-				Team suspensionTeam = teams.readTeamById(resultSet.getInt("suspensionteam"));
-				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
-				int matchId = resultSet.getInt("matchId");
-
-				return new Suspension(id, suspensionTeam, matchTime, matchId);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public void updateSuspension(Suspension suspension) {
-		try {
-			String sql = "UPDATE matches SET  suspensionteam=" + suspension.getSuspensionTeam() + ", matchtime="
-					+ suspension.getMatchTime() + ", matchid=" + suspension.getMatchId() + " WHERE id="
-					+ suspension.getSuspensionId();
-
-			Statement statement = connection.createStatement();
-
-			if (statement.executeUpdate(sql) == 0)
-				System.out.println("No suspensions to update!");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void deleteSuspension(Suspension suspension) {
-		try {
-			String sql = "DELETE FROM suspensions WHERE id=" + suspension.getSuspensionId();
-
-			Statement statement = connection.createStatement();
-
-			if (statement.executeUpdate(sql) == 0)
-				System.out.println("No suspensions to delete!");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public ArrayList<Suspension> getAllSuspensions() {
+	
+	/***********************************
+	 * READ
+	 ***********************************/
+	
+	public ArrayList<Suspension> readAllSuspensions(ArrayList<Team> teamList) {
 		ArrayList<Suspension> suspensionsList = new ArrayList<>();
 
 		try {
@@ -96,9 +47,17 @@ public class Suspensions {
 
 			ResultSet resultSet = statement.executeQuery(sql);
 
+			
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
-				Team suspensionTeam = teams.readTeamById(resultSet.getInt("suspensionteam"));
+				
+				Team suspensionTeam = null;
+				for(Team team : teamList) {
+					if(resultSet.getInt("suspensionteam") == team.getTeamId()) {
+						suspensionTeam = team;
+					}
+				}
+				
 				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
 				int matchId = resultSet.getInt("matchid");
 				
@@ -113,7 +72,7 @@ public class Suspensions {
 		return suspensionsList;
 	}
 	
-	public ArrayList<Suspension> getAllSuspensionsById(int matchId) {
+	public ArrayList<Suspension> readAllSuspensions(int matchId, ArrayList<Team> teamList) {
 		ArrayList<Suspension> suspensionsList = new ArrayList<>();
 
 		try {
@@ -125,7 +84,14 @@ public class Suspensions {
 
 			while (resultSet.next()) {
 				int id = resultSet.getInt("id");
-				Team suspensionTeam = teams.readTeamById(resultSet.getInt("suspensionteam"));
+				
+				Team suspensionTeam = null;
+				for(Team team : teamList) {
+					if(resultSet.getInt("suspensionteam") == team.getTeamId()) {
+						suspensionTeam = team;
+					}
+				}
+				
 				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
 				
 				Suspension suspension = new Suspension(id, suspensionTeam, matchTime, matchId);
@@ -138,4 +104,40 @@ public class Suspensions {
 
 		return suspensionsList;
 	}
+	
+	/***********************************
+	 * UPDATE
+	 ***********************************/
+
+//	public void updateSuspension(Suspension suspension) {
+//		try {
+//			String sql = "UPDATE matches SET  suspensionteam=" + suspension.getSuspensionTeam() + ", matchtime="
+//					+ suspension.getMatchTime() + ", matchid=" + suspension.getMatchId() + " WHERE id="
+//					+ suspension.getSuspensionId();
+//
+//			Statement statement = connection.createStatement();
+//
+//			if (statement.executeUpdate(sql) == 0)
+//				System.out.println("No suspensions to update!");
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
+	/***********************************
+	 * DELETE
+	 ***********************************/
+
+//	public void deleteSuspension(Suspension suspension) {
+//		try {
+//			String sql = "DELETE FROM suspensions WHERE id=" + suspension.getSuspensionId();
+//
+//			Statement statement = connection.createStatement();
+//
+//			if (statement.executeUpdate(sql) == 0)
+//				System.out.println("No suspensions to delete!");
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
 }

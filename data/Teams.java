@@ -1,12 +1,7 @@
 package data;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
-
-import entities.Goal;
 import entities.Team;
 
 public class Teams {
@@ -15,6 +10,10 @@ public class Teams {
 	public Teams(Connection connection) {
 		this.connection = connection;
 	}
+	
+	/***********************************
+	 * CREATE
+	 ***********************************/
 
 	public void createTeam (Team team) {
 		try {
@@ -31,71 +30,12 @@ public class Teams {
 			System.out.println("Can't connect");
 		}
 	}
-
-	public Team readTeamById (int id) {
-		try {
-			String sql = "SELECT * FROM teams WHERE id=" + id;
-
-			Statement statement = connection.createStatement();
-
-			ResultSet resultSet = statement.executeQuery(sql);
-
-			if (resultSet.next()) {
-
-				String teamName = resultSet.getString("teamname");
-				int teamPoints = resultSet.getInt("teampoints");
-
-				return new Team(id, teamName, teamPoints);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-//	public int countTeams() {
-//		try {
-//			String sql = "SELECT COUNT(*) AS teams FROM teams";
-//
-//			Statement statement = connection.createStatement();
-//
-//			ResultSet resultSet = statement.executeQuery(sql);
-//
-//			return new int;
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
-
-	public void updateTeam (Team team) {
-		try {
-			String sql = "UPDATE teams SET teamname='" + team.getTeamName() + "', teampoints=" + team.getTeamPoints() + " WHERE id="
-					+ team.getTeamId();
-
-			Statement statement = connection.createStatement();
-
-			if (statement.executeUpdate(sql) == 0)
-				System.out.println("No teams to update!");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void deleteTeam (String teamName) {
-		try {
-			String sql = "DELETE FROM teams WHERE teamname='" + teamName + "'";
-
-			Statement statement = connection.createStatement();
-
-			if (statement.executeUpdate(sql) == 0)
-				System.out.println("No teams to be deleted!");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	
-	public ArrayList<Team> getAllTeams() {
+	/***********************************
+	 * READ
+	 ***********************************/
+	
+	public ArrayList<Team> readAllTeams() {
 		ArrayList<Team> teamsList = new ArrayList<>();
 
 		try {
@@ -119,5 +59,40 @@ public class Teams {
 		}
 
 		return teamsList;
+	}
+	
+	/***********************************
+	 * UPDATE
+	 ***********************************/
+
+//	public void updateTeam (Team team) {
+//		try {
+//			String sql = "UPDATE teams SET teamname='" + team.getTeamName() + "', teampoints=" + team.getTeamPoints() + " WHERE id="
+//					+ team.getTeamId();
+//
+//			Statement statement = connection.createStatement();
+//
+//			if (statement.executeUpdate(sql) == 0)
+//				System.out.println("No teams to update!");
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
+	
+	/***********************************
+	 * DELETE
+	 ***********************************/
+
+	public void deleteTeam (String teamName) {
+		try {
+			String sql = "DELETE FROM teams WHERE teamname='" + teamName + "'";
+
+			Statement statement = connection.createStatement();
+
+			if (statement.executeUpdate(sql) == 0)
+				System.out.println("No teams to be deleted!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

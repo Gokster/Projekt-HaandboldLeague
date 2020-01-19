@@ -51,10 +51,12 @@ public class DataLayer {
 			return false;
 		}
 	}
+	
+	/***********************************
+	 * GETTERS
+	 ***********************************/
 
 	public Connection getConnection() {
 		return connection;
 	}
-	
-
 }
