@@ -1,11 +1,21 @@
 package presentation;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+import data.DatabaseController;
+import entities.Match;
+import entities.Team;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.skin.DatePickerSkin;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -19,6 +29,12 @@ import javafx.stage.Stage;
 public class NewScheduleDeleteMenu {
 	private Stage primaryStage;
 	private ButtonEffect buttonEffect = new ButtonEffect();
+	private Button dateButton;
+	private LocalDate selectedDate = LocalDate.now();
+	private Date date;
+	private DatabaseController dbController = new DatabaseController();
+	private ArrayList<Match> arrMatches = dbController.getAllMatchesNotDone();
+	private ComboBox matchCB;
 
 	public NewScheduleDeleteMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -30,8 +46,9 @@ public class NewScheduleDeleteMenu {
 
 		topBarElements(topBarGrid, typerOfUser);
 
-		VBox selecters = new VBox(selectTeamAndName(), createTeamAndCancelButtons(typerOfUser));
-		selecters.setAlignment(Pos.CENTER);
+		VBox selecters = new VBox(dateOfMatch(), selectMatch(), createTeamAndCancelButtons(typerOfUser));
+		selecters.setPadding(new Insets(100));
+
 
 		VBox OuterBox = new VBox(topBarGrid, selecters);
 		OuterBox.setBackground(background());
@@ -55,43 +72,84 @@ public class NewScheduleDeleteMenu {
 		back.setOnAction(e -> new ScheduleMenu(primaryStage).init(typerOfUser));
 	}
 
-	private VBox selectTeamAndName() {
-		GridPane leagueGrid = new GridPane();
-		gridRowOptions(leagueGrid);
-		NewLabel(leagueGrid, 1, 1, "Date:		");
+	private HBox dateOfMatch() {
+		GridPane dateLabelGrid = new GridPane();
+		gridRowOptions(dateLabelGrid);
+		NewLabel(dateLabelGrid, 0, 0, "Date: ");
 
-		GridPane leagueCBGrid = new GridPane();
-		gridRowOptions(leagueCBGrid);
-		ComboBox leagueCB = new ComboBox();
-		leagueCB.getItems().add("1");
-		leagueCB.getItems().add("2");
-		leagueCB.getItems().add("3");
-		leagueCB.getItems().add("4");
-		NewComboBox(leagueCBGrid, 1, 2, leagueCB);
+		GridPane dateButtonGrid = new GridPane();
+		gridRowOptions(dateButtonGrid);
 
-		HBox hbox1 = new HBox(leagueGrid, leagueCBGrid);
-		hbox1.setAlignment(Pos.CENTER);
+		datePickerButtonMethod(dateButtonGrid, LocalDate.now().toString());
 
-		GridPane teamNameGrid = new GridPane();
-		gridRowOptions(teamNameGrid);
-		NewLabel(teamNameGrid, 1, 1, "Match name:	");
+		HBox hbox = new HBox(dateLabelGrid, dateButtonGrid);
+		hbox.setAlignment(Pos.CENTER);
 
-		GridPane teamNameCBGrid = new GridPane();
-		gridRowOptions(teamNameCBGrid);
-		ComboBox teamNameCB = new ComboBox();
-		teamNameCB.getItems().add("1");
-		teamNameCB.getItems().add("2");
-		teamNameCB.getItems().add("3");
-		teamNameCB.getItems().add("4");
-		NewComboBox(teamNameCBGrid, 1, 2, teamNameCB);
+		return hbox;
+	}
 
-		HBox hbox2 = new HBox(teamNameGrid, teamNameCBGrid);
-		hbox2.setAlignment(Pos.CENTER);
+	private void datePickerButtonMethod(GridPane dateButtonGrid, String date) {
+		dateButton = new Button(date);
+		MatchMakingButtonCalendar(dateButtonGrid, 1, 1, dateButton);
 
-		VBox vbox = new VBox(hbox1, hbox2);
-		vbox.setPadding(new Insets(150));
+		dateButtonGrid.getChildren().add(dateButton);
+		dateButton.setOnAction(e -> {
+			dateButtonGrid.getChildren().remove(dateButton);
+			datePickerCalendarMethod(dateButtonGrid);
+		});
+	}
+
+	private void datePickerCalendarMethod(GridPane dateButtonGrid) {
+		DatePicker dp = new DatePicker();
+		DatePickerSkin datePickerSkin = new DatePickerSkin(dp);
+		Node popupContent = datePickerSkin.getPopupContent();
+
+		dp.setShowWeekNumbers(false);
+
+		dp.getStylesheets().add("/presentation/MatchMakingDatePicker.css");
+
+		popupContent.setOnMouseClicked(e -> {
+			selectedDate = dp.getValue();
+			datePickerButtonMethod(dateButtonGrid, selectedDate.toString());
+			dateButtonGrid.getChildren().remove(popupContent);
+			loadCB();
+		});
+
+		dateButtonGrid.getChildren().add(popupContent);
+
+	}
+
+	private VBox selectMatch() {
+
+		GridPane matchGrid = new GridPane();
+		gridRowOptions(matchGrid);
+		NewLabel(matchGrid, 1, 1, "Match name:	");
+
+		GridPane matcheCBGrid = new GridPane();
+		gridRowOptions(matcheCBGrid);
+		matchCB = new ComboBox();
+
+		loadCB();
+
+		NewComboBox(matcheCBGrid, 1, 1, matchCB);
+
+		HBox hbox = new HBox(matchGrid, matcheCBGrid);
+		hbox.setAlignment(Pos.CENTER);
+
+		VBox vbox = new VBox(hbox);
 
 		return vbox;
+	}
+
+	private void loadCB() {
+		matchCB.getItems().clear();
+		for (int i = 0; i < arrMatches.size(); i++) {
+			if (arrMatches.get(i).getMatchDate().compareTo(Date.valueOf(selectedDate)) == 0) {
+				matchCB.getItems().add(arrMatches.get(i).getHomeTeam().getTeamName() + " vs. "
+						+ arrMatches.get(i).getAwayTeam().getTeamName());
+			} 
+		}
+		matchCB.getSelectionModel().select(0);
 	}
 
 	private HBox createTeamAndCancelButtons(String typerOfUser) {
@@ -99,20 +157,35 @@ public class NewScheduleDeleteMenu {
 		gridRowOptions(createTeamGrid);
 		Button createTeamButton = new Button("Delete Match");
 		NewButton(createTeamGrid, 1, 1, createTeamButton);
-		// createTeamButton.setOnAction(e -> new
-		// TeamsMenu(primaryStage).init(typerOfUser));
+		 createTeamButton.setOnAction(e -> {
+			 new ScheduleMenu(primaryStage).init(typerOfUser);
+		 });
 
 		GridPane cancelGrid = new GridPane();
 		gridRowOptions(cancelGrid);
 		Button cancelButton = new Button("Cancel");
 		NewButton(cancelGrid, 1, 1, cancelButton);
-		// cancelButton.setOnAction(e -> new TeamsMenu(primaryStage).init(typerOfUser));
+		 cancelButton.setOnAction(e -> new ScheduleMenu(primaryStage).init(typerOfUser));
 
 		HBox hbox = new HBox(createTeamGrid, cancelGrid);
 		hbox.setAlignment(Pos.CENTER);
-//		hbox.setPadding(new Insets(100));
+		hbox.setPadding(new Insets(100));
 
 		return hbox;
+	}
+
+	public void MatchMakingButtonCalendar(GridPane grid, int row, int col, Button obj) {
+
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(400);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
 	}
 
 	public void NewComboBox(GridPane grid, int row, int col, ComboBox obj) {
@@ -148,6 +221,7 @@ public class NewScheduleDeleteMenu {
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
+
 	public void NewLabel(GridPane grid, int row, int col, String text) {
 		Label obj = new Label(text);
 
@@ -155,7 +229,7 @@ public class NewScheduleDeleteMenu {
 		obj.setTextFill(Color.web("#707070"));
 		obj.setMinWidth(200);
 		obj.setAlignment(Pos.CENTER);
-		
+
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}

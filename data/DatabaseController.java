@@ -37,6 +37,10 @@ public class DatabaseController {
 		Match match = new Match(homeTeam, awayTeam, date);
 		matches.createMatch(match);
 	}
+	
+	public void deleteMatch(Match match) { 
+		matches.deleteMatch(match);
+	}
 
 	public Match readMatchById(int id) {
 		ArrayList<Team> teamList = teams.getAllTeams();
@@ -67,7 +71,6 @@ public class DatabaseController {
 	public ArrayList<Suspension> getAllSuspensions(int matchId) {
 		return suspensions.getAllSuspensionsById(matchId);
 	}
-
 
 	public void createGoal(int goalId, Team scoringTeam, MatchTime matchTime, int matchId) {
 		Goal goal = new Goal(goalId, scoringTeam, matchTime, matchId);

@@ -36,6 +36,28 @@ public class ButtonEffect {
 
 		obj.setTextFill(Color.web("#000000"));
 	}
+	
+	public void enterEffectGrey(Button obj) {
+		BackgroundFill background_fill = new BackgroundFill(Color.web("#707070"), new CornerRadii(10), Insets.EMPTY);
+		Background background = new Background(background_fill);
+
+		obj.setBackground(background);
+		obj.setStyle("-fx-border-radius: 5; -fx-border-color: #707070; -fx-border-width: 3;");
+		obj.setCursor(Cursor.HAND);
+
+		obj.setTextFill(Color.web("#FFFFFF"));
+	}
+
+	public void defaultEffectGrey(Button obj) {
+		BackgroundFill background_fill = new BackgroundFill(Color.web("#dddddd"), new CornerRadii(10), Insets.EMPTY);
+		Background background = new Background(background_fill);
+
+		obj.setBackground(background);
+		obj.setStyle("-fx-border-radius: 5; -fx-border-color: #707070; -fx-border-width: 3;");
+		obj.setCursor(Cursor.DEFAULT);
+
+		obj.setTextFill(Color.web("#868686"));
+	}
 	public void enterEffect(ComboBox obj) {
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#707070"), new CornerRadii(10), Insets.EMPTY);
 		Background background = new Background(background_fill);
@@ -72,4 +94,6 @@ public class ButtonEffect {
 		obj.setCursor(Cursor.DEFAULT);
 
 	}
+	
+	
 }

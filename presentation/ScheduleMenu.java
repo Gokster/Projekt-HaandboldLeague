@@ -21,6 +21,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class ScheduleMenu {
@@ -60,28 +62,10 @@ public class ScheduleMenu {
 		}
 	}
 
-//	private HBox readMatchesDone() {
-//		sortArrayList();
-//		HBox hbox = new HBox();
-//		Date tempDate = Date.valueOf(LocalDate.now());
-//		boolean firstDateSet = false;
-//
-//		for (int i = 0; i < arrMatches.size(); i++) {
-//			if (arrMatches.get(i).getMatchDate().compareTo(tempDate) > 0) {
-//				tempDate = arrMatches.get(i).getMatchDate();
-//				hbox.getChildren().add(matchDateVBox(i));
-//			} else if (arrMatches.get(i).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) == 0
-//					&& firstDateSet == false) {
-//				hbox.getChildren().add(matchDateVBox(i));
-//				firstDateSet = true;
-//			}
-//		}
-//		return hbox;
-//	}
-
 	private HBox readMatchesNotDone() {
 		sortArrayList();
 		HBox hbox = new HBox();
+		hbox.setAlignment(Pos.BASELINE_CENTER);
 		Date tempDate = arrMatches.get(0).getMatchDate();
 		boolean firstDateSet = false;
 
@@ -100,7 +84,14 @@ public class ScheduleMenu {
 
 	private VBox matchDateVBox(int i) {
 		Label title = new Label(arrMatches.get(i).getMatchDate().toString());
+		DateOfMatchLabel(title);
+
+		if (arrMatches.get(i).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) == 0) {
+			title.setTextFill(Color.web("#000000"));
+		}
+
 		VBox vbox = new VBox(title);
+		vbox.setAlignment(Pos.CENTER);
 
 		for (int j = i; j < arrMatches.size(); j++) {
 			if (arrMatches.get(i).getMatchDate().compareTo(arrMatches.get(j).getMatchDate()) == 0) {
@@ -109,7 +100,6 @@ public class ScheduleMenu {
 				break;
 			}
 		}
-
 		return vbox;
 	}
 
@@ -118,113 +108,53 @@ public class ScheduleMenu {
 				+ arrMatches.get(j).getAwayTeam().getTeamName();
 		Button btn = null;
 
+		// Allerede spillede kampe
 		if (arrMatches.get(j).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) < 0) {
 			btn = new Button(matchTitle);
-			btn.setPrefSize(300, 300);
+			MatchButtonsPlayed(btn);
 			btn.setOnAction(e -> new SpecificMatchMenu(primaryStage, arrMatches.get(j)).init(matchTitle, typeOfUser));
-
+			// Fremtidige kampe
 		} else {
 			btn = new Button(matchTitle);
+			MatchButtonsNotPlayed(btn);
 			btn.setOnAction(e -> new SpecificMatchMenu(primaryStage, arrMatches.get(j)).init(matchTitle, typeOfUser));
 		}
-
 		return btn;
 	}
 
-//	private void readMatches() {
-//		ArrayList<Match> arrWithTimes = new ArrayList<Match>();
-//		GridPane grid = new GridPane();
-//
-//		for (Match match : arrMatches) {
-//			if (!arrWithTimes.contains(match.getMatchDate())) {
-//				arrWithTimes.add(match);
-//			}
-//
-//		}
-//
-//		System.out.println(arrMatches.size());
-//		for (int i = 0; i < arrWithTimes.size(); i++) {
-//			System.out.println(arrWithTimes.get(i).getMatchDate());
-//		}
-//
-////		for (int i = 0; i < arrMatches.size(); i++) {
-////			for (int j = 0; j < arrWithTimes.size(); j++) {
-////				if (condition) {
-////					
-////				}
-////			}
-//
-////		System.out.println(dbController.readMatchById(1).getMatchDate().compareTo(matchDate));
-////			if (dbController.readMatchById(i).getMatchDate().compareTo(matchDate)) {
-//
-////				arrWithTimes
-////			}
-////		}
-//
-//		Button btn = new Button("hrj");
-//		new ScheduleMatchButton(grid, 0, i, btn);
-//	}
+	public void DateOfMatchLabel(Label obj) {
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 30));
+		obj.setUnderline(true);
+		obj.setTextFill(Color.web("#57504d"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+	}
 
-//	private VBox dateOfMatches() {
-//		LocalDate today = LocalDate.now();
-//		GridPane dateLabelGrid = new GridPane();
-//		gridRowOptions(dateLabelGrid);
-//		new ScheduleLabelTitle(dateLabelGrid, 1, 1, today.toString());
-//
-//		VBox vbox = new VBox(dateLabelGrid);
-//
-//		return vbox;
-//	}
-//
-//	private VBox TimeOfMatchesOld(String typerOfUser) {
-//		GridPane timeLabelGrid = new GridPane();
-//		gridRowOptions(timeLabelGrid);
-//		new ScheduleLabel(timeLabelGrid, 1, 1, "16:00");
-//
-//		String matchName = "K�benhavn vs. Herning";
-//
-//		GridPane matchGrid = new GridPane();
-//		gridRowOptions(matchGrid);
-//		Button matchButton = new Button(matchName);
-//		new ScheduleMatchButton(matchGrid, 1, 1, matchButton);
-//		matchButton.setOnAction(e -> new SpecificMatchMenu(primaryStage).init(matchName, typerOfUser));
-//
-//		String matchNameTemp = "Give vs. Herning";
-//
-//		GridPane matchGridTemp = new GridPane();
-//		gridRowOptions(matchGridTemp);
-//		Button matchButtonTemp = new Button(matchNameTemp);
-//		new ScheduleMatchButton(matchGridTemp, 1, 1, matchButtonTemp);
-//		matchButtonTemp.setOnAction(e -> new SpecificMatchMenu(primaryStage).init(matchNameTemp, typerOfUser));
-//
-//		VBox vbox = new VBox(timeLabelGrid, matchGrid, matchGridTemp);
-//
-//		return vbox;
-//	}
-//
-//	private VBox TimeOfMatches(String typerOfUser) {
-//		GridPane timeLabelGrid = new GridPane();
-//		gridRowOptions(timeLabelGrid);
-//		new ScheduleLabel(timeLabelGrid, 1, 1, "16:00");
-//
-//		DataLayer dataLayer = new DataLayer();
-//
-//		Matches matches = new Matches(dataLayer.getConnection());
-//
-//		Match match = matches.readMatchById(1);
-//
-//		String matchName = match.getHomeTeam().getTeamName() + " vs. " + match.getAwayTeam().getTeamName();
-//
-//		GridPane matchGrid = new GridPane();
-//		gridRowOptions(matchGrid);
-//		Button matchButton = new Button(matchName);
-//		new ScheduleMatchButton(matchGrid, 1, 1, matchButton);
-//		matchButton.setOnAction(e -> new SpecificMatchMenu(primaryStage).init(matchName, typerOfUser));
-//
-//		VBox vbox = new VBox(timeLabelGrid, matchGrid);
-//
-//		return vbox;
-//	}
+	public void MatchButtonsPlayed(Button obj) {
+
+		obj.setFont(Font.font("Calibri", 25));
+		obj.setPrefWidth(300);
+		obj.setPrefHeight(50);
+		obj.setAlignment(Pos.CENTER);
+
+		buttonEffect.defaultEffectGrey(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffectGrey(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffectGrey(obj));
+	}
+
+	public void MatchButtonsNotPlayed(Button obj) {
+
+		obj.setFont(Font.font("Calibri", 25));
+		obj.setPrefWidth(300);
+		obj.setPrefHeight(50);
+		obj.setAlignment(Pos.CENTER);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+	}
 
 	private void topBarElements(GridPane grid, String typerOfUser) {
 		buttonsNavigation(grid, typerOfUser);
@@ -251,6 +181,7 @@ public class ScheduleMenu {
 		NavigationButton(grid, 5, 1, deleteTeam);
 		deleteTeam.setOnAction(e -> new NewScheduleDeleteMenu(primaryStage).init(typerOfUser));
 	}
+
 	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
 		obj.setFont(Font.font("Calibri", 30));
 		obj.setMinWidth(170);
