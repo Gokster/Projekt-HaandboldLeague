@@ -56,10 +56,6 @@ public class ScheduleMenu {
 
 	private void sortArrayList() {
 		Collections.sort(arrMatches, Match.dateCompare);
-
-		for (int i = 0; i < arrMatches.size(); i++) {
-			System.out.println(arrMatches.get(i).getMatchDate());
-		}
 	}
 
 	private HBox readMatchesNotDone() {

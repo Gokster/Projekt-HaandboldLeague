@@ -35,6 +35,8 @@ public class NewScheduleDeleteMenu {
 	private DatabaseController dbController = new DatabaseController();
 	private ArrayList<Match> arrMatches = dbController.getAllMatchesNotDone();
 	private ComboBox matchCB;
+	private String hTeam;
+	private String aTeam;
 
 	public NewScheduleDeleteMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -46,9 +48,8 @@ public class NewScheduleDeleteMenu {
 
 		topBarElements(topBarGrid, typerOfUser);
 
-		VBox selecters = new VBox(dateOfMatch(), selectMatch(), createTeamAndCancelButtons(typerOfUser));
+		VBox selecters = new VBox(dateOfMatch(), selectMatch(), DeleteMatchAndCancelButtons(typerOfUser));
 		selecters.setPadding(new Insets(100));
-
 
 		VBox OuterBox = new VBox(topBarGrid, selecters);
 		OuterBox.setBackground(background());
@@ -147,31 +148,55 @@ public class NewScheduleDeleteMenu {
 			if (arrMatches.get(i).getMatchDate().compareTo(Date.valueOf(selectedDate)) == 0) {
 				matchCB.getItems().add(arrMatches.get(i).getHomeTeam().getTeamName() + " vs. "
 						+ arrMatches.get(i).getAwayTeam().getTeamName());
-			} 
+			}
 		}
 		matchCB.getSelectionModel().select(0);
 	}
 
-	private HBox createTeamAndCancelButtons(String typerOfUser) {
-		GridPane createTeamGrid = new GridPane();
-		gridRowOptions(createTeamGrid);
-		Button createTeamButton = new Button("Delete Match");
-		NewButton(createTeamGrid, 1, 1, createTeamButton);
-		 createTeamButton.setOnAction(e -> {
-			 new ScheduleMenu(primaryStage).init(typerOfUser);
-		 });
+	private HBox DeleteMatchAndCancelButtons(String typerOfUser) {
+		GridPane DeleteMatchGrid = new GridPane();
+		gridRowOptions(DeleteMatchGrid);
+		Button DeleteMatchButton = new Button("Delete Match");
+		NewButton(DeleteMatchGrid, 1, 1, DeleteMatchButton);
+		DeleteMatchButton.setOnAction(e -> {
+
+			dbController.deleteMatch(splitTeamNames());
+			new ScheduleMenu(primaryStage).init(typerOfUser);
+		});
 
 		GridPane cancelGrid = new GridPane();
 		gridRowOptions(cancelGrid);
 		Button cancelButton = new Button("Cancel");
 		NewButton(cancelGrid, 1, 1, cancelButton);
-		 cancelButton.setOnAction(e -> new ScheduleMenu(primaryStage).init(typerOfUser));
+		cancelButton.setOnAction(e -> new ScheduleMenu(primaryStage).init(typerOfUser));
 
-		HBox hbox = new HBox(createTeamGrid, cancelGrid);
+		HBox hbox = new HBox(DeleteMatchGrid, cancelGrid);
 		hbox.setAlignment(Pos.CENTER);
 		hbox.setPadding(new Insets(100));
 
 		return hbox;
+	}
+
+	private Match splitTeamNames() {
+		String check;
+		String match = matchCB.getValue().toString();
+
+		for (int i = 0; i < match.length() - 4; i++) {
+			check = match.substring(i, i + 5);
+			if (check.equals(" vs. ")) {
+				hTeam = match.substring(0, i);
+				aTeam = match.substring(i + 5, match.length());
+			}
+		}
+
+		for (Match matches : arrMatches) {
+			if (matches.getMatchDate().compareTo(date.valueOf(selectedDate)) == 0) {
+				if (matches.getHomeTeam().getTeamName().equals(hTeam) && matches.getAwayTeam().getTeamName().equals(aTeam)) {
+					return matches;
+				}
+			}
+		}
+		return null;
 	}
 
 	public void MatchMakingButtonCalendar(GridPane grid, int row, int col, Button obj) {
