@@ -140,20 +140,22 @@ public class Matches {
 	 * UPDATE
 	 ***********************************/
 
-//	public void updateMatch (Match match) {
-//		try {
-//			String sql = "UPDATE matches SET  teamname=" + match.getHomeTeam() + ", awayteam=" + match.getAwayTeam()
-//					+ ", winningteam=" + match.getWinningTeam() + ", matchdate=" + match.getMatchDate() + " WHERE id="
-//							+ match.getMatchId();
-//
-//			Statement statement = connection.createStatement();
-//
-//			if (statement.executeUpdate(sql) == 0)
-//				System.out.println("No matches to be updated!");
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
+	public void updateMatch (Match match) {
+		try {
+			String sql = "UPDATE matches SET  teamname=" + match.getHomeTeam().getTeamId()
+						+ ", awayteam=" + match.getAwayTeam().getTeamId()
+						+ ", winningteam=" + match.getWinningTeam().getTeamId() 
+						+ ", matchdate=" + match.getMatchDate() 
+						+ " WHERE id=" + match.getMatchId();
+
+			Statement statement = connection.createStatement();
+
+			if (statement.executeUpdate(sql) == 0)
+				System.out.println("No matches to be updated!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/***********************************
 	 * DELETE

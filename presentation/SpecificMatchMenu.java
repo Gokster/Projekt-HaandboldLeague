@@ -1,5 +1,6 @@
 package presentation;
 
+import data.DatabaseController;
 import entities.Match;
 import javafx.animation.AnimationTimer;
 import javafx.collections.FXCollections;
@@ -41,6 +42,7 @@ public class SpecificMatchMenu {
 	private String awayTable;
 	private ButtonEffect buttonEffect = new ButtonEffect();
 	private boolean matchStarted = false;
+	private DatabaseController dbController = new DatabaseController();
 
 	ObservableList<SpecificMatchHistoryTable> data = FXCollections.observableArrayList();
 
@@ -110,17 +112,17 @@ public class SpecificMatchMenu {
 	private VBox history() {
 		GridPane historyGrid = new GridPane();
 
-		TableColumn homeColumn = new TableColumn("");
+		TableColumn<SpecificMatchHistoryTable, String> homeColumn = new TableColumn<SpecificMatchHistoryTable, String>("");
 		homeColumn.setMinWidth(250);
 		homeColumn.setMaxWidth(250);
 		homeColumn.setCellValueFactory(new PropertyValueFactory<SpecificMatchHistoryTable, String>("Home"));
 
-		TableColumn timeColumn = new TableColumn("First Half");
+		TableColumn<SpecificMatchHistoryTable, String> timeColumn = new TableColumn<SpecificMatchHistoryTable, String>("First Half");
 		timeColumn.setMinWidth(100);
 		timeColumn.setMaxWidth(100);
 		timeColumn.setCellValueFactory(new PropertyValueFactory<SpecificMatchHistoryTable, String>("Time"));
 
-		TableColumn awayColumn = new TableColumn("");
+		TableColumn<SpecificMatchHistoryTable, String> awayColumn = new TableColumn<SpecificMatchHistoryTable, String>("");
 		awayColumn.setMinWidth(250);
 		awayColumn.setMaxWidth(250);
 		awayColumn.setCellValueFactory(new PropertyValueFactory<SpecificMatchHistoryTable, String>("Away"));
@@ -145,23 +147,25 @@ public class SpecificMatchMenu {
 
 //		LocalTime currentTime = LocalTime.now();
 		GridPane timerGrid = new GridPane();
-		timerLabel = new Label("0");
+		timerLabel = new Label("0:00");
 		SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, timerLabel);
 		timer = new AnimationTimer() {
 			public void handle(long now) {
 				long time = match.getMatchSeconds();
-				if (time < 120) {
+				if (time <= 120) {
 					timerGrid.getChildren().remove(timerLabel);
-					timerLabel = new Label(Long.toString(time));
+					if(time % 60 < 10) {
+						timerLabel = new Label(Long.toString(time / 60) + ":0" +Long.toString(time % 60));
+					} else {
+						timerLabel = new Label(Long.toString(time / 60) + ":" +Long.toString(time % 60));
+					}
 					SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, timerLabel);
 				} else {
 					timer.stop();
 					matchStarted = false;
 				}
 			}
-
 		};
-//		startButton.setOnAction(e -> timer.start());
 
 		middleTitleConnectToHistory(awayScoreGrid);
 		awayScore = new Label(Integer.toString(aScoreVal));
@@ -197,6 +201,9 @@ public class SpecificMatchMenu {
 		stopButton.setOnAction(e -> {
 			timer.stop();
 			matchStarted = false;
+			dbController.createGoals(match.getGoalList());
+			dbController.createSuspensions(match.getSuspensionList());
+			dbController.updateCurrentMatch(match);
 		});
 
 		HBox hbox = new HBox(startGrid, stopGrid);
@@ -235,9 +242,6 @@ public class SpecificMatchMenu {
 
 				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
 			}
-//					new SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1,
-//					Integer.toString(match.countGoal(match.getHomeTeam())));		
-
 		});
 
 		GridPane subGoalGrid = new GridPane();

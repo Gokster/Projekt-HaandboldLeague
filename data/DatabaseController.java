@@ -40,6 +40,17 @@ public class DatabaseController {
 		matches.createMatch(match);
 	}
 	
+	public ArrayList<Match> getAllMatchesNotDone() {
+		ArrayList<Team> teamList = teams.readAllTeams();
+		ArrayList<Goal> goalList = goals.getAllGoals(teamList);
+		ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(teamList);
+		return matches.getAllMatches(teamList, goalList, suspensionList);
+	}
+	
+	public void updateCurrentMatch(Match match) {
+		matches.updateMatch(match);
+	}
+	
 	public void deleteMatch(Match match) { 
 		matches.deleteMatch(match);
 	}
@@ -48,13 +59,6 @@ public class DatabaseController {
 //		ArrayList<Team> teamList = teams.readAllTeams();
 //		return matches.getAllMatches(teamList);
 //	}
-	
-	public ArrayList<Match> getAllMatchesNotDone() {
-		ArrayList<Team> teamList = teams.readAllTeams();
-		ArrayList<Goal> goalList = goals.getAllGoals(teamList);
-		ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(teamList);
-		return matches.getAllMatches(teamList, goalList, suspensionList);
-	}
 	
 	/***********************************
 	 * SUSPENSIONS
@@ -70,7 +74,7 @@ public class DatabaseController {
 	 * GOALS
 	 ***********************************/
 	
-	public void createGoal(ArrayList<Goal> goalList) {
+	public void createGoals(ArrayList<Goal> goalList) {
 		for(Goal goal : goalList) {
 			goals.createGoal(goal);
 		}

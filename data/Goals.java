@@ -19,8 +19,9 @@ public class Goals {
 	
 	public void createGoal(Goal goal) {
 		try {
-			String sql = "INSERT INTO goals VALUES (" + goal.getScoringTeam() + ", " + goal.getMatchTime() + ", "
-					+ goal.getMatchId() + ")";
+			String sql = "INSERT INTO goals VALUES (" + goal.getScoringTeam().getTeamId() 
+					+ ", " + goal.getMatchTime().getSeconds() 
+					+ ", " + goal.getMatchId() + ")";
 
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(sql);
