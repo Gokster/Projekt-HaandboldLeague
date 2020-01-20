@@ -11,7 +11,7 @@ public class MatchTime {
 	
 	public MatchTime() {
 		
-	}
+	} 
 	
 	public MatchTime(int millis) {
 		this.millis = millis % 1000;
