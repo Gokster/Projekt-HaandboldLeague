@@ -1,16 +1,17 @@
 package entities;
 
-import logic.StopWatch;
-
 public class MatchTime {
-	private StopWatch watch = new StopWatch();
 	private long millis = 0;
 	private long seconds = 0;
 	private long minutes = 0;
 	
+	private long startTime;
+	private long stopTime;
+	private boolean running = false;
+	
 	public MatchTime() {
 		
-	}
+	} 
 	
 	public MatchTime(int millis) {
 		this.millis = millis % 1000;
@@ -25,31 +26,53 @@ public class MatchTime {
 	}
 	
 	public void startMatchTimer() {
-		watch.start();
+		this.startTime = System.currentTimeMillis();
+		this.running = true;
 	}
 	
 	public void stopMatchTimer() {
-		watch.stop();
+		this.stopTime = System.currentTimeMillis();
+		this.running = false;
 	}
 	
 	public void getMatchTime() {
-		millis = watch.getElapsedMillis() % 1000;
-		seconds = watch.getElapsedSecs() % 60;
-		minutes = watch.getElapsedMins();
+		millis = getMillis() % 1000;
+		seconds = getSeconds() % 60;
+		minutes = getMinutes();
 	}
 
 	public long getMillis() {
-		return millis;
+		long elapsed;
+
+		if (running) {
+			elapsed = (System.currentTimeMillis() - startTime);
+		} else {
+			elapsed = (stopTime - startTime);
+		}
+		return elapsed;
 	}
 
 	public long getSeconds() {
-		long second = watch.getElapsedSecs();
-		return second;
+		long elapsed;
+
+		if (running) {
+			elapsed = ((System.currentTimeMillis() - startTime) / 1000);
+		} else {
+			elapsed = ((stopTime - startTime) / 1000);
+		}
+		return elapsed;
 	}
 
 	public long getMinutes() {
-		return minutes;
-	}
-	
+		long elapsed;
+
+		if (running) {
+			elapsed = ((System.currentTimeMillis() - startTime) / 1000 / 60);
+		} else {
+			elapsed = ((stopTime - startTime) / 1000 / 60);
+		}
+		return elapsed;
+	}	
 	
 }
+

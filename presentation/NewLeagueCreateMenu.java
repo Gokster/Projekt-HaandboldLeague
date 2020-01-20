@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import data.DatabaseController;
 import entities.Team;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,6 +13,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -97,6 +100,15 @@ public class NewLeagueCreateMenu {
 		Button createTeamButton = new Button("Create Team");
 		NewButton(createTeamGrid, 1, 1, createTeamButton);
 		createTeamButton.setOnAction(e -> checkIfTeamExists(typerOfUser));
+		
+		teamNameTF.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		    @Override
+		    public void handle(KeyEvent keyEvent) {
+		        if (keyEvent.getCode() == KeyCode.ENTER)  {
+		        	checkIfTeamExists(typerOfUser);
+		        }
+		    }
+		});
 
 		GridPane cancelGrid = new GridPane();
 		gridRowOptions(cancelGrid);
@@ -117,6 +129,8 @@ public class NewLeagueCreateMenu {
 		if (compareTeamNames(teamNameTF.getText())) {
 
 			Alert teamExists = new Alert(AlertType.ERROR);
+			teamExists.getDialogPane().setPrefHeight(400);
+			teamExists.getDialogPane().setPrefWidth(1000);
 			teamExists.setTitle("Create Team Error");
 			teamExists.setHeaderText(null);
 			teamExists.setContentText("A team with the name: " + teamNameTF.getText() + " already exists. Try another name." );
@@ -127,7 +141,7 @@ public class NewLeagueCreateMenu {
 		}
 	}
 	
-	private boolean compareTeamNames(String teamName) {
+	private boolean compareTeamNames(String teamName) { 
 		for (int i = 0; i < teamsList.size(); i++) {
 			if((teamsList.get(i).getTeamName()).compareTo(teamName) == 0) {
 				return true;
