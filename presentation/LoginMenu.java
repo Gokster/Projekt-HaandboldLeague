@@ -20,7 +20,7 @@ public class LoginMenu {
 	private ButtonEffect buttonEffect = new ButtonEffect();
 
 	public LoginMenu(Stage primaryStage) {
-		this.primaryStage = primaryStage;
+		this.primaryStage = primaryStage; 
 	}
 
 	public void init() {

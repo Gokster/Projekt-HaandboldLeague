@@ -33,7 +33,7 @@ public class NewLeagueDeleteMenu {
 	private DatabaseController dbController = new DatabaseController();
 
 	public NewLeagueDeleteMenu(Stage primaryStage) {
-		this.primaryStage = primaryStage;
+		this.primaryStage = primaryStage; 
 	}
 
 	public void init(String typerOfUser) {

@@ -25,7 +25,7 @@ public class MainMenu {
 	}
 	
 	public void init(String typerOfUser) {
-
+ 
 		if (typerOfUser == "Organizer") {
 			GridPane grid = new GridPane();
 			gridOptions(grid);
