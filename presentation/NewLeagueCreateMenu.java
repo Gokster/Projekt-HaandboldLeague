@@ -141,7 +141,7 @@ public class NewLeagueCreateMenu {
 		}
 	}
 	
-	private boolean compareTeamNames(String teamName) {
+	private boolean compareTeamNames(String teamName) { 
 		for (int i = 0; i < teamsList.size(); i++) {
 			if((teamsList.get(i).getTeamName()).compareTo(teamName) == 0) {
 				return true;
