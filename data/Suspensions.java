@@ -20,7 +20,7 @@ public class Suspensions {
 	public void createSuspension(Suspension suspension) {
 		try {
 			String sql = "INSERT INTO suspensions VALUES (" + suspension.getSuspensionTeam().getTeamId() 
-					+ ", " + (int) suspension.getMatchTime().getSeconds()
+					+ ", " + suspension.getMatchTime().getSeconds()
 					+ ", " + suspension.getMatchId() + ")";
 
 			Statement statement = connection.createStatement();

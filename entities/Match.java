@@ -17,11 +17,12 @@ public class Match {
 	private ArrayList<Goal> goalList = new ArrayList<Goal>();
 	private ArrayList<Suspension> suspensionList = new ArrayList<Suspension>();
 
-	public Match(int matchId, Team homeTeam, Team awayTeam, Date matchDate, ArrayList<Goal> goalList,
+	public Match(int matchId, Team homeTeam, Team awayTeam, Team winningTeam, Date matchDate, ArrayList<Goal> goalList,
 			ArrayList<Suspension> suspensionList) {
 		this.matchId = matchId;
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
+		this.winningTeam = winningTeam;
 		this.matchDate = matchDate;
 		this.goalList = goalList;
 		this.suspensionList = suspensionList;

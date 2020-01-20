@@ -198,6 +198,7 @@ public class NewScheduleDeleteMenu {
 				}
 			}
 		}
+		System.out.println("Before Null");
 		return null;
 	}
 

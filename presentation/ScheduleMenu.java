@@ -103,7 +103,8 @@ public class ScheduleMenu {
 		Button btn = null;
 
 		// Allerede spillede kampe
-		if (arrMatches.get(j).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) < 0) {
+//		if (arrMatches.get(j).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) < 0) {
+		if (arrMatches.get(j).getWinningTeam() != null) {
 			btn = new Button(matchTitle);
 			MatchButtonsPlayed(btn);
 			int lastScene = 2;
