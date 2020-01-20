@@ -40,10 +40,12 @@ public class TeamSchedule {
 	private DatabaseController dbController = new DatabaseController();
 	private ArrayList<Match> arrMatches = dbController.getAllMatchesNotDone();
 	private ArrayList<Match> teamMatchList = new ArrayList<Match>();
+	private Team team;
 	private String typeOfUser;
 
 	public TeamSchedule(Stage primaryStage, Team team) {
 		this.primaryStage = primaryStage;
+		this.team = team;
 	}
 
 	public void init(String typerOfUser) {
@@ -54,7 +56,7 @@ public class TeamSchedule {
 
 		topBarElements(topBarGrid, typerOfUser);
 
-		HBox calenderTimeline = new HBox(readMatchesNotDone());
+		HBox calenderTimeline = new HBox(readMatchesNotDone(team));
 		calenderTimeline.setAlignment(Pos.BASELINE_CENTER);
 
 		VBox OuterBox = new VBox(topBarGrid, calenderTimeline);
@@ -64,10 +66,10 @@ public class TeamSchedule {
 		stageMods(scene);
 	}
 	
-	private ArrayList<Match> specificTeamMatchList(ArrayList<Match> arrMatches, Team team){
+	private ArrayList<Match> specificTeamMatchList(Team team){
 		
 		for (int i = 0; i < arrMatches.size(); i++) {
-			if(arrMatches.get(i).getHomeTeam().getTeamName() == team.getTeamName()) {
+			if(arrMatches.get(i).getHomeTeam().getTeamName().compareTo(team.getTeamName()) == 0) {
 				teamMatchList.add(arrMatches.get(i));
 			}
 		}
@@ -75,20 +77,21 @@ public class TeamSchedule {
 	}
 
 	private void sortArrayList() {
-		Collections.sort(arrMatches, Match.dateCompare);
+		Collections.sort(teamMatchList, Match.dateCompare);
 	}
 
-	private HBox readMatchesNotDone() {
+	private HBox readMatchesNotDone(Team team) {
+		specificTeamMatchList(team);
 		sortArrayList();
 		HBox hbox = new HBox();
 		hbox.setAlignment(Pos.BASELINE_CENTER);
-		Date tempDate = arrMatches.get(0).getMatchDate();
+		Date tempDate = teamMatchList.get(0).getMatchDate();
 		boolean firstDateSet = false;
 
-		for (int i = 0; i < arrMatches.size(); i++) {
-			if (arrMatches.get(i).getMatchDate().compareTo(tempDate) > 0) {
+		for (int i = 0; i < teamMatchList.size(); i++) {
+			if (teamMatchList.get(i).getMatchDate().compareTo(tempDate) > 0) {
 
-				tempDate = arrMatches.get(i).getMatchDate();
+				tempDate = teamMatchList.get(i).getMatchDate();
 				hbox.getChildren().add(matchDateVBox(i));
 			} else if (firstDateSet == false) {
 				hbox.getChildren().add(matchDateVBox(i));
@@ -99,18 +102,18 @@ public class TeamSchedule {
 	}
 
 	private VBox matchDateVBox(int i) {
-		Label title = new Label(arrMatches.get(i).getMatchDate().toString());
+		Label title = new Label(teamMatchList.get(i).getMatchDate().toString());
 		DateOfMatchLabel(title);
 
-		if (arrMatches.get(i).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) == 0) {
+		if (teamMatchList.get(i).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) == 0) {
 			title.setTextFill(Color.web("#000000"));
 		}
 
 		VBox vbox = new VBox(title);
 		vbox.setAlignment(Pos.CENTER);
 
-		for (int j = i; j < arrMatches.size(); j++) {
-			if (arrMatches.get(i).getMatchDate().compareTo(arrMatches.get(j).getMatchDate()) == 0) {
+		for (int j = i; j < teamMatchList.size(); j++) {
+			if (teamMatchList.get(i).getMatchDate().compareTo(teamMatchList.get(j).getMatchDate()) == 0) {
 				vbox.getChildren().add(infMatchButton(j));
 			} else {
 				break;
@@ -120,20 +123,21 @@ public class TeamSchedule {
 	}
 
 	private Button infMatchButton(int j) {
-		String matchTitle = arrMatches.get(j).getHomeTeam().getTeamName() + " vs. "
-				+ arrMatches.get(j).getAwayTeam().getTeamName();
+		
+		String matchTitle = teamMatchList.get(j).getHomeTeam().getTeamName() + " vs. "
+				+ teamMatchList.get(j).getAwayTeam().getTeamName();
 		Button btn = null;
 
 		// Allerede spillede kampe
-		if (arrMatches.get(j).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) < 0) {
+		if (teamMatchList.get(j).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) < 0) {
 			btn = new Button(matchTitle);
 			MatchButtonsPlayed(btn);
-			btn.setOnAction(e -> new ShowMatchReport(primaryStage, arrMatches.get(j)).init(typeOfUser));
+			btn.setOnAction(e -> new ShowMatchReport(primaryStage, teamMatchList.get(j)).init(typeOfUser));
 			// Fremtidige kampe
 		} else {
 			btn = new Button(matchTitle);
 			MatchButtonsNotPlayed(btn);
-			btn.setOnAction(e -> new SpecificMatchMenu(primaryStage, arrMatches.get(j)).init(matchTitle, typeOfUser));
+			btn.setOnAction(e -> new SpecificMatchMenu(primaryStage, teamMatchList.get(j)).init(matchTitle, typeOfUser));
 		}
 		return btn;
 	}
@@ -185,7 +189,7 @@ public class TeamSchedule {
 
 		Button back = new Button("Back");
 		NavigationButton(grid, 2, 1, back);
-		back.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
+		back.setOnAction(e -> new LeaguesMenu(primaryStage).init(typerOfUser));
 	}
 
 	public void NewButton(GridPane grid, int row, int col, Button obj) {
