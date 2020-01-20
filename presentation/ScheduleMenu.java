@@ -33,7 +33,7 @@ public class ScheduleMenu {
 	public ScheduleMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
-
+	
 	public void init(String typerOfUser) {
 		typeOfUser = typerOfUser;
 
@@ -106,6 +106,7 @@ public class ScheduleMenu {
 		if (arrMatches.get(j).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) < 0) {
 			btn = new Button(matchTitle);
 			MatchButtonsPlayed(btn);
+			int lastScene = 2;
 			btn.setOnAction(e -> new ShowMatchReport(primaryStage, arrMatches.get(j)).init(typeOfUser));
 			// Fremtidige kampe
 		} else {

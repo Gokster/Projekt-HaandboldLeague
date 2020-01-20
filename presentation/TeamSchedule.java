@@ -123,7 +123,6 @@ public class TeamSchedule {
 	}
 
 	private Button infMatchButton(int j) {
-		
 		String matchTitle = teamMatchList.get(j).getHomeTeam().getTeamName() + " vs. "
 				+ teamMatchList.get(j).getAwayTeam().getTeamName();
 		Button btn = null;
@@ -132,7 +131,8 @@ public class TeamSchedule {
 		if (teamMatchList.get(j).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) < 0) {
 			btn = new Button(matchTitle);
 			MatchButtonsPlayed(btn);
-			btn.setOnAction(e -> new ShowMatchReport(primaryStage, teamMatchList.get(j)).init(typeOfUser));
+			int lastScene = 1;
+			btn.setOnAction(e -> new ShowMatchReport(primaryStage, teamMatchList.get(j), team).init(typeOfUser));
 			// Fremtidige kampe
 		} else {
 			btn = new Button(matchTitle);
@@ -151,7 +151,6 @@ public class TeamSchedule {
 	}
 
 	public void MatchButtonsPlayed(Button obj) {
-
 		obj.setFont(Font.font("Calibri", 18));
 		obj.setPrefWidth(300);
 		obj.setPrefHeight(50);
@@ -164,7 +163,6 @@ public class TeamSchedule {
 	}
 
 	public void MatchButtonsNotPlayed(Button obj) {
-
 		obj.setFont(Font.font("Calibri", 18));
 		obj.setPrefWidth(300);
 		obj.setPrefHeight(50);
