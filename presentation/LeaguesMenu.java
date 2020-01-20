@@ -91,6 +91,7 @@ public class LeaguesMenu {
 			return row;
 		});
 
+		
 		table.setItems(teamsList);
 		table.getColumns().addAll(teamPlacement, teamNameCol, teamPointsCol);
 		topBarGrid.getChildren().add(table);
