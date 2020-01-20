@@ -8,6 +8,24 @@ public class Goal {
 	private MatchTime timestamp;
 	private int matchId;
 	
+	//***TEST***
+	private int timstam;
+	
+	
+	public Goal(int goalId, Team scoringTeam, int timstam, int matchId) {
+		this.goalId = goalId;
+		this.scoringTeam = scoringTeam;
+		this.timstam = timstam;
+		this.matchId = matchId;
+	}
+	
+	
+	public int getTimstam() {
+		return timstam;
+	}
+	//***TEST***
+
+
 	// 09-01-2020 �ndret matchTime fra typen Time til int
 	public Goal(int goalId, Team scoringTeam, MatchTime matchTime, int matchId) {
 		this.goalId = goalId;
@@ -15,7 +33,7 @@ public class Goal {
 		this.timestamp = matchTime;
 		this.matchId = matchId; 
 	}
-	
+
 	public Goal(Team scoringTeam, MatchTime matchTime, int matchId) {
 		this.scoringTeam = scoringTeam;
 		this.timestamp = matchTime;
@@ -53,5 +71,10 @@ public class Goal {
 	public void setMatchId(int matchId) {
 		this.matchId = matchId;
 	}
+	
+//	@Override
+//	public int compareTo(Goal goal) {
+//		return (this.getTimstam() < goal.getTimstam() ? -1 : (this.getTimstam() == goal.getTimstam() ? 0 : 1));
+//	}
 	
 }

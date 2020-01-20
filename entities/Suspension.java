@@ -10,6 +10,21 @@ public class Suspension {
 	private MatchTime timestamp;
 	private int matchId;
 	
+	//***TEST***
+	private int timstam;
+	
+	
+	public Suspension(int suspensionId, Team suspensionTeam, int timstam, int matchId) {
+		this.suspensionId = suspensionId;
+		this.suspensionTeam = suspensionTeam;
+		this.timstam = timstam;
+		this.matchId = matchId;
+	}
+	public int getTimstam() {
+		return timstam;
+	}
+	//***TEST***
+	
 	// 09-01-2020 �ndret matchTime fra typen Time til int
 	public Suspension(int suspensionId, Team suspensionTeam, MatchTime matchTime, int matchId) {
 		this.suspensionId = suspensionId;

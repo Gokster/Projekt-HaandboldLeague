@@ -30,83 +30,26 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
-public class LeaguesMenu {
+public class TeamSchedule {
 	private Stage primaryStage;
 	private ButtonEffect buttonEffect = new ButtonEffect();
 	private DatabaseController dbController = new DatabaseController();
 
-	public LeaguesMenu(Stage primaryStage) {
+	public TeamSchedule(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
 
 	public void init(String typerOfUser) {
 		GridPane topBarGrid = new GridPane();
-
 		topBarGridOptions(topBarGrid);
 
 		topBarElements(topBarGrid, typerOfUser);
 
-		ObservableList<Team> teamsList = FXCollections.observableArrayList();
-		teamsList.addAll(dbController.getAllTeams());
-		
-		//***Test***
-		Team team1 = new Team(1, "Ikast FC", 26);
-		Team team2 = new Team(2, "Herning FC", 23);
-		Team team3 = new Team(3, "Viborg FC", 20);
-		Team team4 = new Team(4, "Vejle FC", 24);
-		teamsList.add(team1);
-		teamsList.add(team2);
-		teamsList.add(team3);
-		teamsList.add(team4);
-		//***Test***
-		
-		Collections.sort(teamsList, Collections.reverseOrder());
-		
-		//Sets ranks for all teams
-		for (int i = 0; i < teamsList.size(); i++) {
-			teamsList.get(i).setRanking(i+1);
-		}
-		
-		TableColumn<Team, Integer> teamPlacement = new TableColumn<Team, Integer>("Rank");
-		teamPlacement.setCellValueFactory(new PropertyValueFactory<Team, Integer>("ranking"));
-		
-		TableColumn<Team, String> teamNameCol = new TableColumn<Team, String>("Team");
-		teamNameCol.setCellValueFactory(new PropertyValueFactory<Team, String>("teamName"));
+		VBox selecters = new VBox(createTeamAndCancelButtons(typerOfUser));
+		selecters.setAlignment(Pos.CENTER);
 
-		TableColumn<Team, Integer> teamPointsCol = new TableColumn<Team, Integer>("Points");
-		teamPointsCol.setCellValueFactory(new PropertyValueFactory<Team, Integer>("teamPoints"));
-		
-		TableView<Team> table = new TableView<Team>();
-		table.getStylesheets().add("/presentation/LeaguesMenuTableViewCss.css");
-		table.setMinWidth(350);
-		GridPane.setColumnSpan(table, 3);
-		GridPane.setRowSpan(table, 14);
-
-		// select team in row
-		table.setRowFactory(e -> {
-			TableRow<Team> row = new TableRow<>();
-			row.setOnMouseClicked(event -> {
-				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					int rowData = row.getItem().getTeamId();
-					// syso for test -> call Team specific schedule instead
-					//System.out.println(rowData);
-
-					new TeamSchedule(primaryStage).init(typerOfUser);
-				}
-			});
-			return row;
-		});
-
-		table.setItems(teamsList);
-		table.getColumns().addAll(teamPlacement, teamNameCol, teamPointsCol);
-		topBarGrid.getChildren().add(table);
-
-		HBox hbox = new HBox(table);
-		hbox.setAlignment(Pos.CENTER);
-
-		VBox OuterBox = new VBox(topBarGrid, hbox);
+		VBox OuterBox = new VBox(topBarGrid, selecters);
 		OuterBox.setBackground(background());
-		OuterBox.setAlignment(Pos.TOP_CENTER);
 
 		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
@@ -114,8 +57,8 @@ public class LeaguesMenu {
 
 	private void topBarElements(GridPane grid, String typerOfUser) {
 		buttonsNavigation(grid, typerOfUser);
-		new HeadlineLabelTitle(grid, 3, 1, "League Ranking");
-		buttonsCRUD(grid, typerOfUser);	
+		new HeadlineLabelTitle(grid, 3, 1, "Team Schedule");
+		buttonsCRUD(grid, typerOfUser);
 	}
 
 	private void buttonsNavigation(GridPane grid, String typerOfUser) {
@@ -128,14 +71,44 @@ public class LeaguesMenu {
 		back.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
 	}
 
+	public void NewButton(GridPane grid, int row, int col, Button obj) {
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(400);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		grid.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
 	private void buttonsCRUD(GridPane grid, String typerOfUser) {
-		Button createTeam = new Button("Create Team");
+		Button createTeam = new Button("Create Match");
 		NavigationButton(grid, 4, 1, createTeam);
 		createTeam.setOnAction(e -> new NewLeagueCreateMenu(primaryStage).init(typerOfUser));
 
-		Button deleteTeam = new Button("Delete Team");
+		Button deleteTeam = new Button("Delete Delete");
 		NavigationButton(grid, 5, 1, deleteTeam);
 		deleteTeam.setOnAction(e -> new NewLeagueDeleteMenu(primaryStage).init(typerOfUser));
+	}
+
+	private HBox createTeamAndCancelButtons(String typerOfUser) {
+		GridPane createTeamGrid = new GridPane();
+		gridRowOptions(createTeamGrid);
+		Button createTeamButton = new Button("Team Blyat vs. Eriks Plovmaend");
+		NewButton(createTeamGrid, 1, 1, createTeamButton);
+		createTeamButton.setOnAction(e -> new ShowMatchReport(primaryStage).init(typerOfUser));
+
+		HBox hbox = new HBox(createTeamGrid);
+		hbox.setAlignment(Pos.CENTER);
+		hbox.setPadding(new Insets(100));
+
+		return hbox;
 	}
 
 	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
@@ -153,7 +126,7 @@ public class LeaguesMenu {
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
-	
+
 	private void topBarGridOptions(GridPane grid) {
 		grid.setHgap(40);
 		grid.setVgap(40);
