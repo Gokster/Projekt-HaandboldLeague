@@ -93,7 +93,7 @@ public class NewLeagueDeleteMenu {
 		hbox2.setAlignment(Pos.CENTER);
 
 		VBox vbox = new VBox(hbox1, hbox2);
-		// vbox.setPadding(new Insets(150));
+		vbox.setPadding(new Insets(150));
 
 		return vbox;
 	}
@@ -103,7 +103,7 @@ public class NewLeagueDeleteMenu {
 		gridRowOptions(createTeamGrid);
 		Button createTeamButton = new Button("Delete Team");
 		NewButton(createTeamGrid, 1, 1, createTeamButton);
-		createTeamButton.setOnAction(e -> deleteTeamFromLeage(typerOfUser));
+		createTeamButton.setOnAction(e -> deleteTeamFromLeague(typerOfUser));
 
 		GridPane cancelGrid = new GridPane();
 		gridRowOptions(cancelGrid);
@@ -118,11 +118,15 @@ public class NewLeagueDeleteMenu {
 
 	}
 
-	private void deleteTeamFromLeage(String typerOfUser) {
+	private void deleteTeamFromLeague(String typerOfUser) {
 		System.out.println((String) teamNameCB.getValue());
 		Alert deleteAlert = new Alert(AlertType.NONE,
 				("Are you sure you would like to delete the team:  " + teamNameCB.getValue() + "?"), ButtonType.YES,
 				ButtonType.NO);
+		deleteAlert.getDialogPane().setPrefHeight(280);
+		deleteAlert.getDialogPane().setPrefWidth(1000);
+		deleteAlert.getDialogPane().getStylesheets()
+				.add(getClass().getResource("AlertBoxPopUpCss.css").toExternalForm());
 
 		Optional<ButtonType> result = deleteAlert.showAndWait();
 

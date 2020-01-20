@@ -2,7 +2,7 @@ package presentation;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene; 
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
@@ -39,8 +39,7 @@ public class LoginMenu {
 		vbox.setBackground(background());
 
 		Scene scene = new Scene(vbox, 1800, 1000);
-		stageMods(scene);
-
+		stageMods(scene); 
 	}
 
 	private void buttons(GridPane grid) {
@@ -59,6 +58,7 @@ public class LoginMenu {
 		MainMenuButton(grid, 1, 4, schedule);
 		schedule.setOnAction(e -> new MainMenu(primaryStage).init(typeOfUser3));
 	}
+
 	public void MainMenuButton(GridPane grid, int row, int col, Button obj) {
 
 		obj.setFont(Font.font("Calibri", 60));
@@ -73,12 +73,13 @@ public class LoginMenu {
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
+
 	public void MainMenuLabelTitle(GridPane grid, int row, int col, String text) {
 		Label obj = new Label(text);
 
-		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 130)); 
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 130));
 		obj.setTextFill(Color.web("#707070"));
-		
+
 		grid.setColumnSpan(obj, 2);
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);

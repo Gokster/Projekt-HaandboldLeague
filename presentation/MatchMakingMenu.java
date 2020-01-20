@@ -1,8 +1,8 @@
 package presentation;
 
-import java.time.*;
-import java.util.ArrayList;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 import data.DatabaseController;
 import entities.Match;
@@ -12,12 +12,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.skin.DatePickerSkin;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -206,33 +206,16 @@ public class MatchMakingMenu {
 		gridRowOptions(doneGrid);
 		MatchMakingButton(doneGrid, 1, 1, doneButton);
 		doneButton.setOnAction(e -> {
-			date = Date.valueOf(selectedDate);
-			checkMatchList(arrMatches);
-			for(int i = 0; i < checkTeamMatchList.size(); i++) {
-				Date checkMatchDate = checkTeamMatchList.get(i).getMatchDate();
-				if(checkMatchDate.compareTo(date) == 0)	{
-					Alert matchExists = new Alert(AlertType.ERROR);
-					matchExists.getDialogPane().setPrefHeight(280);
-					matchExists.getDialogPane().setPrefWidth(1000);
-					matchExists.getDialogPane().getStylesheets()
-							.add(getClass().getResource("AlertBoxPopUpCss.css").toExternalForm());
-					matchExists.setTitle("Create Match Error");
-					matchExists.setHeaderText(null);
-					matchExists.setContentText(
-							"One or both teams are not available on the this date "+ date +".");
-
-					matchExists.showAndWait();
-					break;
-				}
-				else {					
+			if (team1CB.getValue() != team2CB.getValue()) {
+				date = Date.valueOf(selectedDate);
+				checkMatchList(arrMatches);
+				alertBoxTeamNotAvailable(typerOfUser);
+				if (checkTeamMatchList.size() == 0) {
 					createMatch();
 					new MainMenu(primaryStage).init(typerOfUser);
-					break;
 				}
-			}
-			if(checkTeamMatchList.size() == 0) {
-				createMatch();
-				new MainMenu(primaryStage).init(typerOfUser);
+			} else {
+				alertBoxTeamTheSame();
 			}
 		});
 
@@ -253,29 +236,65 @@ public class MatchMakingMenu {
 		return team;
 	}
 
+	private void alertBoxTeamNotAvailable(String typerOfUser) {
+		for (int i = 0; i < checkTeamMatchList.size(); i++) {
+			Date checkMatchDate = checkTeamMatchList.get(i).getMatchDate();
+			if (checkMatchDate.compareTo(date) == 0) {
+				Alert matchExists = new Alert(AlertType.ERROR);
+				matchExists.getDialogPane().setPrefHeight(280);
+				matchExists.getDialogPane().setPrefWidth(1000);
+				matchExists.getDialogPane().getStylesheets()
+						.add(getClass().getResource("AlertBoxPopUpCss.css").toExternalForm());
+				matchExists.setTitle("Error");
+				matchExists.setHeaderText(null);
+				matchExists.setContentText("One or both teams are not available on the this date " + date + ".");
+
+				matchExists.showAndWait();
+				break;
+			} else {
+				createMatch();
+				new ScheduleMenu(primaryStage).init(typerOfUser);
+				break;
+			}
+		}
+	}
+
+	private void alertBoxTeamTheSame() {
+		Alert matchExists = new Alert(AlertType.ERROR);
+		matchExists.getDialogPane().setPrefHeight(280);
+		matchExists.getDialogPane().setPrefWidth(1000);
+		matchExists.getDialogPane().getStylesheets()
+				.add(getClass().getResource("AlertBoxPopUpCss.css").toExternalForm());
+		matchExists.setTitle("Error");
+		matchExists.setHeaderText(null);
+		matchExists.setContentText("Cloning isn't possible yet.");
+
+		matchExists.showAndWait();
+	}
+
 	private void createMatch() {
 		Team team1 = convertCBToTeam(team1CB);
 		Team team2 = convertCBToTeam(team2CB);
 		dbController.createMatch(team1, team2, date);
 
 	}
-	
+
 	private ArrayList<Match> checkMatchList(ArrayList<Match> arrMatches) {
-		for(int i = 0; i < arrMatches.size(); i++) {
+		for (int i = 0; i < arrMatches.size(); i++) {
 			String homeTeamName = arrMatches.get(i).getHomeTeam().getTeamName();
 			String awayTeamName = arrMatches.get(i).getAwayTeam().getTeamName();
 			String team1Name = team1CB.getValue().toString();
 			String team2Name = team2CB.getValue().toString();
-			if(homeTeamName.equals(team1Name) || awayTeamName.equals(team1Name))	{
+			if (homeTeamName.equals(team1Name) || awayTeamName.equals(team1Name)) {
 				checkTeamMatchList.add(arrMatches.get(i));
-			}	
-			if(homeTeamName.equals(team2Name) || awayTeamName.equals(team2Name))	{
+			}
+			if (homeTeamName.equals(team2Name) || awayTeamName.equals(team2Name)) {
 				checkTeamMatchList.add(arrMatches.get(i));
 			}
 		}
 		return checkTeamMatchList;
 	}
-	
+
 //	private void createFinalMatch(String typerOfUser) {
 //	}
 

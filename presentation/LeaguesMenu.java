@@ -1,23 +1,16 @@
 package presentation;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import data.DatabaseController;
-
 import entities.Team;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -28,7 +21,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import logic.LeagueRanking;
 
 public class LeaguesMenu {
@@ -50,18 +42,18 @@ public class LeaguesMenu {
 
 		ObservableList<Team> teamsList = FXCollections.observableArrayList();
 		teamsList.addAll(dbController.getAllTeams());
-		
+
 		leagueRanker.LeagueRanker(teamsList);
-		
+
 		TableColumn<Team, Integer> teamPlacement = new TableColumn<Team, Integer>("Rank");
 		teamPlacement.setCellValueFactory(new PropertyValueFactory<Team, Integer>("ranking"));
-		
+
 		TableColumn<Team, String> teamNameCol = new TableColumn<Team, String>("Team");
 		teamNameCol.setCellValueFactory(new PropertyValueFactory<Team, String>("teamName"));
 
 		TableColumn<Team, Integer> teamPointsCol = new TableColumn<Team, Integer>("Points");
 		teamPointsCol.setCellValueFactory(new PropertyValueFactory<Team, Integer>("teamPoints"));
-		
+
 		TableView<Team> table = new TableView<Team>();
 		table.getStylesheets().add("/presentation/LeaguesMenuTableViewCss.css");
 		table.setPrefWidth(800);
@@ -81,13 +73,13 @@ public class LeaguesMenu {
 			return row;
 		});
 
-		
 		table.setItems(teamsList);
 		table.getColumns().addAll(teamPlacement, teamNameCol, teamPointsCol);
 		topBarGrid.getChildren().add(table);
 
 		HBox hbox = new HBox(table);
 		hbox.setAlignment(Pos.CENTER);
+		hbox.setPadding(new Insets(40)); 
 
 		VBox OuterBox = new VBox(topBarGrid, hbox);
 		OuterBox.setBackground(background());
@@ -100,7 +92,7 @@ public class LeaguesMenu {
 	private void topBarElements(GridPane grid, String typerOfUser) {
 		buttonsNavigation(grid, typerOfUser);
 		new HeadlineLabelTitle(grid, 3, 1, "League Ranking");
-		buttonsCRUD(grid, typerOfUser);	
+		buttonsCRUD(grid, typerOfUser);
 	}
 
 	private void buttonsNavigation(GridPane grid, String typerOfUser) {
@@ -138,7 +130,7 @@ public class LeaguesMenu {
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
-	
+
 	private void topBarGridOptions(GridPane grid) {
 		grid.setHgap(40);
 		grid.setVgap(40);
