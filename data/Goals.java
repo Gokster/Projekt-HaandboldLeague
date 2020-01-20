@@ -20,7 +20,7 @@ public class Goals {
 	public void createGoal(Goal goal) {
 		try {
 			String sql = "INSERT INTO goals VALUES (" + goal.getScoringTeam().getTeamId() 
-					+ ", " + goal.getMatchTime().getSeconds() 
+					+ ", " + (int) goal.getMatchTime().getSeconds() 
 					+ ", " + goal.getMatchId() + ")";
 
 			Statement statement = connection.createStatement();
