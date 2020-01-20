@@ -57,7 +57,7 @@ public class Match {
 		return teamScore;
 	}
 
-	private void calcWinningTeam() {
+	public void calcWinningTeam() {
 		int homeScore = countGoal(homeTeam);
 		int awayScore = countGoal(awayTeam);
 

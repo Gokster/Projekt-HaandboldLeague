@@ -203,6 +203,7 @@ public class SpecificMatchMenu {
 			matchStarted = false;
 			dbController.createGoals(match.getGoalList());
 			dbController.createSuspensions(match.getSuspensionList());
+			match.calcWinningTeam();
 			dbController.updateCurrentMatch(match);
 		});
 
