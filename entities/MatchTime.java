@@ -13,10 +13,8 @@ public class MatchTime {
 		
 	} 
 	
-	public MatchTime(int millis) {
-		this.millis = millis % 1000;
-		this.seconds = (millis / 1000) % 60;
-		this.minutes = millis / 1000 / 60;
+	public MatchTime(int timeStampSeconds) {
+		this.seconds = timeStampSeconds;
 	}
 	
 	public MatchTime(MatchTime matchTime) {
@@ -52,7 +50,7 @@ public class MatchTime {
 		return elapsed;
 	}
 
-	public long getSeconds() {
+	public long calcSeconds() {
 		long elapsed;
 
 		if (running) {
@@ -72,7 +70,10 @@ public class MatchTime {
 			elapsed = ((stopTime - startTime) / 1000 / 60);
 		}
 		return elapsed;
-	}	
+	}
 	
+	public long getSeconds() {
+		return seconds;
+	}
 }
 

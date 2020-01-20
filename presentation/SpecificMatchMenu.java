@@ -200,6 +200,7 @@ public class SpecificMatchMenu {
 			dbController.createGoals(match.getGoalList());
 			dbController.createSuspensions(match.getSuspensionList());
 			match.calcWinningTeam();
+			System.out.println(match.getGoalList().get(0).getScoringTeam());
 			dbController.updateCurrentMatch(match);
 		});
 
@@ -248,7 +249,7 @@ public class SpecificMatchMenu {
 		subGoalButton.setOnAction(e -> {
 			if (matchStarted == true) {
 				if (hScoreVal > 0) {
-					match.deleteGoal(match.getAwayTeam());
+					match.deleteGoal(match.getHomeTeam());
 					homeScoreGrid.getChildren().remove(homeScore);
 					hScoreVal--;
 					homeScore = new Label(Integer.toString(hScoreVal));

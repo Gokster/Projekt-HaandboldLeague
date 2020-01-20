@@ -66,7 +66,10 @@ public class Match {
 			winningTeam = homeTeam;
 		} else if (homeScore < awayScore) {
 			winningTeam = awayTeam;
-		}
+		} 
+//		else {
+//			winningTeam = new Team(-1, "Uafgjort");
+//		}
 	}
 
 	private void giveTeamPoints() {
@@ -128,7 +131,7 @@ public class Match {
 
 	public long getMatchSeconds() {
 		matchTime.getMatchTime();
-		return matchTime.getSeconds();
+		return matchTime.calcSeconds();
 	}
 
 	public void setMatchId(int matchId) {
