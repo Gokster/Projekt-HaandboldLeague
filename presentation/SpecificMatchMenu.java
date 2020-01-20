@@ -399,7 +399,6 @@ public class SpecificMatchMenu {
 				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
 			}
 		});
-
 		GridPane subGoalGrid = new GridPane();
 		gridRowOptions(subGoalGrid);
 		Button subGoalButton = new Button("-Goal");
