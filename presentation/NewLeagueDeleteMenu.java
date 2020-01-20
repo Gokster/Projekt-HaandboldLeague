@@ -54,7 +54,7 @@ public class NewLeagueDeleteMenu {
 
 	private void topBarElements(GridPane grid, String typerOfUser) {
 		buttonsNavigation(grid, typerOfUser);
-		new HeadlineLabelTitle(grid, 3, 1, "Delete League");
+		new HeadlineLabelTitle(grid, 3, 1, "Delete Team");
 	}
 
 	private void buttonsNavigation(GridPane grid, String typerOfUser) {

@@ -19,7 +19,7 @@
 .table-column,
 .table-column .column-header
 {
-	-fx-pref-width: 164;
+	-fx-pref-width: 264;
 }
 
 .column-header-background { 
