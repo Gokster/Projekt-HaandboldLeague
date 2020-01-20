@@ -234,7 +234,7 @@ public class SpecificMatchMenu {
 				SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
 
 				homeTable = "Goal";
-				timeTable = Long.toString(match.getMatchSeconds());
+				timeTable = timeStampCreator();
 				awayTable = "";
 
 				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
@@ -287,7 +287,7 @@ public class SpecificMatchMenu {
 			if (matchStarted == true) {
 				match.addSuspension(match.getHomeTeam());
 				homeTable = "2 min";
-				timeTable = Long.toString(match.getMatchSeconds());
+				timeTable = timeStampCreator();
 				awayTable = "";
 
 				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
@@ -393,7 +393,7 @@ public class SpecificMatchMenu {
 				SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
 
 				homeTable = "";
-				timeTable = Long.toString(match.getMatchSeconds());
+				timeTable = timeStampCreator();
 				awayTable = "Goal";
 
 				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
@@ -449,7 +449,7 @@ public class SpecificMatchMenu {
 				match.addSuspension(match.getAwayTeam());
 
 				homeTable = "";
-				timeTable = Long.toString(match.getMatchSeconds());
+				timeTable = timeStampCreator();
 				awayTable = "2 min";
 
 				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
@@ -459,6 +459,19 @@ public class SpecificMatchMenu {
 		HBox hbox = new HBox(playerTwoMinGrid, twoMinGrid);
 
 		return hbox;
+	}
+	
+	private String timeStampCreator() {
+		long time = match.getMatchSeconds();
+		String timeStamp;
+		
+		if(time % 60 < 10) {
+			timeStamp = Long.toString(time / 60) + ":0" +Long.toString(time % 60);	
+		} else {
+			timeStamp = Long.toString(time / 60) + ":" +Long.toString(time % 60);
+		}
+		
+		return timeStamp; 
 	}
 
 //	private HBox aYellowButtons() {
