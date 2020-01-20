@@ -43,7 +43,7 @@ public class Matches {
 	public ArrayList<Match> getAllMatches(ArrayList<Team> teamList) {
 		ArrayList<Match> matchesList = new ArrayList<>();
 		ArrayList<Goal> goalList = goals.getAllGoals(teamList);
-		ArrayList<Suspension> suspensionList = suspensions.readAllSuspensions(teamList);
+		ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(teamList);
 
 		try {
 			String sql = "SELECT * FROM matches";

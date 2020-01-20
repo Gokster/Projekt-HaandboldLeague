@@ -1,5 +1,6 @@
 package presentation;
 
+import entities.Team;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
@@ -12,7 +13,7 @@ public class SpecificMatchHistoryTable {
 	private final String Time;
 	private final String Away;
 
-	SpecificMatchHistoryTable(String home, String time, String away) {
+	public SpecificMatchHistoryTable(String home, String time, String away) {
 		
 		this.Home = new String(home);
 		this.Time = new String(time);
@@ -30,5 +31,4 @@ public class SpecificMatchHistoryTable {
 	public String getAway() {
 		return Away;
 	}
-
 }

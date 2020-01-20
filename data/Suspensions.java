@@ -37,7 +37,7 @@ public class Suspensions {
 	 * READ
 	 ***********************************/
 	
-	public ArrayList<Suspension> readAllSuspensions(ArrayList<Team> teamList) {
+	public ArrayList<Suspension> getAllSuspensions(ArrayList<Team> teamList) {
 		ArrayList<Suspension> suspensionsList = new ArrayList<>();
 
 		try {
@@ -72,7 +72,7 @@ public class Suspensions {
 		return suspensionsList;
 	}
 	
-	public ArrayList<Suspension> readAllSuspensions(int matchId, ArrayList<Team> teamList) {
+	public ArrayList<Suspension> getAllSuspensions(int matchId, ArrayList<Team> teamList) {
 		ArrayList<Suspension> suspensionsList = new ArrayList<>();
 
 		try {
