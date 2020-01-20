@@ -1,10 +1,12 @@
 package presentation;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import data.DatabaseController;
-
+import entities.Match;
 import entities.Team;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -13,6 +15,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
@@ -27,6 +30,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -34,25 +38,138 @@ public class TeamSchedule {
 	private Stage primaryStage;
 	private ButtonEffect buttonEffect = new ButtonEffect();
 	private DatabaseController dbController = new DatabaseController();
+	private ArrayList<Match> arrMatches = dbController.getAllMatchesNotDone();
+	private ArrayList<Match> teamMatchList = new ArrayList<Match>();
+	private String typeOfUser;
 
-	public TeamSchedule(Stage primaryStage) {
+	public TeamSchedule(Stage primaryStage, Team team) {
 		this.primaryStage = primaryStage;
 	}
 
 	public void init(String typerOfUser) {
+		typeOfUser = typerOfUser;
+
 		GridPane topBarGrid = new GridPane();
 		topBarGridOptions(topBarGrid);
 
 		topBarElements(topBarGrid, typerOfUser);
 
-		VBox selecters = new VBox(createTeamAndCancelButtons(typerOfUser));
-		selecters.setAlignment(Pos.CENTER);
+		HBox calenderTimeline = new HBox(readMatchesNotDone());
+		calenderTimeline.setAlignment(Pos.BASELINE_CENTER);
 
-		VBox OuterBox = new VBox(topBarGrid, selecters);
+		VBox OuterBox = new VBox(topBarGrid, calenderTimeline);
 		OuterBox.setBackground(background());
 
 		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
+	}
+	
+	private ArrayList<Match> specificTeamMatchList(ArrayList<Match> arrMatches, Team team){
+		
+		for (int i = 0; i < arrMatches.size(); i++) {
+			if(arrMatches.get(i).getHomeTeam().getTeamName() == team.getTeamName()) {
+				teamMatchList.add(arrMatches.get(i));
+			}
+		}
+		return teamMatchList;
+	}
+
+	private void sortArrayList() {
+		Collections.sort(arrMatches, Match.dateCompare);
+	}
+
+	private HBox readMatchesNotDone() {
+		sortArrayList();
+		HBox hbox = new HBox();
+		hbox.setAlignment(Pos.BASELINE_CENTER);
+		Date tempDate = arrMatches.get(0).getMatchDate();
+		boolean firstDateSet = false;
+
+		for (int i = 0; i < arrMatches.size(); i++) {
+			if (arrMatches.get(i).getMatchDate().compareTo(tempDate) > 0) {
+
+				tempDate = arrMatches.get(i).getMatchDate();
+				hbox.getChildren().add(matchDateVBox(i));
+			} else if (firstDateSet == false) {
+				hbox.getChildren().add(matchDateVBox(i));
+				firstDateSet = true;
+			}
+		}
+		return hbox;
+	}
+
+	private VBox matchDateVBox(int i) {
+		Label title = new Label(arrMatches.get(i).getMatchDate().toString());
+		DateOfMatchLabel(title);
+
+		if (arrMatches.get(i).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) == 0) {
+			title.setTextFill(Color.web("#000000"));
+		}
+
+		VBox vbox = new VBox(title);
+		vbox.setAlignment(Pos.CENTER);
+
+		for (int j = i; j < arrMatches.size(); j++) {
+			if (arrMatches.get(i).getMatchDate().compareTo(arrMatches.get(j).getMatchDate()) == 0) {
+				vbox.getChildren().add(infMatchButton(j));
+			} else {
+				break;
+			}
+		}
+		return vbox;
+	}
+
+	private Button infMatchButton(int j) {
+		String matchTitle = arrMatches.get(j).getHomeTeam().getTeamName() + " vs. "
+				+ arrMatches.get(j).getAwayTeam().getTeamName();
+		Button btn = null;
+
+		// Allerede spillede kampe
+		if (arrMatches.get(j).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) < 0) {
+			btn = new Button(matchTitle);
+			MatchButtonsPlayed(btn);
+			btn.setOnAction(e -> new ShowMatchReport(primaryStage, arrMatches.get(j)).init(typeOfUser));
+			// Fremtidige kampe
+		} else {
+			btn = new Button(matchTitle);
+			MatchButtonsNotPlayed(btn);
+			btn.setOnAction(e -> new SpecificMatchMenu(primaryStage, arrMatches.get(j)).init(matchTitle, typeOfUser));
+		}
+		return btn;
+	}
+
+	public void DateOfMatchLabel(Label obj) {
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 30));
+		obj.setUnderline(true);
+		obj.setTextFill(Color.web("#57504d"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+	}
+
+	public void MatchButtonsPlayed(Button obj) {
+
+		obj.setFont(Font.font("Calibri", 18));
+		obj.setPrefWidth(300);
+		obj.setPrefHeight(50);
+		obj.setAlignment(Pos.CENTER);
+
+		buttonEffect.defaultEffectGrey(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffectGrey(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffectGrey(obj));
+	}
+
+	public void MatchButtonsNotPlayed(Button obj) {
+
+		obj.setFont(Font.font("Calibri", 18));
+		obj.setPrefWidth(300);
+		obj.setPrefHeight(50);
+		obj.setAlignment(Pos.CENTER);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
 	}
 
 	private void topBarElements(GridPane grid, String typerOfUser) {
@@ -102,7 +219,7 @@ public class TeamSchedule {
 		gridRowOptions(createTeamGrid);
 		Button createTeamButton = new Button("Team Blyat vs. Eriks Plovmaend");
 		NewButton(createTeamGrid, 1, 1, createTeamButton);
-		createTeamButton.setOnAction(e -> new ShowMatchReport(primaryStage).init(typerOfUser));
+		//createTeamButton.setOnAction(e -> new ShowMatchReport(primaryStage, match).init(typerOfUser));
 
 		HBox hbox = new HBox(createTeamGrid);
 		hbox.setAlignment(Pos.CENTER);

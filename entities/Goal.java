@@ -7,24 +7,6 @@ public class Goal {
 	private Team scoringTeam;
 	private MatchTime timestamp;
 	private int matchId;
-	
-	//***TEST***
-	private int timstam;
-	
-	
-	public Goal(int goalId, Team scoringTeam, int timstam, int matchId) {
-		this.goalId = goalId;
-		this.scoringTeam = scoringTeam;
-		this.timstam = timstam;
-		this.matchId = matchId;
-	}
-	
-	
-	public int getTimstam() {
-		return timstam;
-	}
-	//***TEST***
-
 
 	// 09-01-2020 �ndret matchTime fra typen Time til int
 	public Goal(int goalId, Team scoringTeam, MatchTime matchTime, int matchId) {

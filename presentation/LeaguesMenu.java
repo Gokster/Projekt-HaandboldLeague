@@ -29,10 +29,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import logic.LeagueRanking;
 
 public class LeaguesMenu {
 	private Stage primaryStage;
 	private ButtonEffect buttonEffect = new ButtonEffect();
+	private LeagueRanking leagueRanker = new LeagueRanking();
 	private DatabaseController dbController = new DatabaseController();
 
 	public LeaguesMenu(Stage primaryStage) {
@@ -60,12 +62,7 @@ public class LeaguesMenu {
 		teamsList.add(team4);
 		//***Test***
 		
-		Collections.sort(teamsList, Collections.reverseOrder());
-		
-		//Sets ranks for all teams
-		for (int i = 0; i < teamsList.size(); i++) {
-			teamsList.get(i).setRanking(i+1);
-		}
+		leagueRanker.LeagueRanker(teamsList);
 		
 		TableColumn<Team, Integer> teamPlacement = new TableColumn<Team, Integer>("Rank");
 		teamPlacement.setCellValueFactory(new PropertyValueFactory<Team, Integer>("ranking"));
@@ -87,11 +84,8 @@ public class LeaguesMenu {
 			TableRow<Team> row = new TableRow<>();
 			row.setOnMouseClicked(event -> {
 				if (event.getClickCount() == 2 && (!row.isEmpty())) {
-					int rowData = row.getItem().getTeamId();
-					// syso for test -> call Team specific schedule instead
-					//System.out.println(rowData);
-
-					new TeamSchedule(primaryStage).init(typerOfUser);
+					Team rowData = row.getItem();
+					new TeamSchedule(primaryStage, rowData).init(typerOfUser);
 				}
 			});
 			return row;
