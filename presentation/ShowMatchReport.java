@@ -1,12 +1,7 @@
 package presentation;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-import data.DatabaseController;
 import entities.Match;
 import entities.Team;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -14,11 +9,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -30,22 +22,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import logic.MatchReport2;
 
 public class ShowMatchReport {
 	private Stage primaryStage;
+	private Match match;
 	private ButtonEffect buttonEffect = new ButtonEffect();
-	//private DatabaseController dbController = new DatabaseController();
 	private MatchReport2 matchReport = new MatchReport2();
 	
-	//***TEST***
-	private Team team1 = new Team(1, "Team Blyat", 26);
-	private Team team2 = new Team(2, "Eriks Plovmaend", 23);
-	//***TEST***
-	
-	public ShowMatchReport(Stage primaryStage) {
+	public ShowMatchReport(Stage primaryStage, Match match) {
 		this.primaryStage = primaryStage;
+		this.match = match;
 	}
 
 	public void init(String typerOfUser) {
@@ -56,8 +43,7 @@ public class ShowMatchReport {
 		topBarElements(topBarGrid, typerOfUser);
 
 		ObservableList<SpecificMatchHistoryTable> eventList = FXCollections.observableArrayList();
-		//eventList.addAll(matchReport.matchReport(match));
-		eventList.addAll(matchReport.matchReportTest());
+		eventList.addAll(matchReport.matchReport(match));
 		
 		TableColumn<SpecificMatchHistoryTable, String> homeTeamCol = new TableColumn<SpecificMatchHistoryTable, String>("Home Team");
 		homeTeamCol.setCellValueFactory(new PropertyValueFactory<SpecificMatchHistoryTable, String>("Home"));
@@ -100,8 +86,7 @@ public class ShowMatchReport {
 	private VBox homeTeam() {
 		GridPane gridLabel = new GridPane();
 		gridRowOptions(gridLabel);
-		//LabelTitle(gridLabel, 1, 1, match.getHomeTeam().getTeamName();
-		LabelTitle(gridLabel, 1, 1, team1.getTeamName());
+		LabelTitle(gridLabel, 1, 1, match.getHomeTeam().getTeamName());
 
 		VBox vbox = new VBox(gridLabel);
 
@@ -115,8 +100,8 @@ public class ShowMatchReport {
 
 		GridPane matchScoreLabel = new GridPane();
 		gridRowOptions(matchScoreLabel);
-		//NewLabel(matchScoreLabel, 1, 1, matchReport.matchScore());
-		NewLabel(matchScoreLabel, 1, 1, matchReport.matchScoreTest());
+		NewLabel(matchScoreLabel, 1, 1, matchReport.matchScore());
+
 
 		VBox matchScoreVBox = new VBox(scoreLabel, matchScoreLabel);
 
@@ -128,8 +113,7 @@ public class ShowMatchReport {
 	private VBox awayTeam() {
 		GridPane gridLabel = new GridPane();
 		gridRowOptions(gridLabel);
-		//LabelTitle(gridLabel, 1, 1, match.getAwayTeam().getTeamName();
-		LabelTitle(gridLabel, 1, 1, team2.getTeamName());
+		LabelTitle(gridLabel, 1, 1, match.getAwayTeam().getTeamName());
 
 		VBox vbox = new VBox(gridLabel);
 
@@ -143,7 +127,7 @@ public class ShowMatchReport {
 
 		Button back = new Button("Back");
 		NavigationButton(grid, 2, 1, back);
-		back.setOnAction(e -> new TeamSchedule(primaryStage).init(typerOfUser));
+		back.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
 	}
 
 	public void NavigationButton(GridPane grid, int row, int col, Button obj) {

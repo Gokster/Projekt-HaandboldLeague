@@ -106,7 +106,7 @@ public class ScheduleMenu {
 		if (arrMatches.get(j).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) < 0) {
 			btn = new Button(matchTitle);
 			MatchButtonsPlayed(btn);
-			btn.setOnAction(e -> new ShowMatchReport(primaryStage).init(typeOfUser));
+			btn.setOnAction(e -> new ShowMatchReport(primaryStage, arrMatches.get(j)).init(typeOfUser));
 			// Fremtidige kampe
 		} else {
 			btn = new Button(matchTitle);

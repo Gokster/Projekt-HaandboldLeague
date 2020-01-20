@@ -100,14 +100,14 @@ public class NewLeagueCreateMenu {
 		Button createTeamButton = new Button("Create Team");
 		NewButton(createTeamGrid, 1, 1, createTeamButton);
 		createTeamButton.setOnAction(e -> checkIfTeamExists(typerOfUser));
-		
+
 		teamNameTF.setOnKeyPressed(new EventHandler<KeyEvent>() {
-		    @Override
-		    public void handle(KeyEvent keyEvent) {
-		        if (keyEvent.getCode() == KeyCode.ENTER)  {
-		        	checkIfTeamExists(typerOfUser);
-		        }
-		    }
+			@Override
+			public void handle(KeyEvent keyEvent) {
+				if (keyEvent.getCode() == KeyCode.ENTER) {
+					checkIfTeamExists(typerOfUser);
+				}
+			}
 		});
 
 		GridPane cancelGrid = new GridPane();
@@ -125,31 +125,35 @@ public class NewLeagueCreateMenu {
 
 	private void checkIfTeamExists(String typerOfUser) {
 		teamsList = dbController.getAllTeams();
-		
+
 		if (compareTeamNames(teamNameTF.getText())) {
 
 			Alert teamExists = new Alert(AlertType.ERROR);
-			teamExists.getDialogPane().setPrefHeight(400);
+			teamExists.getDialogPane().setPrefHeight(280);
 			teamExists.getDialogPane().setPrefWidth(1000);
+			teamExists.getDialogPane().getStylesheets()
+					.add(getClass().getResource("AlertBoxPopUpCss.css").toExternalForm());
 			teamExists.setTitle("Create Team Error");
 			teamExists.setHeaderText(null);
-			teamExists.setContentText("A team with the name: " + teamNameTF.getText() + " already exists. Try another name." );
+			teamExists.setContentText(
+					"A team with the name: " + teamNameTF.getText() + " already exists. Try another name.");
 
 			teamExists.showAndWait();
 		} else {
 			new LeaguesMenu(primaryStage).init(typerOfUser);
 		}
 	}
-	
-	private boolean compareTeamNames(String teamName) { 
+
+	private boolean compareTeamNames(String teamName) {
 		for (int i = 0; i < teamsList.size(); i++) {
-			if((teamsList.get(i).getTeamName()).compareTo(teamName) == 0) {
+			if ((teamsList.get(i).getTeamName()).compareTo(teamName) == 0) {
 				return true;
 			}
 		}
 		dbController.createTeam(teamNameTF.getText());
 		return false;
 	}
+
 	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
 		obj.setFont(Font.font("Calibri", 30));
 		obj.setMinWidth(170);
@@ -165,6 +169,7 @@ public class NewLeagueCreateMenu {
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
+
 	public void NewButton(GridPane grid, int row, int col, Button obj) {
 		obj.setFont(Font.font("Calibri", 30));
 		obj.setMinWidth(400);
@@ -180,6 +185,7 @@ public class NewLeagueCreateMenu {
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
+
 	public void NewLabel(GridPane grid, int row, int col, String text) {
 		Label obj = new Label(text);
 
@@ -187,10 +193,11 @@ public class NewLeagueCreateMenu {
 		obj.setTextFill(Color.web("#707070"));
 		obj.setMinWidth(200);
 		obj.setAlignment(Pos.CENTER);
-		
+
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
+
 	public void NewTextField(GridPane grid, int row, int col, TextField obj) {
 		obj.getStylesheets().add("/presentation/MatchMakingTextFieldCss.css");
 
@@ -228,7 +235,7 @@ public class NewLeagueCreateMenu {
 
 		return background;
 	}
-	
+
 	private void stageMods(Scene scene) {
 
 		primaryStage.setTitle("Main Menu");
