@@ -52,15 +52,15 @@ public class LeaguesMenu {
 		teamsList.addAll(dbController.getAllTeams());
 		
 		//***Test***
-		Team team1 = new Team(1, "Ikast FC", 26);
-		Team team2 = new Team(2, "Herning FC", 23);
-		Team team3 = new Team(3, "Viborg FC", 20);
-		Team team4 = new Team(4, "Vejle FC", 24);
-		teamsList.add(team1);
-		teamsList.add(team2);
-		teamsList.add(team3);
-		teamsList.add(team4);
-		//***Test***
+//		Team team1 = new Team(1, "Ikast FC", 26);
+//		Team team2 = new Team(2, "Herning FC", 23);
+//		Team team3 = new Team(3, "Viborg FC", 20);
+//		Team team4 = new Team(4, "Vejle FC", 24);
+//		teamsList.add(team1);
+//		teamsList.add(team2);
+//		teamsList.add(team3);
+//		teamsList.add(team4);
+//		//***Test***
 		
 		leagueRanker.LeagueRanker(teamsList);
 		
@@ -75,7 +75,8 @@ public class LeaguesMenu {
 		
 		TableView<Team> table = new TableView<Team>();
 		table.getStylesheets().add("/presentation/LeaguesMenuTableViewCss.css");
-		table.setMinWidth(350);
+		table.setPrefWidth(500);
+		table.setPrefHeight(69 + (48 * teamsList.size()));
 		GridPane.setColumnSpan(table, 3);
 		GridPane.setRowSpan(table, 14);
 
