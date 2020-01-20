@@ -11,18 +11,19 @@ public class Matches {
 	private Connection connection;
 	private Goals goals = new Goals(connection);
 	private Suspensions suspensions = new Suspensions(connection);
-	
+
 	public Matches(Connection connection) {
 		this.connection = connection;
 	}
-	
+
 	/***********************************
 	 * CREATE
 	 ***********************************/
 
-	public void createMatch (Match match) {
+	public void createMatch(Match match) {
 		try {
-			String sql = "INSERT INTO matches VALUES (" + match.getHomeTeam().getTeamId() + ", " + match.getAwayTeam().getTeamId() + ", NULL, '" + match.getMatchDate() + "')";
+			String sql = "INSERT INTO matches VALUES (" + match.getHomeTeam().getTeamId() + ", "
+					+ match.getAwayTeam().getTeamId() + ", NULL, '" + match.getMatchDate() + "')";
 
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(sql);
@@ -31,20 +32,20 @@ public class Matches {
 			resultSet.next();
 			match.setMatchId(resultSet.getInt(1));
 		} catch (SQLException e) {
-			System.out.println("GSFDSGD"); 
+			System.out.println("GSFDSGD");
 			e.printStackTrace();
 		}
 	}
-	
+
 	/***********************************
 	 * READ
 	 ***********************************/
-	
-	public ArrayList<Match> getAllMatches(ArrayList<Team> teamList) {
-		ArrayList<Match> matchesList = new ArrayList<>();
-		ArrayList<Goal> goalList = goals.getAllGoals(teamList);
-		ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(teamList);
 
+	public ArrayList<Match> getAllMatches(ArrayList<Team> teamList, ArrayList<Goal> goalList,
+			ArrayList<Suspension> suspensionList) {
+		ArrayList<Match> matchesList = new ArrayList<>();
+//		ArrayList<Goal> goalList = goals.getAllGoals(teamList);
+//		ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(teamList);
 		try {
 			String sql = "SELECT * FROM matches";
 
@@ -61,32 +62,32 @@ public class Matches {
 						break;
 					}
 				}
-				
+
 				Team awayTeam = null;
 				for (int i = 0; i < teamList.size(); i++) {
 					if (teamList.get(i).getTeamId() == resultSet.getInt("awayteam")) {
-						homeTeam = teamList.get(i);
+						awayTeam = teamList.get(i);
 						break;
 					}
 				}
-				
+
 				ArrayList<Goal> matchGoalList = new ArrayList<Goal>();
-				for(Goal goal : goalList) {
-					if(id == goal.getMatchId()) {
+				for (Goal goal : goalList) {
+					if (id == goal.getMatchId()) {
 						matchGoalList.add(goal);
 					}
 				}
-				
+
 				ArrayList<Suspension> matchSuspensionList = new ArrayList<Suspension>();
-				for(Suspension suspension : suspensionList) {
-					if(id == suspension.getMatchId()) {
+				for (Suspension suspension : suspensionList) {
+					if (id == suspension.getMatchId()) {
 						matchSuspensionList.add(suspension);
 					}
 				}
-				
+
 				Date matchDate = resultSet.getDate("matchdate");
-				
-				Match match = new Match(id, homeTeam, awayTeam, matchDate, goalList, suspensionList);
+
+				Match match = new Match(id, homeTeam, awayTeam, matchDate, matchGoalList, matchSuspensionList);
 
 				matchesList.add(match);
 			}
@@ -96,8 +97,7 @@ public class Matches {
 
 		return matchesList;
 	}
-	
-	
+
 	public ArrayList<Match> getAllMatchesNotPlayed(ArrayList<Team> teamList) {
 		ArrayList<Match> matchesList = new ArrayList<>();
 
@@ -117,16 +117,16 @@ public class Matches {
 						break;
 					}
 				}
-				
+
 				Team awayTeam = null;
 				for (int i = 0; i < teamList.size(); i++) {
 					if (teamList.get(i).getTeamId() == resultSet.getInt("awayteam")) {
 						awayTeam = teamList.get(i);
 						break;
 					}
-				}				
+				}
 				Date matchDate = resultSet.getDate("matchdate");
-				
+
 				Match match = new Match(id, homeTeam, awayTeam, matchDate);
 
 				matchesList.add(match);
@@ -137,7 +137,7 @@ public class Matches {
 
 		return matchesList;
 	}
-	
+
 	/***********************************
 	 * UPDATE
 	 ***********************************/
@@ -156,12 +156,12 @@ public class Matches {
 //			e.printStackTrace();
 //		}
 //	}
-	
+
 	/***********************************
 	 * DELETE
 	 ***********************************/
 
-	public void deleteMatch (Match match) {
+	public void deleteMatch(Match match) {
 		try {
 			String sql = "DELETE FROM matches WHERE id=" + match.getMatchId();
 

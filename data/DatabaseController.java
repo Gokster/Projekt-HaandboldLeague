@@ -44,14 +44,16 @@ public class DatabaseController {
 		matches.deleteMatch(match);
 	}
 
-	public ArrayList<Match> getAllMatches() {
-		ArrayList<Team> teamList = teams.readAllTeams();
-		return matches.getAllMatches(teamList);
-	}
+//	public ArrayList<Match> getAllMatches() {
+//		ArrayList<Team> teamList = teams.readAllTeams();
+//		return matches.getAllMatches(teamList);
+//	}
 	
 	public ArrayList<Match> getAllMatchesNotDone() {
 		ArrayList<Team> teamList = teams.readAllTeams();
-		return matches.getAllMatchesNotPlayed(teamList);
+		ArrayList<Goal> goalList = goals.getAllGoals(teamList);
+		ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(teamList);
+		return matches.getAllMatches(teamList, goalList, suspensionList);
 	}
 	
 	/***********************************
