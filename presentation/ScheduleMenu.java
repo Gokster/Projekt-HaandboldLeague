@@ -3,7 +3,6 @@ package presentation;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import data.DatabaseController;
@@ -21,7 +20,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
@@ -128,7 +126,7 @@ public class ScheduleMenu {
 
 	public void MatchButtonsPlayed(Button obj) {
 
-		obj.setFont(Font.font("Calibri", 25));
+		obj.setFont(Font.font("Calibri", 18));
 		obj.setPrefWidth(300);
 		obj.setPrefHeight(50);
 		obj.setAlignment(Pos.CENTER);
@@ -141,7 +139,7 @@ public class ScheduleMenu {
 
 	public void MatchButtonsNotPlayed(Button obj) {
 
-		obj.setFont(Font.font("Calibri", 25));
+		obj.setFont(Font.font("Calibri", 18));
 		obj.setPrefWidth(300);
 		obj.setPrefHeight(50);
 		obj.setAlignment(Pos.CENTER);
