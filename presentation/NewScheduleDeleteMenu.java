@@ -2,17 +2,18 @@ package presentation;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 
 import data.DatabaseController;
 import entities.Match;
-import entities.Team;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.skin.DatePickerSkin;
@@ -25,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class NewScheduleDeleteMenu {
 	private Stage primaryStage;
@@ -102,12 +104,11 @@ public class NewScheduleDeleteMenu {
 
 	private void datePickerCalendarMethod(GridPane dateButtonGrid) {
 		DatePicker dp = new DatePicker();
+		datePickerHighlights(dp);
 		DatePickerSkin datePickerSkin = new DatePickerSkin(dp);
 		Node popupContent = datePickerSkin.getPopupContent();
 
-		dp.setShowWeekNumbers(false);
-
-		dp.getStylesheets().add("/presentation/MatchMakingDatePicker.css");
+		dp.setShowWeekNumbers(false); 
 
 		popupContent.setOnMouseClicked(e -> {
 			selectedDate = dp.getValue();
@@ -191,12 +192,41 @@ public class NewScheduleDeleteMenu {
 
 		for (Match matches : arrMatches) {
 			if (matches.getMatchDate().compareTo(date.valueOf(selectedDate)) == 0) {
-				if (matches.getHomeTeam().getTeamName().equals(hTeam) && matches.getAwayTeam().getTeamName().equals(aTeam)) {
+				if (matches.getHomeTeam().getTeamName().equals(hTeam)
+						&& matches.getAwayTeam().getTeamName().equals(aTeam)) {
 					return matches;
 				}
 			}
 		}
 		return null;
+	}
+
+	private void datePickerHighlights(DatePicker dp) {
+		ArrayList<LocalDate> arrDates = new ArrayList<>();
+		LocalDate date;
+		for (int i = 0; i < arrMatches.size(); i++) {
+			date = arrMatches.get(i).getMatchDate().toLocalDate();
+
+			arrDates.add(date);
+		}
+
+		dp.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+			@Override
+			public DateCell call(DatePicker param) {
+				return new DateCell() {
+					@Override
+					public void updateItem(LocalDate item, boolean empty) {
+						super.updateItem(item, empty);
+
+						if (!empty && item != null) {
+							if (arrDates.contains(item)) {
+								this.setStyle("-fx-background-color: green; -fx-text-fill: white");
+							}
+						}
+					}
+				};
+			}
+		});
 	}
 
 	public void MatchMakingButtonCalendar(GridPane grid, int row, int col, Button obj) {
