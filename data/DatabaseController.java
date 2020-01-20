@@ -63,7 +63,7 @@ public class DatabaseController {
 			suspensions.createSuspension(suspension);
 		}
 	}
-
+	
 	/***********************************
 	 * GOALS
 	 ***********************************/
