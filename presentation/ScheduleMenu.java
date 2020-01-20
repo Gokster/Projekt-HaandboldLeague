@@ -28,7 +28,7 @@ public class ScheduleMenu {
 	private ButtonEffect buttonEffect = new ButtonEffect();
 	private DatabaseController dbController = new DatabaseController();
 	private ArrayList<Match> arrMatches = dbController.getAllMatchesNotDone();
-	String typeOfUser;
+	private String typeOfUser;
 
 	public ScheduleMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -106,7 +106,7 @@ public class ScheduleMenu {
 		if (arrMatches.get(j).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) < 0) {
 			btn = new Button(matchTitle);
 			MatchButtonsPlayed(btn);
-			btn.setOnAction(e -> new SpecificMatchMenu(primaryStage, arrMatches.get(j)).init(matchTitle, typeOfUser));
+			btn.setOnAction(e -> new ShowMatchReport(primaryStage).init(typeOfUser));
 			// Fremtidige kampe
 		} else {
 			btn = new Button(matchTitle);
