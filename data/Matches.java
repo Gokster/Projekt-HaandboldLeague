@@ -69,13 +69,7 @@ public class Matches {
 					}
 				}
 				
-				Team winningTeam = null;
-				for (int i = 0; i < teamList.size(); i++) {
-					if (teamList.get(i).getTeamId() == resultSet.getInt("winningteam")) {
-						winningTeam = teamList.get(i);
-						break;
-					}
-				}
+				int winningTeam = resultSet.getInt("winningteam");
 
 				ArrayList<Goal> matchGoalList = new ArrayList<Goal>();
 				for (Goal goal : goalList) {
@@ -150,7 +144,7 @@ public class Matches {
 
 	public void updateMatch (Match match) {
 		try {
-			String sql = "UPDATE matches SET winningteam=" + match.getWinningTeam().getTeamId()
+			String sql = "UPDATE matches SET winningteam=" + match.getWinningTeam()
 						+ " WHERE id=" + match.getMatchId();
 
 			Statement statement = connection.createStatement();
