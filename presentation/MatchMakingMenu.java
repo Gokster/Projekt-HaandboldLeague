@@ -32,8 +32,8 @@ import javafx.stage.Stage;
 
 public class MatchMakingMenu {
 	private Stage primaryStage;
-	private ComboBox team1CB;
-	private ComboBox team2CB;
+	private ComboBox<String> team1CB;
+	private ComboBox<String> team2CB;
 	private Button dateButton;
 	private LocalDate selectedDate = LocalDate.now();
 	private Date date;
@@ -97,7 +97,7 @@ public class MatchMakingMenu {
 	}
 
 	private void team1Dropdowns(GridPane grid) {
-		team1CB = new ComboBox();
+		team1CB = new ComboBox<String>();
 		for (int i = 0; i < arrTeams.size(); i++) {
 			team1CB.getItems().add(arrTeams.get(i).getTeamName());
 		}
@@ -135,7 +135,7 @@ public class MatchMakingMenu {
 	}
 
 	private void team2Dropdowns(GridPane grid) {
-		team2CB = new ComboBox();
+		team2CB = new ComboBox<String>();
 		for (int i = 0; i < arrTeams.size(); i++) {
 			team2CB.getItems().add(arrTeams.get(i).getTeamName());
 		}
@@ -144,7 +144,7 @@ public class MatchMakingMenu {
 	}
 
 	private void gameTimeDropdowns(GridPane grid) {
-		ComboBox leagueCB = new ComboBox();
+		ComboBox<String> leagueCB = new ComboBox<String>();
 		leagueCB.getItems().add("30");
 		leagueCB.getItems().add("40");
 		leagueCB.getItems().add("50");
@@ -193,9 +193,7 @@ public class MatchMakingMenu {
 			datePickerButtonMethod(dateButtonGrid, selectedDate.toString());
 			dateButtonGrid.getChildren().remove(popupContent);
 		});
-
 		dateButtonGrid.getChildren().add(popupContent);
-
 	}
 
 	private VBox done(String typerOfUser) {
@@ -223,10 +221,10 @@ public class MatchMakingMenu {
 		return vbox;
 	}
 
-	private Team convertCBToTeam(ComboBox cb) {
+	private Team convertCBToTeam(ComboBox<String> cb) {
 		Team team = null;
 		for (int i = 0; i < arrTeams.size(); i++) {
-			if (cb.getValue().toString() == arrTeams.get(i).getTeamName()) {
+			if (cb.getValue() == arrTeams.get(i).getTeamName()) {
 
 				team = arrTeams.get(i);
 				break;
@@ -282,8 +280,8 @@ public class MatchMakingMenu {
 		for (int i = 0; i < arrMatches.size(); i++) {
 			String homeTeamName = arrMatches.get(i).getHomeTeam().getTeamName();
 			String awayTeamName = arrMatches.get(i).getAwayTeam().getTeamName();
-			String team1Name = team1CB.getValue().toString();
-			String team2Name = team2CB.getValue().toString();
+			String team1Name = team1CB.getValue();
+			String team2Name = team2CB.getValue();
 			if (homeTeamName.equals(team1Name) || awayTeamName.equals(team1Name)) {
 				checkTeamMatchList.add(arrMatches.get(i));
 			}
@@ -327,7 +325,7 @@ public class MatchMakingMenu {
 		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
 	}
 
-	public void MatchMakingComboBox(GridPane grid, int row, int col, ComboBox obj) {
+	public void MatchMakingComboBox(GridPane grid, int row, int col, ComboBox<String> obj) {
 
 		obj.getStylesheets().add("/presentation/MatchMakingComboBoxCss.css");
 
@@ -363,7 +361,7 @@ public class MatchMakingMenu {
 		grid.getChildren().add(obj);
 	}
 
-	public void NewComboBox(GridPane grid, int row, int col, ComboBox obj) {
+	public void NewComboBox(GridPane grid, int row, int col, ComboBox<?> obj) {
 
 		obj.getStylesheets().add("/presentation/MatchMakingComboBoxCss.css");
 

@@ -17,7 +17,7 @@ public class HeadlineLabelTitle {
 		obj.setMinWidth(900);
 		obj.setAlignment(Pos.CENTER);
 
-		grid.setConstraints(obj, row, col);
+		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
 }

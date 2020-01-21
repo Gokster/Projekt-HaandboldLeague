@@ -1,6 +1,5 @@
 package presentation;
 
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -23,9 +22,12 @@ public class MainMenu {
 	public MainMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
-	
+
 	public void init(String typerOfUser) {
- 
+
+		/***********************************
+		 * ORGANIZER LOGIN
+		 ***********************************/
 		if (typerOfUser == "Organizer") {
 			GridPane grid = new GridPane();
 			gridOptions(grid);
@@ -42,7 +44,12 @@ public class MainMenu {
 
 			Scene scene = new Scene(vbox, 1800, 1000);
 			stageMods(scene);
-		} else if (typerOfUser == "Referee") {
+
+		}
+		/***********************************
+		 * REFEREE LOGIN
+		 ***********************************/
+		else if (typerOfUser == "Referee") {
 			GridPane grid = new GridPane();
 			gridOptions(grid);
 
@@ -58,7 +65,12 @@ public class MainMenu {
 
 			Scene scene = new Scene(vbox, 1800, 1100);
 			stageMods(scene);
-		} else if (typerOfUser == "Viewer") {
+
+		}
+		/***********************************
+		 * VIEW LOGIN
+		 ***********************************/
+		else if (typerOfUser == "Viewer") {
 			GridPane grid = new GridPane();
 			gridOptions(grid);
 
@@ -76,6 +88,10 @@ public class MainMenu {
 			stageMods(scene);
 		}
 	}
+	
+	/***********************************
+	 * INTERFACE
+	 ***********************************/
 
 	private void buttonsOrganizer(GridPane grid, String typerOfUser) {
 		Button leagues = new Button("League Rankings");
@@ -89,7 +105,7 @@ public class MainMenu {
 		Button schedule = new Button("Schedule");
 		MainMenuButton(grid, 1, 4, schedule);
 		schedule.setOnAction(e -> new ScheduleMenu(primaryStage).init(typerOfUser));
-		
+
 		Button logout = new Button("Log out");
 		MainMenuButton(grid, 1, 5, logout);
 		logout.setOnAction(e -> new LoginMenu(primaryStage).init());
@@ -99,7 +115,7 @@ public class MainMenu {
 		Button schedule = new Button("Schedule");
 		MainMenuButton(grid, 1, 2, schedule);
 		schedule.setOnAction(e -> new ScheduleMenu(primaryStage).init(typerOfUser));
-		
+
 		Button logout = new Button("Log out");
 		MainMenuButton(grid, 1, 3, logout);
 		logout.setOnAction(e -> new LoginMenu(primaryStage).init());
@@ -109,13 +125,24 @@ public class MainMenu {
 		Button schedule = new Button("Schedule");
 		MainMenuButton(grid, 1, 2, schedule);
 		schedule.setOnAction(e -> new ScheduleMenu(primaryStage).init(typerOfUser));
-		
+
 		Button logout = new Button("Log out");
 		MainMenuButton(grid, 1, 3, logout);
 		logout.setOnAction(e -> new LoginMenu(primaryStage).init());
 	}
-	public void MainMenuButton(GridPane grid, int row, int col, Button obj) {
 
+	/***********************************
+	 * LAYOUT
+	 ***********************************/
+
+	private Background background() {
+		BackgroundFill background_fill = new BackgroundFill(Color.web("#9A9A9A"), CornerRadii.EMPTY, Insets.EMPTY);
+		Background background = new Background(background_fill);
+
+		return background;
+	}
+
+	public void MainMenuButton(GridPane grid, int row, int col, Button obj) {
 		obj.setFont(Font.font("Calibri", 60));
 		obj.setMinWidth(600);
 		obj.setAlignment(Pos.CENTER);
@@ -125,17 +152,18 @@ public class MainMenu {
 		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
 		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
 
-		grid.setConstraints(obj, row, col);
+		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
+
 	public void MainMenuLabelTitle(GridPane grid, int row, int col, String text) {
 		Label obj = new Label(text);
 
-		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 130)); 
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 130));
 		obj.setTextFill(Color.web("#707070"));
-		
-		grid.setColumnSpan(obj, 2);
-		grid.setConstraints(obj, row, col);
+
+		GridPane.setColumnSpan(obj, 2);
+		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
 
@@ -144,16 +172,11 @@ public class MainMenu {
 		grid.setAlignment(Pos.CENTER);
 	}
 
-	private Background background() {
-
-		BackgroundFill background_fill = new BackgroundFill(Color.web("#9A9A9A"), CornerRadii.EMPTY, Insets.EMPTY);
-		Background background = new Background(background_fill);
-
-		return background;
-	}
+	/***********************************
+	 * SCENE
+	 ***********************************/
 
 	private void stageMods(Scene scene) {
-
 		primaryStage.setTitle("Main Menu");
 		primaryStage.setScene(scene);
 		primaryStage.show();

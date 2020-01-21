@@ -16,11 +16,12 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class LoginMenu {
-	private Stage primaryStage;
+
 	private ButtonEffect buttonEffect = new ButtonEffect();
+	private Stage primaryStage;
 
 	public LoginMenu(Stage primaryStage) {
-		this.primaryStage = primaryStage; 
+		this.primaryStage = primaryStage;
 	}
 
 	public void init() {
@@ -39,8 +40,12 @@ public class LoginMenu {
 		vbox.setBackground(background());
 
 		Scene scene = new Scene(vbox, 1800, 1000);
-		stageMods(scene); 
+		stageMods(scene);
 	}
+	
+	/***********************************
+	 * INTERFACE
+	 ***********************************/
 
 	private void buttons(GridPane grid) {
 		String typeOfUser1 = "Organizer";
@@ -59,36 +64,9 @@ public class LoginMenu {
 		schedule.setOnAction(e -> new MainMenu(primaryStage).init(typeOfUser3));
 	}
 
-	public void MainMenuButton(GridPane grid, int row, int col, Button obj) {
-
-		obj.setFont(Font.font("Calibri", 60));
-		obj.setMinWidth(600);
-		obj.setAlignment(Pos.CENTER);
-
-		buttonEffect.defaultEffect(obj);
-
-		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
-		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
-
-		grid.setConstraints(obj, row, col);
-		grid.getChildren().add(obj);
-	}
-
-	public void MainMenuLabelTitle(GridPane grid, int row, int col, String text) {
-		Label obj = new Label(text);
-
-		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 130));
-		obj.setTextFill(Color.web("#707070"));
-
-		grid.setColumnSpan(obj, 2);
-		grid.setConstraints(obj, row, col);
-		grid.getChildren().add(obj);
-	}
-
-	private void gridOptions(GridPane grid) {
-		grid.setVgap(40);
-		grid.setAlignment(Pos.CENTER);
-	}
+	/***********************************
+	 * LAYOUT
+	 ***********************************/
 
 	private Background background() {
 
@@ -98,8 +76,41 @@ public class LoginMenu {
 		return background;
 	}
 
-	private void stageMods(Scene scene) {
+	public void MainMenuButton(GridPane grid, int row, int col, Button obj) {
+		obj.setFont(Font.font("Calibri", 60));
+		obj.setMinWidth(600);
+		obj.setAlignment(Pos.CENTER);
 
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		GridPane.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	public void MainMenuLabelTitle(GridPane grid, int row, int col, String text) {
+		Label obj = new Label(text);
+
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 130));
+		obj.setTextFill(Color.web("#707070"));
+
+		GridPane.setColumnSpan(obj, 2);
+		GridPane.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	private void gridOptions(GridPane grid) {
+		grid.setVgap(40);
+		grid.setAlignment(Pos.CENTER);
+	}
+
+	/***********************************
+	 * SCENE
+	 ***********************************/
+
+	private void stageMods(Scene scene) {
 		primaryStage.setTitle("Main Menu");
 		primaryStage.setScene(scene);
 		primaryStage.show();
