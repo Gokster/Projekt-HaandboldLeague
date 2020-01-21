@@ -1,29 +1,16 @@
 package entities;
 
 public class Team implements Comparable<Team>{
-
+	
 	private int ranking;
 	private int teamId;
 	private int teamPoints;
 	private String teamName;
 
-	public Team(int teamId, String teamName, int teamPoints, int ranking) {
-		this.teamId = teamId;
-		this.teamName = teamName;
-		this.teamPoints = teamPoints;
-		this.ranking = ranking;
-	}
-
 	public Team(int teamId, String teamName, int teamPoints) {
 		this.teamId = teamId;
 		this.teamName = teamName;
 		this.teamPoints = teamPoints;
-	}
-	
-	public Team(int teamId, String teamName) {
-		this.teamId = teamId;
-		this.teamName = teamName;
-		this.teamPoints = 0;
 	}
 	
 	public Team(String teamName) {

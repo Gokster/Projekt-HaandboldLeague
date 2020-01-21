@@ -25,10 +25,6 @@ public class Goals {
 
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(sql);
-
-			ResultSet resultSet = statement.executeQuery("SELECT SCOPE_IDENTITY()");
-			resultSet.next();
-			goal.setGoalId(resultSet.getInt(1));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -49,7 +45,6 @@ public class Goals {
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			while (resultSet.next()) {
-				int id = resultSet.getInt("id");
 				Team scoringTeam = null;
 				for (int i = 0; i < teamList.size(); i++) {
 					if (teamList.get(i).getTeamId() == resultSet.getInt("scoringteam")) {
@@ -61,7 +56,7 @@ public class Goals {
 				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
 				int matchId = resultSet.getInt("matchid");
 
-				Goal goal = new Goal(id, scoringTeam, matchTime, matchId);
+				Goal goal = new Goal(scoringTeam, matchTime, matchId);
 
 				goalsList.add(goal);
 			}
@@ -83,7 +78,6 @@ public class Goals {
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			while (resultSet.next()) {
-				int id = resultSet.getInt("id");
 				Team scoringTeam = null;
 				for (int i = 0; i < teamList.size(); i++) {
 					if (teamList.get(i).getTeamId() == resultSet.getInt("scoringteam")) {
@@ -94,7 +88,7 @@ public class Goals {
 			
 				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
 
-				Goal goal = new Goal(id, scoringTeam, matchTime, matchId);
+				Goal goal = new Goal(scoringTeam, matchTime, matchId);
 
 				goalsList.add(goal);
 			}

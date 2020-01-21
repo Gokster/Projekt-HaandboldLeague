@@ -8,7 +8,6 @@ public class Match {
 	
 	private int matchId;
 	private int winningTeam;
-	private int matchDateInt;
 	private Date matchDate;
 	private MatchTime matchTime = new MatchTime();
 	private Team homeTeam;
@@ -27,23 +26,10 @@ public class Match {
 		this.suspensionList = suspensionList;
 	}
 
-	public Match(int matchId, Team homeTeam, Team awayTeam, Date matchDate) {
-		this.matchId = matchId;
-		this.homeTeam = homeTeam;
-		this.awayTeam = awayTeam;
-		this.matchDate = matchDate;
-	}
-
 	public Match(Team homeTeam, Team awayTeam, Date date) {
 		this.homeTeam = homeTeam;
 		this.awayTeam = awayTeam;
 		this.matchDate = date;
-	}
-
-	public Match(Team homeTeam, Team awayTeam, int date) {
-		this.homeTeam = homeTeam;
-		this.awayTeam = awayTeam;
-		this.matchDateInt = date;
 	}
 	
 	/***********************************
@@ -157,7 +143,6 @@ public class Match {
 	}
 	
 	public long getMatchSeconds() {
-		matchTime.getMatchTime();
 		return matchTime.calcSeconds();
 	}
 	
@@ -175,10 +160,6 @@ public class Match {
 
 	public Date getMatchDate() {
 		return matchDate;
-	}
-
-	public int getMatchDateInt() {
-		return matchDateInt;
 	}
 
 	public ArrayList<Goal> getGoalList() {

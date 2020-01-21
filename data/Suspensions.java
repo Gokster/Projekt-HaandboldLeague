@@ -25,10 +25,6 @@ public class Suspensions {
 
 			Statement statement = connection.createStatement();
 			statement.executeUpdate(sql);
-
-			ResultSet resultSet = statement.executeQuery("SELECT SCOPE_IDENTITY()");
-			resultSet.next();
-			suspension.setSuspensionId(resultSet.getInt(1));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -50,8 +46,6 @@ public class Suspensions {
 
 			
 			while (resultSet.next()) {
-				int id = resultSet.getInt("id");
-				
 				Team suspensionTeam = null;
 				for(Team team : teamList) {
 					if(resultSet.getInt("suspensionteam") == team.getTeamId()) {
@@ -62,7 +56,7 @@ public class Suspensions {
 				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
 				int matchId = resultSet.getInt("matchid");
 				
-				Suspension suspension = new Suspension(id, suspensionTeam, matchTime, matchId);
+				Suspension suspension = new Suspension(suspensionTeam, matchTime, matchId);
 
 				suspensionsList.add(suspension);
 			}
@@ -84,8 +78,6 @@ public class Suspensions {
 			ResultSet resultSet = statement.executeQuery(sql);
 
 			while (resultSet.next()) {
-				int id = resultSet.getInt("id");
-				
 				Team suspensionTeam = null;
 				for(Team team : teamList) {
 					if(resultSet.getInt("suspensionteam") == team.getTeamId()) {
@@ -95,7 +87,7 @@ public class Suspensions {
 				
 				MatchTime matchTime = new MatchTime(resultSet.getInt("matchtime"));
 				
-				Suspension suspension = new Suspension(id, suspensionTeam, matchTime, matchId);
+				Suspension suspension = new Suspension(suspensionTeam, matchTime, matchId);
 
 				suspensionsList.add(suspension);
 			}
