@@ -141,15 +141,45 @@ public class TeamSchedule {
 		}
 		return btn;
 	}
+	
+	/***********************************
+	 * BUTTONS
+	 ***********************************/
 
-	public void DateOfMatchLabel(Label obj) {
-		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 30));
-		obj.setUnderline(true);
-		obj.setTextFill(Color.web("#57504d"));
-		obj.setMinWidth(200);
-		obj.setAlignment(Pos.CENTER);
+	private void buttonsNavigation(GridPane grid, String typerOfUser) {
+		Button home = new Button("Home");
+		NavigationButton(grid, 1, 1, home);
+		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
+
+		Button back = new Button("Back");
+		NavigationButton(grid, 2, 1, back);
+		back.setOnAction(e -> new LeaguesMenu(primaryStage).init(typerOfUser));
 	}
+	
+	private void buttonsCRUD(GridPane grid, String typerOfUser) {
+		Button createTeam = new Button("Create Match");
+		NavigationButton(grid, 4, 1, createTeam);
+		createTeam.setOnAction(e -> new NewLeagueCreateMenu(primaryStage).init(typerOfUser));
 
+		Button deleteTeam = new Button("Delete Delete");
+		NavigationButton(grid, 5, 1, deleteTeam);
+		deleteTeam.setOnAction(e -> new NewLeagueDeleteMenu(primaryStage).init(typerOfUser));
+	}
+	
+	private HBox createTeamAndCancelButtons(String typerOfUser) {
+		GridPane createTeamGrid = new GridPane();
+		gridRowOptions(createTeamGrid);
+		Button createTeamButton = new Button("Team Blyat vs. Eriks Plovmaend");
+		NewButton(createTeamGrid, 1, 1, createTeamButton);
+		//createTeamButton.setOnAction(e -> new ShowMatchReport(primaryStage, match).init(typerOfUser));
+
+		HBox hbox = new HBox(createTeamGrid);
+		hbox.setAlignment(Pos.CENTER);
+		hbox.setPadding(new Insets(100));
+
+		return hbox;
+	}
+	
 	public void MatchButtonsPlayed(Button obj) {
 		obj.setFont(Font.font("Calibri", 18));
 		obj.setPrefWidth(300);
@@ -174,22 +204,6 @@ public class TeamSchedule {
 		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
 	}
 
-	private void topBarElements(GridPane grid, String typerOfUser) {
-		buttonsNavigation(grid, typerOfUser);
-		new HeadlineLabelTitle(grid, 3, 1, "Team Schedule");
-		buttonsCRUD(grid, typerOfUser);
-	}
-
-	private void buttonsNavigation(GridPane grid, String typerOfUser) {
-		Button home = new Button("Home");
-		NavigationButton(grid, 1, 1, home);
-		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
-
-		Button back = new Button("Back");
-		NavigationButton(grid, 2, 1, back);
-		back.setOnAction(e -> new LeaguesMenu(primaryStage).init(typerOfUser));
-	}
-
 	public void NewButton(GridPane grid, int row, int col, Button obj) {
 		obj.setFont(Font.font("Calibri", 30));
 		obj.setMinWidth(400);
@@ -204,30 +218,6 @@ public class TeamSchedule {
 
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
-	}
-
-	private void buttonsCRUD(GridPane grid, String typerOfUser) {
-		Button createTeam = new Button("Create Match");
-		NavigationButton(grid, 4, 1, createTeam);
-		createTeam.setOnAction(e -> new NewLeagueCreateMenu(primaryStage).init(typerOfUser));
-
-		Button deleteTeam = new Button("Delete Delete");
-		NavigationButton(grid, 5, 1, deleteTeam);
-		deleteTeam.setOnAction(e -> new NewLeagueDeleteMenu(primaryStage).init(typerOfUser));
-	}
-
-	private HBox createTeamAndCancelButtons(String typerOfUser) {
-		GridPane createTeamGrid = new GridPane();
-		gridRowOptions(createTeamGrid);
-		Button createTeamButton = new Button("Team Blyat vs. Eriks Plovmaend");
-		NewButton(createTeamGrid, 1, 1, createTeamButton);
-		//createTeamButton.setOnAction(e -> new ShowMatchReport(primaryStage, match).init(typerOfUser));
-
-		HBox hbox = new HBox(createTeamGrid);
-		hbox.setAlignment(Pos.CENTER);
-		hbox.setPadding(new Insets(100));
-
-		return hbox;
 	}
 
 	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
@@ -246,6 +236,21 @@ public class TeamSchedule {
 		grid.getChildren().add(obj);
 	}
 
+	
+	public void DateOfMatchLabel(Label obj) {
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 30));
+		obj.setUnderline(true);
+		obj.setTextFill(Color.web("#57504d"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+	}
+	
+	private void topBarElements(GridPane grid, String typerOfUser) {
+		buttonsNavigation(grid, typerOfUser);
+		new HeadlineLabelTitle(grid, 3, 1, "Team Schedule");
+		buttonsCRUD(grid, typerOfUser);
+	}
+	
 	private void topBarGridOptions(GridPane grid) {
 		grid.setHgap(40);
 		grid.setVgap(40);
