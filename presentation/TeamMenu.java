@@ -117,11 +117,11 @@ public class TeamMenu {
 	}
 
 	private void buttonsCRUD(GridPane grid, String typerOfUser) {
-		Button createTeam = new Button("Create Team");
+		Button createTeam = new Button("Create\n Team");
 		NavigationButton(grid, 4, 1, createTeam);
 		createTeam.setOnAction(e -> new TeamCreateMenu(primaryStage).init(typerOfUser));
 
-		Button deleteTeam = new Button("Delete Team");
+		Button deleteTeam = new Button("Delete\n Team");
 		NavigationButton(grid, 5, 1, deleteTeam);
 		deleteTeam.setOnAction(e -> new TeamDeleteMenu(primaryStage).init(typerOfUser));
 	}	

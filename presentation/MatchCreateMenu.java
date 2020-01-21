@@ -49,13 +49,12 @@ public class MatchCreateMenu {
 	}
 
 	public void init(String typerOfUser) {
-
 		GridPane topBarGrid = new GridPane();
 		topBarGridOptions(topBarGrid);
 
 		topBarElements(topBarGrid, typerOfUser);
 
-		HBox row1 = new HBox(team1(), middleSelections(), team2());
+		HBox row1 = new HBox(team1(), team2());
 		row1.setAlignment(Pos.CENTER);
 
 		HBox row2 = new HBox(dateOfMatch());
@@ -66,19 +65,6 @@ public class MatchCreateMenu {
 
 		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
-	}
-
-	/***********************************
-	 * GAME TIME
-	 ***********************************/
-
-	private void gameTimeDropdowns(GridPane grid) {
-		ComboBox<String> leagueCB = new ComboBox<String>();
-		leagueCB.getItems().add("30");
-		leagueCB.getItems().add("40");
-		leagueCB.getItems().add("50");
-		leagueCB.getItems().add("60");
-		matchMakingComboBoxLayout(grid, 1, 1, leagueCB);
 	}
 
 	/***********************************
@@ -95,7 +81,7 @@ public class MatchCreateMenu {
 		GridPane doneGrid = new GridPane();
 		Button doneButton = new Button("Done");
 		gridRowOptions(doneGrid);
-		matchMakingButtonLayout(doneGrid, 1, 1, doneButton);
+		matchMakingButtonLayout(doneGrid, 0, 0, doneButton);
 		doneButton.setOnAction(e -> {
 			if (team1CB.getValue() != team2CB.getValue()) {
 				date = Date.valueOf(selectedDate);
@@ -116,8 +102,9 @@ public class MatchCreateMenu {
 
 	private VBox dateOfMatch() {
 		GridPane dateLabelGrid = new GridPane();
+
 		gridRowOptions(dateLabelGrid);
-		newLabel(dateLabelGrid, 1, 1, "Date");
+		newLabel(dateLabelGrid, 0, 0, "Date");
 
 		GridPane dateButtonGrid = new GridPane();
 		gridRowOptions(dateButtonGrid);
@@ -440,22 +427,6 @@ public class MatchCreateMenu {
 	/***********************************
 	 * GENERAL LAYOUT
 	 ***********************************/
-	
-	private VBox middleSelections() {
-		GridPane gameTimeLabel = new GridPane();
-		gridRowOptions(gameTimeLabel);
-		newLabel(gameTimeLabel, 1, 1, "Game Time");
-
-		GridPane gameTimeOptions = new GridPane();
-		gridRowOptions(gameTimeOptions);
-		gameTimeDropdowns(gameTimeOptions);
-
-		VBox GameTimeVBox = new VBox(gameTimeLabel, gameTimeOptions);
-
-		VBox vbox = new VBox(GameTimeVBox);
-
-		return vbox;
-	}
 
 	private Background background() {
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#9A9A9A"), CornerRadii.EMPTY, Insets.EMPTY);
