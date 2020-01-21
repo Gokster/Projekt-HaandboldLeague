@@ -23,14 +23,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import logic.Match;
-import logic.MatchReport; 
+import logic.MatchReport;
 
 public class ShowMatchReport {
+
+	private ButtonEffect buttonEffect = new ButtonEffect();
+	private Match match;
+	private MatchReport matchReport = new MatchReport();
 	private Stage primaryStage;
 	private Team team = null;
-	private Match match;
-	private ButtonEffect buttonEffect = new ButtonEffect();
-	private MatchReport matchReport = new MatchReport();
 
 	public ShowMatchReport(Stage primaryStage, Match match, Team team) {
 		this.primaryStage = primaryStage;
@@ -40,7 +41,7 @@ public class ShowMatchReport {
 
 	public ShowMatchReport(Stage primaryStage, Match match) {
 		this.primaryStage = primaryStage;
-		this.match = match; 
+		this.match = match;
 	}
 
 	public void init(String typerOfUser) {
@@ -69,7 +70,6 @@ public class ShowMatchReport {
 		table.getStylesheets().add("/presentation/LeaguesMenuTableViewCss.css");
 		table.setPrefWidth(800);
 		table.setPrefHeight(600);
-		//table.setMinWidth(350);
 		GridPane.setColumnSpan(table, 3);
 		GridPane.setRowSpan(table, 14);
 
@@ -82,7 +82,7 @@ public class ShowMatchReport {
 
 		HBox tableHBox = new HBox(table);
 		tableHBox.setAlignment(Pos.CENTER);
-		tableHBox.setPadding(new Insets(40)); 
+		tableHBox.setPadding(new Insets(40));
 
 		VBox OuterBox = new VBox(topBarGrid, matchInfoHBox, tableHBox);
 		OuterBox.setBackground(background());
@@ -90,18 +90,26 @@ public class ShowMatchReport {
 
 		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
-	} 
-
-	
-	private void topBarElements(GridPane grid, String typerOfUser) {
-		buttonsNavigation(grid, typerOfUser, team);
-		new HeadlineLabelTitle(grid, 3, 1, "Match Report");
 	}
+
+	/***********************************
+	 * LABEL
+	 ***********************************/
 
 	private VBox homeTeam() {
 		GridPane gridLabel = new GridPane();
 		gridRowOptions(gridLabel);
-		LabelTitle(gridLabel, 1, 1, match.getHomeTeam().getTeamName());
+		labelTitle(gridLabel, 1, 1, match.getHomeTeam().getTeamName());
+
+		VBox vbox = new VBox(gridLabel);
+
+		return vbox;
+	}
+
+	private VBox awayTeam() {
+		GridPane gridLabel = new GridPane();
+		gridRowOptions(gridLabel);
+		labelTitle(gridLabel, 1, 1, match.getAwayTeam().getTeamName());
 
 		VBox vbox = new VBox(gridLabel);
 
@@ -111,11 +119,11 @@ public class ShowMatchReport {
 	private VBox showMatchScore() {
 		GridPane scoreLabel = new GridPane();
 		gridRowOptions(scoreLabel);
-		NewLabel(scoreLabel, 1, 1, "Score:");
+		newLabel(scoreLabel, 1, 1, "Score:");
 
 		GridPane matchScoreLabel = new GridPane();
 		gridRowOptions(matchScoreLabel);
-		NewLabel(matchScoreLabel, 1, 1, matchReport.matchScore());
+		newLabel(matchScoreLabel, 1, 1, matchReport.matchScore());
 
 		VBox matchScoreVBox = new VBox(scoreLabel, matchScoreLabel);
 
@@ -124,23 +132,47 @@ public class ShowMatchReport {
 		return vbox;
 	}
 
-	private VBox awayTeam() {
-		GridPane gridLabel = new GridPane();
-		gridRowOptions(gridLabel);
-		LabelTitle(gridLabel, 1, 1, match.getAwayTeam().getTeamName());
+	public void labelTitle(GridPane grid, int row, int col, String text) {
+		Label obj = new Label(text);
 
-		VBox vbox = new VBox(gridLabel);
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 60));
+		obj.setTextFill(Color.web("#707070"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+		obj.setUnderline(true);
 
-		return vbox;
+		GridPane.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	public void newLabel(GridPane grid, int row, int col, String text) {
+		Label obj = new Label(text);
+
+		obj.setFont(Font.font("Calibri", 60));
+		obj.setTextFill(Color.web("#707070"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+
+		GridPane.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	/***********************************
+	 * NAVIGATION BUTTONS
+	 ***********************************/
+
+	private void topBarElements(GridPane grid, String typerOfUser) {
+		buttonsNavigation(grid, typerOfUser, team);
+		new HeadlineLabelTitle(grid, 3, 1, "Match Report");
 	}
 
 	private void buttonsNavigation(GridPane grid, String typerOfUser, Team team) {
 		Button home = new Button("Home");
-		NavigationButton(grid, 1, 1, home);
+		navigationButton(grid, 1, 1, home);
 		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
 
 		Button back = new Button("Back");
-		NavigationButton(grid, 2, 1, back);
+		navigationButton(grid, 2, 1, back);
 		back.setOnAction(e -> {
 			if (team != null) {
 				new TeamSchedule(primaryStage, team).init(typerOfUser);
@@ -150,7 +182,11 @@ public class ShowMatchReport {
 		});
 	}
 
-	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
+	/***********************************
+	 * NAVIGATION LAYOUT
+	 ***********************************/
+
+	public void navigationButton(GridPane grid, int row, int col, Button obj) {
 		obj.setFont(Font.font("Calibri", 30));
 		obj.setMinWidth(170);
 		obj.setMinHeight(120);
@@ -162,33 +198,19 @@ public class ShowMatchReport {
 		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
 		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
 
-		grid.setConstraints(obj, row, col);
+		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
 
-	public void LabelTitle(GridPane grid, int row, int col, String text) {
-		Label obj = new Label(text);
+	/***********************************
+	 * GENERAL LAYOUT
+	 ***********************************/
 
-		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 60));
-		obj.setTextFill(Color.web("#707070"));
-		obj.setMinWidth(200);
-		obj.setAlignment(Pos.CENTER);
-		obj.setUnderline(true);
+	private Background background() {
+		BackgroundFill background_fill = new BackgroundFill(Color.web("#9A9A9A"), CornerRadii.EMPTY, Insets.EMPTY);
+		Background background = new Background(background_fill);
 
-		grid.setConstraints(obj, row, col);
-		grid.getChildren().add(obj);
-	}
-
-	public void NewLabel(GridPane grid, int row, int col, String text) {
-		Label obj = new Label(text);
-
-		obj.setFont(Font.font("Calibri", 60));
-		obj.setTextFill(Color.web("#707070"));
-		obj.setMinWidth(200);
-		obj.setAlignment(Pos.CENTER);
-
-		grid.setConstraints(obj, row, col);
-		grid.getChildren().add(obj);
+		return background;
 	}
 
 	private void topBarGridOptions(GridPane grid) {
@@ -202,12 +224,9 @@ public class ShowMatchReport {
 		grid.setAlignment(Pos.CENTER);
 	}
 
-	private Background background() {
-		BackgroundFill background_fill = new BackgroundFill(Color.web("#9A9A9A"), CornerRadii.EMPTY, Insets.EMPTY);
-		Background background = new Background(background_fill);
-
-		return background;
-	}
+	/***********************************
+	 * SCENE
+	 ***********************************/
 
 	private void stageMods(Scene scene) {
 		primaryStage.setTitle("Main Menu");

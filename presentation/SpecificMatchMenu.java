@@ -9,7 +9,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -24,25 +28,25 @@ import javafx.stage.Stage;
 import logic.Match;
 
 public class SpecificMatchMenu {
-	private Stage primaryStage;
-	private Match match;
+	
+	private int hScoreVal = 0;
+	private int aScoreVal = 0;
+	private boolean matchStarted = false;
+	private AnimationTimer timer;
+	private ButtonEffect buttonEffect = new ButtonEffect();
+	private DatabaseController dbController = new DatabaseController();
 	private GridPane homeScoreGrid = new GridPane();
 	private GridPane awayScoreGrid = new GridPane();
 	private Label homeScore;
 	private Label awayScore;
-	private int hScoreVal = 0;
-	private int aScoreVal = 0;
-	private AnimationTimer timer;
 	private Label timerLabel;
+	private Match match;
+	private Stage primaryStage;
 	private String homeTable;
 	private String timeTable;
 	private String awayTable;
-	private ButtonEffect buttonEffect = new ButtonEffect();
-	private boolean matchStarted = false;
-	private DatabaseController dbController = new DatabaseController();
 	private TableView<SpecificMatchHistoryTable> table;
-
-	ObservableList<SpecificMatchHistoryTable> data = FXCollections.observableArrayList();
+	private ObservableList<SpecificMatchHistoryTable> data = FXCollections.observableArrayList();
 
 	public SpecificMatchMenu(Stage primaryStage, Match match) {
 		this.primaryStage = primaryStage;
@@ -254,7 +258,6 @@ public class SpecificMatchMenu {
 					SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
 				}
 				for (int i = data.size() - 1; i >= 0; i--) {
-					System.out.println(data.get(i).getHome());
 					if (data.get(i).getHome().compareTo("Goal") == 0) {
 						data.remove(i);
 						break;
@@ -344,7 +347,6 @@ public class SpecificMatchMenu {
 					SpecificMatchScoreLabelAndGridRight(awayScoreGrid, 1, 1, awayScore);
 
 					for (int i = data.size() - 1; i >= 0; i--) {
-						System.out.println(data.get(i).getAway());
 						if (data.get(i).getAway().compareTo("Goal") == 0) {
 							data.remove(i);
 							break;
@@ -412,6 +414,35 @@ public class SpecificMatchMenu {
 		Button back = new Button("Back");
 		NavigationButton(grid, 2, 1, back);
 		back.setOnAction(e -> new ScheduleMenu(primaryStage).init(typerOfUser));
+	}
+
+	/***********************************
+	 * LABELS
+	 ***********************************/
+
+	public void LabelTitle(GridPane grid, int row, int col, String text) {
+		Label obj = new Label(text);
+
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 60));
+		obj.setTextFill(Color.web("#707070"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+		obj.setUnderline(true);
+
+		GridPane.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	public void SpecificMatchLabelTitleHistory(GridPane grid, int row, int col, String text) {
+		Label obj = new Label(text);
+
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
+		obj.setTextFill(Color.web("#707070"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+
+		GridPane.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
 	}
 
 	/***********************************
@@ -508,28 +539,6 @@ public class SpecificMatchMenu {
 	 * BUTTONS EFFECT
 	 ***********************************/
 
-	private void SpecificMatchButtonEnterEffect(Button obj) {
-		BackgroundFill background_fill = new BackgroundFill(Color.web("#707070"), new CornerRadii(7), Insets.EMPTY);
-		Background background = new Background(background_fill);
-
-		obj.setBackground(background);
-		obj.setStyle("-fx-border-radius: 0 5 5 0; -fx-border-color: #707070; -fx-border-width: 3 3 3 1;");
-		obj.setCursor(Cursor.HAND);
-
-		obj.setTextFill(Color.web("#FFFFFF"));
-	}
-
-	private void SpecificMatchButtonDefaultEffect(Button obj) {
-		BackgroundFill background_fill = new BackgroundFill(Color.web("#FFFFFF"), new CornerRadii(7), Insets.EMPTY);
-		Background background = new Background(background_fill);
-
-		obj.setBackground(background);
-		obj.setStyle("-fx-border-radius: 0 5 5 0; -fx-border-color: #707070; -fx-border-width: 3 3 3 1;");
-		obj.setCursor(Cursor.DEFAULT);
-
-		obj.setTextFill(Color.web("#707070"));
-	}
-
 	private void SmallLeftSpecificMatchButtonEnterEffect(Button obj) {
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#707070"), new CornerRadii(7), Insets.EMPTY);
 		Background background = new Background(background_fill);
@@ -594,35 +603,6 @@ public class SpecificMatchMenu {
 		obj.setBackground(background);
 		obj.setStyle("-fx-border-radius: 5 0 0 5; -fx-border-color: #707070; -fx-border-width: 3 1 3 3;");
 		obj.setCursor(Cursor.DEFAULT);
-	}
-
-	/***********************************
-	 * LABELS
-	 ***********************************/
-
-	public void LabelTitle(GridPane grid, int row, int col, String text) {
-		Label obj = new Label(text);
-
-		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 60));
-		obj.setTextFill(Color.web("#707070"));
-		obj.setMinWidth(200);
-		obj.setAlignment(Pos.CENTER);
-		obj.setUnderline(true);
-
-		GridPane.setConstraints(obj, row, col);
-		grid.getChildren().add(obj);
-	}
-
-	public void SpecificMatchLabelTitleHistory(GridPane grid, int row, int col, String text) {
-		Label obj = new Label(text);
-
-		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
-		obj.setTextFill(Color.web("#707070"));
-		obj.setMinWidth(200);
-		obj.setAlignment(Pos.CENTER);
-
-		GridPane.setConstraints(obj, row, col);
-		grid.getChildren().add(obj);
 	}
 
 	/***********************************
@@ -702,7 +682,7 @@ public class SpecificMatchMenu {
 	}
 
 	/***********************************
-	 * SETSCENE & TITLE
+	 * SCENE
 	 ***********************************/
 	
 	private void stageMods(Scene scene) {
