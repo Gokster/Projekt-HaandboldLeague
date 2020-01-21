@@ -8,7 +8,7 @@ import java.util.Collections;
 import data.DatabaseController;
 import entities.Team;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.geometry.Pos; 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -37,7 +37,7 @@ public class TeamSchedule {
 		this.primaryStage = primaryStage;
 		this.team = team;
 	}
-	
+
 	public void init(String typerOfUser) {
 		VBox OuterBox;
 		typeOfUser = typerOfUser;
@@ -61,12 +61,12 @@ public class TeamSchedule {
 		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
 	}
-	
-	private ArrayList<Match> specificTeamMatchList(Team team){
+
+	private ArrayList<Match> specificTeamMatchList(Team team) {
 		for (int i = 0; i < arrMatches.size(); i++) {
-			if(arrMatches.get(i).getHomeTeam().getTeamName().compareTo(team.getTeamName()) == 0) {
+			if (arrMatches.get(i).getHomeTeam().getTeamName().compareTo(team.getTeamName()) == 0) {
 				teamMatchList.add(arrMatches.get(i));
-			} else if(arrMatches.get(i).getAwayTeam().getTeamName().compareTo(team.getTeamName()) == 0) {
+			} else if (arrMatches.get(i).getAwayTeam().getTeamName().compareTo(team.getTeamName()) == 0) {
 				teamMatchList.add(arrMatches.get(i));
 			}
 		}
@@ -78,9 +78,9 @@ public class TeamSchedule {
 	}
 
 	/***********************************
-	 * HBOX/VBOX 
+	 * HBOX/VBOX
 	 ***********************************/
-	
+
 	private HBox readMatches() {
 		sortArrayList();
 		HBox hbox = new HBox();
@@ -121,9 +121,9 @@ public class TeamSchedule {
 		}
 		return vbox;
 	}
-	
+
 	/***********************************
-	 * BUTTONS 
+	 * BUTTONS
 	 ***********************************/
 
 	private void buttonsNavigation(GridPane grid, String typerOfUser) {
@@ -135,7 +135,7 @@ public class TeamSchedule {
 		NavigationButton(grid, 2, 1, back);
 		back.setOnAction(e -> new TeamMenu(primaryStage).init(typerOfUser));
 	}
-	
+
 	private void buttonsCRUD(GridPane grid, String typerOfUser) {
 		Button createTeam = new Button("Create Match");
 		NavigationButton(grid, 4, 1, createTeam);
@@ -145,12 +145,12 @@ public class TeamSchedule {
 		NavigationButton(grid, 5, 1, deleteTeam);
 		deleteTeam.setOnAction(e -> new MatchDeleteMenu(primaryStage).init(typerOfUser));
 	}
-	
+
 	private Button infMatchButton(int j) {
 		String matchTitle = teamMatchList.get(j).getHomeTeam().getTeamName() + " vs. "
 				+ teamMatchList.get(j).getAwayTeam().getTeamName();
 		Button btn = null;
-		
+
 		// Allerede spillede kampe
 		if (teamMatchList.get(j).getWinningTeam() != 0) {
 			btn = new Button(matchTitle);
@@ -160,15 +160,16 @@ public class TeamSchedule {
 		} else {
 			btn = new Button(matchTitle);
 			MatchButtonsNotPlayed(btn);
-			btn.setOnAction(e -> new SpecificMatchMenu(primaryStage, teamMatchList.get(j)).init(matchTitle, typeOfUser));
+			btn.setOnAction(
+					e -> new SpecificMatchMenu(primaryStage, teamMatchList.get(j)).init(matchTitle, typeOfUser));
 		}
 		return btn;
 	}
-	
+
 	/***********************************
 	 * BUTTONS APPEARANCE
 	 ***********************************/
-	
+
 	public void MatchButtonsPlayed(Button obj) {
 		obj.setFont(Font.font("Calibri", 18));
 		obj.setPrefWidth(300);
@@ -228,7 +229,7 @@ public class TeamSchedule {
 	/***********************************
 	 * LABEL
 	 ***********************************/
-	
+
 	public void DateOfMatchLabel(Label obj) {
 		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 30));
 		obj.setUnderline(true);
@@ -236,21 +237,21 @@ public class TeamSchedule {
 		obj.setMinWidth(200);
 		obj.setAlignment(Pos.CENTER);
 	}
-	
+
 	/***********************************
 	 * TOPBAR ELEMENTS
 	 ***********************************/
-	
+
 	private void topBarElements(GridPane grid, String typerOfUser, Team team) {
 		buttonsNavigation(grid, typerOfUser);
 		new HeadlineLabelTitle(grid, 3, 1, team.getTeamName());
 		buttonsCRUD(grid, typerOfUser);
 	}
-	
+
 	/***********************************
 	 * GRID LAYOUT
 	 ***********************************/
-	
+
 	private void topBarGridOptions(GridPane grid) {
 		grid.setHgap(40);
 		grid.setVgap(40);
@@ -260,7 +261,7 @@ public class TeamSchedule {
 	/***********************************
 	 * BACKGROUND COLOR
 	 ***********************************/
-	
+
 	private Background background() {
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#9A9A9A"), CornerRadii.EMPTY, Insets.EMPTY);
 		Background background = new Background(background_fill);
@@ -271,7 +272,7 @@ public class TeamSchedule {
 	/***********************************
 	 * SETSCENE & TITLE
 	 ***********************************/
-	
+
 	private void stageMods(Scene scene) {
 		primaryStage.setTitle("Main Menu");
 		primaryStage.setScene(scene);

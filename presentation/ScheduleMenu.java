@@ -15,7 +15,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.HBox; 
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -80,11 +80,11 @@ public class ScheduleMenu {
 		}
 		return hbox;
 	}
-	
+
 	private void sortArrayList() {
 		Collections.sort(arrMatches, Match.dateCompare);
 	}
-	
+
 	/***********************************
 	 * MATCH BUTTONS
 	 ***********************************/
@@ -105,7 +105,7 @@ public class ScheduleMenu {
 		}
 		return btn;
 	}
-	
+
 	/***********************************
 	 * LABEL LAYOUT
 	 ***********************************/
@@ -117,7 +117,7 @@ public class ScheduleMenu {
 		obj.setMinWidth(200);
 		obj.setAlignment(Pos.CENTER);
 	}
-	
+
 	/***********************************
 	 * BUTTONS LAYOUT
 	 ***********************************/
@@ -145,7 +145,7 @@ public class ScheduleMenu {
 		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
 		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
 	}
-	
+
 	/***********************************
 	 * NAVIGATION BUTTONS
 	 ***********************************/
@@ -175,7 +175,7 @@ public class ScheduleMenu {
 		navigationButtonLayout(grid, 5, 1, deleteMatch);
 		deleteMatch.setOnAction(e -> new MatchDeleteMenu(primaryStage).init(typerOfUser));
 	}
-	
+
 	/***********************************
 	 * NAVIGATION LAYOUT
 	 ***********************************/
@@ -195,7 +195,7 @@ public class ScheduleMenu {
 		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
-	
+
 	/***********************************
 	 * GENERAL LAYOUT
 	 ***********************************/
@@ -219,8 +219,8 @@ public class ScheduleMenu {
 			}
 		}
 		return vbox;
-	} 
-	
+	}
+
 	private Background background() {
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#9A9A9A"), CornerRadii.EMPTY, Insets.EMPTY);
 		Background background = new Background(background_fill);
@@ -233,7 +233,7 @@ public class ScheduleMenu {
 		grid.setVgap(40);
 		grid.setAlignment(Pos.CENTER_LEFT);
 	}
-	
+
 	/***********************************
 	 * SCENE
 	 ***********************************/

@@ -28,7 +28,7 @@ import javafx.stage.Stage;
 import logic.Match;
 
 public class SpecificMatchMenu {
-	
+
 	private int hScoreVal = 0;
 	private int aScoreVal = 0;
 	private boolean matchStarted = false;
@@ -37,6 +37,7 @@ public class SpecificMatchMenu {
 	private DatabaseController dbController = new DatabaseController();
 	private GridPane homeScoreGrid = new GridPane();
 	private GridPane awayScoreGrid = new GridPane();
+	private HBox hboxChangingButtons = new HBox();
 	private Label homeScore;
 	private Label awayScore;
 	private Label timerLabel;
@@ -67,6 +68,7 @@ public class SpecificMatchMenu {
 
 		VBox middleBox = new VBox(history(), scoreAndTime(), startAndStop());
 		middleBox.setPadding(new Insets(60, 40, 0, 40));
+		middleBox.setAlignment(Pos.CENTER);
 
 		VBox awayBox = new VBox(awayTitle(), aGoalsButtons(), aTwoMinButtons());
 
@@ -156,6 +158,11 @@ public class SpecificMatchMenu {
 				} else {
 					timer.stop();
 					matchStarted = false;
+					dbController.createGoals(match.getGoalList());
+					dbController.createSuspensions(match.getSuspensionList());
+					match.calcWinningTeam();
+					dbController.updateCurrentMatch(match);
+					gameOver();
 				}
 			}
 		};
@@ -183,26 +190,12 @@ public class SpecificMatchMenu {
 	 ***********************************/
 
 	private HBox startAndStop() {
-		GridPane startGrid = new GridPane();
-		gridRowOptions(startGrid);
-		Button startButton = new Button("Start");
-		SpecificMatchButtonSmallLeft(startGrid, 1, 1, startButton);
-		startButton.setMinWidth(304);
-		startButton.setMaxWidth(304);
-		startButton.setOnAction(e -> {
-			if (matchStarted == false) {
-				timer.start();
-				match.startMatch();
-				matchStarted = true;
-			}
-		});
+		hboxChangingButtons.setAlignment(Pos.CENTER);
 
 		GridPane stopGrid = new GridPane();
 		gridRowOptions(stopGrid);
 		Button stopButton = new Button("Stop");
-		SpecificMatchButtonSmallRight(stopGrid, 1, 1, stopButton);
-		stopButton.setMinWidth(304);
-		stopButton.setMaxWidth(304);
+		SpecificMatchButtonBigger(stopGrid, 1, 1, stopButton);
 		stopButton.setOnAction(e -> {
 			timer.stop();
 			matchStarted = false;
@@ -210,11 +203,37 @@ public class SpecificMatchMenu {
 			dbController.createSuspensions(match.getSuspensionList());
 			match.calcWinningTeam();
 			dbController.updateCurrentMatch(match);
+			gameOver();
 		});
 
-		HBox hbox = new HBox(startGrid, stopGrid);
+		GridPane startGrid = new GridPane();
+		gridRowOptions(startGrid);
+		Button startButton = new Button("Start");
+		SpecificMatchButtonBigger(startGrid, 1, 1, startButton);
+		startButton.setOnAction(e -> {
+			if (matchStarted == false) {
+				timer.start();
+				match.startMatch();
+				matchStarted = true;
+				hboxChangingButtons.getChildren().clear();
+				hboxChangingButtons.getChildren().add(stopGrid);
+			}
+		});
 
-		return hbox;
+		hboxChangingButtons.getChildren().add(startGrid);
+
+		return hboxChangingButtons;
+	}
+
+	private void gameOver() {
+		hboxChangingButtons.getChildren().clear();
+		
+		GridPane gameOverGrid = new GridPane();
+		gridRowOptions(gameOverGrid);
+		Label gameOverMsg = new Label("Game Over");
+		gameOverLabelLayout(gameOverGrid, 1, 1, gameOverMsg);
+		
+		hboxChangingButtons.getChildren().add(gameOverGrid);
 	}
 
 	/***********************************
@@ -287,7 +306,6 @@ public class SpecificMatchMenu {
 				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
 			}
 		});
-
 		HBox hbox = new HBox(twoMinGrid);
 
 		return hbox;
@@ -481,6 +499,21 @@ public class SpecificMatchMenu {
 		grid.getChildren().add(obj);
 	}
 
+	public void SpecificMatchButtonBigger(GridPane grid, int row, int col, Button obj) {
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setPrefWidth(610);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		GridPane.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
 	public void SpecificMatchButtonSmallLeft(GridPane grid, int row, int col, Button obj) {
 		obj.setFont(Font.font("Calibri", 30));
 		obj.setMinWidth(200);
@@ -609,7 +642,7 @@ public class SpecificMatchMenu {
 	 * LABELS LAYOUT
 	 ***********************************/
 
-	public void SpecificMatchScoreLabelAndGridLeft(GridPane grid, int row, int col, Label obj) {
+	private void SpecificMatchScoreLabelAndGridLeft(GridPane grid, int row, int col, Label obj) {
 		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
 		obj.setTextFill(Color.web("#707070"));
 		obj.setAlignment(Pos.CENTER);
@@ -625,7 +658,7 @@ public class SpecificMatchMenu {
 		grid.getChildren().add(obj);
 	}
 
-	public void SpecificMatchScoreLabelAndGridRight(GridPane grid, int row, int col, Label obj) {
+	private void SpecificMatchScoreLabelAndGridRight(GridPane grid, int row, int col, Label obj) {
 		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
 		obj.setTextFill(Color.web("#707070"));
 		obj.setAlignment(Pos.CENTER);
@@ -640,7 +673,7 @@ public class SpecificMatchMenu {
 		grid.getChildren().add(obj);
 	}
 
-	public void SpecificMatchScoreLabelAndGridMiddle(GridPane grid, int row, int col, Label obj) {
+	private void SpecificMatchScoreLabelAndGridMiddle(GridPane grid, int row, int col, Label obj) {
 		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
 		obj.setTextFill(Color.web("#707070"));
 		obj.setAlignment(Pos.CENTER);
@@ -650,6 +683,16 @@ public class SpecificMatchMenu {
 
 		grid.setAlignment(Pos.CENTER);
 		grid.setPrefWidth(408);
+
+		GridPane.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	public void gameOverLabelLayout(GridPane grid, int row, int col, Label obj) {
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
+		obj.setTextFill(Color.web("#57504d"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
 
 		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
@@ -673,7 +716,7 @@ public class SpecificMatchMenu {
 	/***********************************
 	 * BACKGROUND COLOR
 	 ***********************************/
-	
+
 	private Background background() {
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#9A9A9A"), CornerRadii.EMPTY, Insets.EMPTY);
 		Background background = new Background(background_fill);
@@ -684,7 +727,7 @@ public class SpecificMatchMenu {
 	/***********************************
 	 * SCENE
 	 ***********************************/
-	
+
 	private void stageMods(Scene scene) {
 		primaryStage.setTitle("Main Menu");
 		primaryStage.setScene(scene);
