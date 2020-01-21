@@ -23,12 +23,21 @@ public class DatabaseController {
 		teams.createTeam(team);
 	}
 
-	public void deleteTeam(String teamName) { 
-		teams.deleteTeam(teamName);
-	}
-	
 	public ArrayList<Team> getAllTeams() {
 		return teams.readAllTeams();
+	}
+
+	public void deleteTeam(String teamName) { 
+		ArrayList<Match> matchList = getAllMatchesNotDone();
+		
+		for(Match match : matchList) {
+			if(teamName.compareTo(match.getHomeTeam().getTeamName()) == 0) {
+				deleteMatch(match);
+			} else if (teamName.compareTo(match.getAwayTeam().getTeamName()) == 0) {
+				deleteMatch(match);
+			}
+		}
+		teams.deleteTeam(teamName);
 	}
 	
 	/***********************************
