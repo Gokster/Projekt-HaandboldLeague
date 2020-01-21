@@ -40,7 +40,7 @@ public class SpecificMatchMenu {
 	private boolean matchStarted = false;
 	private DatabaseController dbController = new DatabaseController();
 	private TableView<SpecificMatchHistoryTable> table;
-	
+
 	ObservableList<SpecificMatchHistoryTable> data = FXCollections.observableArrayList();
 
 	public SpecificMatchMenu(Stage primaryStage, Match match) {
@@ -58,18 +58,12 @@ public class SpecificMatchMenu {
 
 		topBarElements(topBarGrid, matchName, typerOfUser);
 
-		VBox homeBox = new VBox(homeTitle(), hGoalsButtons(),
-				hTwoMinButtons()/*
-								 * , hYellowButtons(), hRedButtons(), hTimeOutButton(), hPenaltyButton()
-								 */);
+		VBox homeBox = new VBox(homeTitle(), hGoalsButtons(), hTwoMinButtons());
 
 		VBox middleBox = new VBox(historyTitle(), history(), scoreAndTime(), startAndStop());
 		middleBox.setPadding(new Insets(60, 40, 0, 40));
 
-		VBox awayBox = new VBox(awayTitle(), aGoalsButtons(),
-				aTwoMinButtons()/*
-								 * , aYellowButtons(), aRedButtons(), aTimeOutButton(), aPenaltyButton()
-								 */);
+		VBox awayBox = new VBox(awayTitle(), aGoalsButtons(), aTwoMinButtons());
 
 		HBox matchControls = new HBox(homeBox, middleBox, awayBox);
 		matchControls.setAlignment(Pos.CENTER);
@@ -109,17 +103,20 @@ public class SpecificMatchMenu {
 	private VBox history() {
 		GridPane historyGrid = new GridPane();
 
-		TableColumn<SpecificMatchHistoryTable, String> homeColumn = new TableColumn<SpecificMatchHistoryTable, String>("");
+		TableColumn<SpecificMatchHistoryTable, String> homeColumn = new TableColumn<SpecificMatchHistoryTable, String>(
+				"");
 		homeColumn.setMinWidth(250);
 		homeColumn.setMaxWidth(250);
 		homeColumn.setCellValueFactory(new PropertyValueFactory<SpecificMatchHistoryTable, String>("Home"));
 
-		TableColumn<SpecificMatchHistoryTable, String> timeColumn = new TableColumn<SpecificMatchHistoryTable, String>("First Half");
+		TableColumn<SpecificMatchHistoryTable, String> timeColumn = new TableColumn<SpecificMatchHistoryTable, String>(
+				"First Half");
 		timeColumn.setMinWidth(100);
 		timeColumn.setMaxWidth(100);
 		timeColumn.setCellValueFactory(new PropertyValueFactory<SpecificMatchHistoryTable, String>("Time"));
 
-		TableColumn<SpecificMatchHistoryTable, String> awayColumn = new TableColumn<SpecificMatchHistoryTable, String>("");
+		TableColumn<SpecificMatchHistoryTable, String> awayColumn = new TableColumn<SpecificMatchHistoryTable, String>(
+				"");
 		awayColumn.setMinWidth(250);
 		awayColumn.setMaxWidth(250);
 		awayColumn.setCellValueFactory(new PropertyValueFactory<SpecificMatchHistoryTable, String>("Away"));
@@ -151,10 +148,10 @@ public class SpecificMatchMenu {
 				long time = match.getMatchSeconds();
 				if (time <= 120) {
 					timerGrid.getChildren().remove(timerLabel);
-					if(time % 60 < 10) {
-						timerLabel = new Label(Long.toString(time / 60) + ":0" +Long.toString(time % 60));
+					if (time % 60 < 10) {
+						timerLabel = new Label(Long.toString(time / 60) + ":0" + Long.toString(time % 60));
 					} else {
-						timerLabel = new Label(Long.toString(time / 60) + ":" +Long.toString(time % 60));
+						timerLabel = new Label(Long.toString(time / 60) + ":" + Long.toString(time % 60));
 					}
 					SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, timerLabel);
 				} else {
@@ -239,7 +236,7 @@ public class SpecificMatchMenu {
 				homeTable = "Goal";
 				timeTable = timeStampCreator();
 				awayTable = "";
-				
+
 				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
 			}
 		});
@@ -290,7 +287,7 @@ public class SpecificMatchMenu {
 		twoMinButton.setOnAction(e -> {
 			table.scrollTo(200);
 			if (matchStarted == true) {
-				match.addSuspension(match.getHomeTeam());
+				match.addSuspension(match.getHomeTeam(), match.getMatchSeconds());
 				homeTable = "2 min";
 				timeTable = timeStampCreator();
 				awayTable = "";
@@ -453,7 +450,7 @@ public class SpecificMatchMenu {
 		twoMinButton.setOnAction(e -> {
 			table.scrollTo(200);
 			if (matchStarted == true) {
-				match.addSuspension(match.getAwayTeam());
+				match.addSuspension(match.getAwayTeam(), match.getMatchSeconds());
 
 				homeTable = "";
 				timeTable = timeStampCreator();
@@ -467,19 +464,20 @@ public class SpecificMatchMenu {
 
 		return hbox;
 	}
-	
+
 	private String timeStampCreator() {
 		long time = match.getMatchSeconds();
 		String timeStamp;
-		
-		if(time % 60 < 10) {
-			timeStamp = Long.toString(time / 60) + ":0" +Long.toString(time % 60);	
+
+		if (time % 60 < 10) {
+			timeStamp = Long.toString(time / 60) + ":0" + Long.toString(time % 60);
 		} else {
-			timeStamp = Long.toString(time / 60) + ":" +Long.toString(time % 60);
+			timeStamp = Long.toString(time / 60) + ":" + Long.toString(time % 60);
 		}
-		
-		return timeStamp; 
+
+		return timeStamp;
 	}
+
 //	private HBox aYellowButtons() {
 //
 //		GridPane playerYellowGrid = new GridPane();
@@ -760,37 +758,39 @@ public class SpecificMatchMenu {
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
+
 	public void SpecificMatchScoreLabelAndGridRight(GridPane grid, int row, int col, Label obj) {
 
 		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
 		obj.setTextFill(Color.web("#707070"));
 //		obj.setMinWidth(200);
 		obj.setAlignment(Pos.CENTER);
-		
+
 		grid.setStyle(
 				"-fx-border-radius: 0 0 5 0; -fx-border-color: #707070; -fx-border-width: 1 3 3 1; -fx-background-radius: 0 0 7 0; "
-				+ "-fx-background: -fx-accent; -fx-background-color: #FFFFFF;");
+						+ "-fx-background: -fx-accent; -fx-background-color: #FFFFFF;");
 
 		grid.setAlignment(Pos.CENTER);
 		grid.setPrefWidth(100);
-		
+
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
-	public void SpecificMatchScoreLabelAndGridMiddle(GridPane grid, int row, int col, Label obj) { 
+
+	public void SpecificMatchScoreLabelAndGridMiddle(GridPane grid, int row, int col, Label obj) {
 
 		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
 		obj.setTextFill(Color.web("#707070"));
 //		obj.setMinWidth(200);
 		obj.setAlignment(Pos.CENTER);
-		
+
 		grid.setStyle(
 				"-fx-border-radius: 0 0 0 0; -fx-border-color: #707070; -fx-border-width: 1 1 3 1; -fx-background-radius: 0 0 0 0; "
-				+ "-fx-background: -fx-accent; -fx-background-color: #FFFFFF;");
+						+ "-fx-background: -fx-accent; -fx-background-color: #FFFFFF;");
 
 		grid.setAlignment(Pos.CENTER);
 		grid.setPrefWidth(408);
-		
+
 		grid.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
