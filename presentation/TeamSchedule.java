@@ -8,20 +8,11 @@ import java.util.Collections;
 import data.DatabaseController;
 import entities.Match;
 import entities.Team;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -32,22 +23,21 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 public class TeamSchedule {
 	private Stage primaryStage;
+	private String typeOfUser;
+	private Team team;
 	private ButtonEffect buttonEffect = new ButtonEffect();
 	private DatabaseController dbController = new DatabaseController();
 	private ArrayList<Match> arrMatches = dbController.getAllMatches();
 	private ArrayList<Match> teamMatchList = new ArrayList<Match>();
-	private Team team;
-	private String typeOfUser;
 
 	public TeamSchedule(Stage primaryStage, Team team) {
 		this.primaryStage = primaryStage;
 		this.team = team;
 	}
-
+	
 	public void init(String typerOfUser) {
 		typeOfUser = typerOfUser;
 
@@ -67,7 +57,6 @@ public class TeamSchedule {
 	}
 	
 	private ArrayList<Match> specificTeamMatchList(Team team){
-		
 		for (int i = 0; i < arrMatches.size(); i++) {
 			if(arrMatches.get(i).getHomeTeam().getTeamName().compareTo(team.getTeamName()) == 0) {
 				teamMatchList.add(arrMatches.get(i));
@@ -80,6 +69,10 @@ public class TeamSchedule {
 		Collections.sort(teamMatchList, Match.dateCompare);
 	}
 
+	/***********************************
+	 * HBOX/VBOX 
+	 ***********************************/
+	
 	private HBox readMatchesNotDone(Team team) {
 		specificTeamMatchList(team);
 		sortArrayList();
@@ -121,7 +114,45 @@ public class TeamSchedule {
 		}
 		return vbox;
 	}
+	
+	/***********************************
+	 * BUTTONS 
+	 ***********************************/
 
+	private void buttonsNavigation(GridPane grid, String typerOfUser) {
+		Button home = new Button("Home");
+		NavigationButton(grid, 1, 1, home);
+		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
+
+		Button back = new Button("Back");
+		NavigationButton(grid, 2, 1, back);
+		back.setOnAction(e -> new LeaguesMenu(primaryStage).init(typerOfUser));
+	}
+	
+	private void buttonsCRUD(GridPane grid, String typerOfUser) {
+		Button createTeam = new Button("Create Match");
+		NavigationButton(grid, 4, 1, createTeam);
+		createTeam.setOnAction(e -> new MatchMakingMenu(primaryStage).init(typerOfUser));
+
+		Button deleteTeam = new Button("Delete Match");
+		NavigationButton(grid, 5, 1, deleteTeam);
+		deleteTeam.setOnAction(e -> new NewScheduleDeleteMenu(primaryStage).init(typerOfUser));
+	}
+	
+	private HBox createTeamAndCancelButtons(String typerOfUser) {
+		GridPane createTeamGrid = new GridPane();
+		gridRowOptions(createTeamGrid);
+		Button createTeamButton = new Button("Team Blyat vs. Eriks Plovmaend");
+		NewButton(createTeamGrid, 1, 1, createTeamButton);
+		//createTeamButton.setOnAction(e -> new ShowMatchReport(primaryStage, match).init(typerOfUser));
+
+		HBox hbox = new HBox(createTeamGrid);
+		hbox.setAlignment(Pos.CENTER);
+		hbox.setPadding(new Insets(100));
+
+		return hbox;
+	}
+	
 	private Button infMatchButton(int j) {
 		String matchTitle = teamMatchList.get(j).getHomeTeam().getTeamName() + " vs. "
 				+ teamMatchList.get(j).getAwayTeam().getTeamName();
@@ -143,42 +174,8 @@ public class TeamSchedule {
 	}
 	
 	/***********************************
-	 * BUTTONS
+	 * BUTTONS APPEARANCE
 	 ***********************************/
-
-	private void buttonsNavigation(GridPane grid, String typerOfUser) {
-		Button home = new Button("Home");
-		NavigationButton(grid, 1, 1, home);
-		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
-
-		Button back = new Button("Back");
-		NavigationButton(grid, 2, 1, back);
-		back.setOnAction(e -> new LeaguesMenu(primaryStage).init(typerOfUser));
-	}
-	
-	private void buttonsCRUD(GridPane grid, String typerOfUser) {
-		Button createTeam = new Button("Create Match");
-		NavigationButton(grid, 4, 1, createTeam);
-		createTeam.setOnAction(e -> new NewLeagueCreateMenu(primaryStage).init(typerOfUser));
-
-		Button deleteTeam = new Button("Delete Delete");
-		NavigationButton(grid, 5, 1, deleteTeam);
-		deleteTeam.setOnAction(e -> new NewLeagueDeleteMenu(primaryStage).init(typerOfUser));
-	}
-	
-	private HBox createTeamAndCancelButtons(String typerOfUser) {
-		GridPane createTeamGrid = new GridPane();
-		gridRowOptions(createTeamGrid);
-		Button createTeamButton = new Button("Team Blyat vs. Eriks Plovmaend");
-		NewButton(createTeamGrid, 1, 1, createTeamButton);
-		//createTeamButton.setOnAction(e -> new ShowMatchReport(primaryStage, match).init(typerOfUser));
-
-		HBox hbox = new HBox(createTeamGrid);
-		hbox.setAlignment(Pos.CENTER);
-		hbox.setPadding(new Insets(100));
-
-		return hbox;
-	}
 	
 	public void MatchButtonsPlayed(Button obj) {
 		obj.setFont(Font.font("Calibri", 18));
@@ -216,7 +213,7 @@ public class TeamSchedule {
 		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
 		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
 
-		grid.setConstraints(obj, row, col);
+		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
 
@@ -232,10 +229,14 @@ public class TeamSchedule {
 		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
 		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
 
-		grid.setConstraints(obj, row, col);
+		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
 
+	/***********************************
+	 * LABEL
+	 ***********************************/
+	
 	public void DateOfMatchLabel(Label obj) {
 		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 30));
 		obj.setUnderline(true);
@@ -244,11 +245,19 @@ public class TeamSchedule {
 		obj.setAlignment(Pos.CENTER);
 	}
 	
+	/***********************************
+	 * TOPBAR ELEMENTS
+	 ***********************************/
+	
 	private void topBarElements(GridPane grid, String typerOfUser) {
 		buttonsNavigation(grid, typerOfUser);
 		new HeadlineLabelTitle(grid, 3, 1, "Team Schedule");
 		buttonsCRUD(grid, typerOfUser);
 	}
+	
+	/***********************************
+	 * GRID LAYOUT
+	 ***********************************/
 	
 	private void topBarGridOptions(GridPane grid) {
 		grid.setHgap(40);
@@ -261,6 +270,10 @@ public class TeamSchedule {
 		grid.setAlignment(Pos.CENTER);
 	}
 
+	/***********************************
+	 * BACKGROUND COLOR
+	 ***********************************/
+	
 	private Background background() {
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#9A9A9A"), CornerRadii.EMPTY, Insets.EMPTY);
 		Background background = new Background(background_fill);
@@ -268,6 +281,10 @@ public class TeamSchedule {
 		return background;
 	}
 
+	/***********************************
+	 * SETSCENE & TITLE
+	 ***********************************/
+	
 	private void stageMods(Scene scene) {
 		primaryStage.setTitle("Main Menu");
 		primaryStage.setScene(scene);
