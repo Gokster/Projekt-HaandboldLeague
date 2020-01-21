@@ -5,7 +5,7 @@ import java.util.Collections;
 
 import entities.SpecificMatchHistoryTable;
 
-public class MatchReport2 {
+public class MatchReport {
 	private int homeTeamScore = 0;
 	private int awayTeamScore = 0;
 

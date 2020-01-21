@@ -169,11 +169,11 @@ public class ScheduleMenu {
 	private void buttonsCRUD(GridPane grid, String typerOfUser) {
 		Button createTeam = new Button("Create");
 		navigationButtonLayout(grid, 4, 1, createTeam);
-		createTeam.setOnAction(e -> new MatchMakingMenu(primaryStage).init(typerOfUser));
+		createTeam.setOnAction(e -> new MatchCreateMenu(primaryStage).init(typerOfUser));
 
 		Button deleteTeam = new Button("Delete");
 		navigationButtonLayout(grid, 5, 1, deleteTeam);
-		deleteTeam.setOnAction(e -> new NewScheduleDeleteMenu(primaryStage).init(typerOfUser));
+		deleteTeam.setOnAction(e -> new MatchDeleteMenu(primaryStage).init(typerOfUser));
 	}
 	
 	/***********************************

@@ -23,14 +23,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import logic.Match;
-import logic.MatchReport2; 
+import logic.MatchReport; 
 
 public class ShowMatchReport {
 	private Stage primaryStage;
 	private Team team = null;
 	private Match match;
 	private ButtonEffect buttonEffect = new ButtonEffect();
-	private MatchReport2 matchReport = new MatchReport2();
+	private MatchReport matchReport = new MatchReport();
 
 	public ShowMatchReport(Stage primaryStage, Match match, Team team) {
 		this.primaryStage = primaryStage;

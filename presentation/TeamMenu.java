@@ -23,14 +23,14 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.LeagueRanking;
 
-public class LeaguesMenu {
+public class TeamMenu {
 	
 	private ButtonEffect buttonEffect = new ButtonEffect();
 	private DatabaseController dbController = new DatabaseController();
 	private LeagueRanking leagueRanker = new LeagueRanking();
 	private Stage primaryStage;
 
-	public LeaguesMenu(Stage primaryStage) {
+	public TeamMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
 
@@ -119,11 +119,11 @@ public class LeaguesMenu {
 	private void buttonsCRUD(GridPane grid, String typerOfUser) {
 		Button createTeam = new Button("Create Team");
 		NavigationButton(grid, 4, 1, createTeam);
-		createTeam.setOnAction(e -> new NewLeagueCreateMenu(primaryStage).init(typerOfUser));
+		createTeam.setOnAction(e -> new TeamCreateMenu(primaryStage).init(typerOfUser));
 
 		Button deleteTeam = new Button("Delete Team");
 		NavigationButton(grid, 5, 1, deleteTeam);
-		deleteTeam.setOnAction(e -> new NewLeagueDeleteMenu(primaryStage).init(typerOfUser));
+		deleteTeam.setOnAction(e -> new TeamDeleteMenu(primaryStage).init(typerOfUser));
 	}	
 	
 	/***********************************

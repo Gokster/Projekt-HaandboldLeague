@@ -30,7 +30,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import logic.Match;
 
-public class MatchMakingMenu {
+public class MatchCreateMenu {
 	
 	private Button dateButton;
 	private ButtonEffect buttonEffect = new ButtonEffect();
@@ -44,7 +44,7 @@ public class MatchMakingMenu {
 	private ComboBox<String> team1CB;
 	private ComboBox<String> team2CB;
 
-	public MatchMakingMenu(Stage primaryStage) {
+	public MatchCreateMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
 

@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import logic.Match;
 
-public class NewScheduleDeleteMenu {
+public class MatchDeleteMenu {
 	
 	private Button dateButton;
 	private ButtonEffect buttonEffect = new ButtonEffect();
@@ -39,7 +39,7 @@ public class NewScheduleDeleteMenu {
 	private ArrayList<Match> arrMatches = dbController.getAllMatches();
 	private ComboBox<String> matchCB;
 
-	public NewScheduleDeleteMenu(Stage primaryStage) {
+	public MatchDeleteMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
 

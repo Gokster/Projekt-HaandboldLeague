@@ -133,17 +133,17 @@ public class TeamSchedule {
 
 		Button back = new Button("Back");
 		NavigationButton(grid, 2, 1, back);
-		back.setOnAction(e -> new LeaguesMenu(primaryStage).init(typerOfUser));
+		back.setOnAction(e -> new TeamMenu(primaryStage).init(typerOfUser));
 	}
 	
 	private void buttonsCRUD(GridPane grid, String typerOfUser) {
 		Button createTeam = new Button("Create Match");
 		NavigationButton(grid, 4, 1, createTeam);
-		createTeam.setOnAction(e -> new MatchMakingMenu(primaryStage).init(typerOfUser));
+		createTeam.setOnAction(e -> new MatchCreateMenu(primaryStage).init(typerOfUser));
 
 		Button deleteTeam = new Button("Delete Match");
 		NavigationButton(grid, 5, 1, deleteTeam);
-		deleteTeam.setOnAction(e -> new NewScheduleDeleteMenu(primaryStage).init(typerOfUser));
+		deleteTeam.setOnAction(e -> new MatchDeleteMenu(primaryStage).init(typerOfUser));
 	}
 	
 	private Button infMatchButton(int j) {

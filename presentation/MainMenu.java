@@ -96,11 +96,11 @@ public class MainMenu {
 	private void buttonsOrganizer(GridPane grid, String typerOfUser) {
 		Button leagues = new Button("League Rankings");
 		MainMenuButton(grid, 1, 2, leagues);
-		leagues.setOnAction(e -> new LeaguesMenu(primaryStage).init(typerOfUser));
+		leagues.setOnAction(e -> new TeamMenu(primaryStage).init(typerOfUser));
 
 		Button matchMaking = new Button("Matchmaking");
 		MainMenuButton(grid, 1, 3, matchMaking);
-		matchMaking.setOnAction(e -> new MatchMakingMenu(primaryStage).init(typerOfUser));
+		matchMaking.setOnAction(e -> new MatchCreateMenu(primaryStage).init(typerOfUser));
 
 		Button schedule = new Button("Schedule");
 		MainMenuButton(grid, 1, 4, schedule);
