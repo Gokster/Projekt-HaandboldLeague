@@ -39,7 +39,7 @@ public class ShowMatchReport {
 
 	public ShowMatchReport(Stage primaryStage, Match match) {
 		this.primaryStage = primaryStage;
-		this.match = match;
+		this.match = match; 
 	}
 
 	public void init(String typerOfUser) {
