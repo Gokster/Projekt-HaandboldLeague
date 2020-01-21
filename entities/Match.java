@@ -102,7 +102,7 @@ public class Match {
 			}
 		}
 	}
-
+ 
 	public void addSuspension(Team suspensionTeam) {
 		MatchTime timeStamp = new MatchTime(matchTime);
 		Suspension suspension = new Suspension(suspensionTeam, timeStamp, matchId);
