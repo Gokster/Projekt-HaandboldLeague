@@ -79,7 +79,7 @@ public class LeaguesMenu {
 
 		HBox hbox = new HBox(table);
 		hbox.setAlignment(Pos.CENTER);
-		hbox.setPadding(new Insets(40)); 
+		hbox.setPadding(new Insets(40));
 
 		VBox OuterBox = new VBox(topBarGrid, hbox);
 		OuterBox.setBackground(background());
