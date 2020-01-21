@@ -1,7 +1,7 @@
 package presentation;
 
 import data.DatabaseController;
-import entities.Match;
+import entities.SpecificMatchHistoryTable;
 import javafx.animation.AnimationTimer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,6 +21,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import logic.Match;
 
 public class SpecificMatchMenu {
 	private Stage primaryStage;

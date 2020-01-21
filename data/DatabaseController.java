@@ -3,9 +3,9 @@ package data;
 import java.util.ArrayList;
 import java.sql.Date;
 import entities.Goal;
-import entities.Match;
 import entities.Suspension;
 import entities.Team;
+import logic.Match;
 
 public class DatabaseController {
 	private DataLayer dataLayer = new DataLayer();

@@ -3,8 +3,7 @@ package logic;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import entities.Match;
-import presentation.SpecificMatchHistoryTable;
+import entities.SpecificMatchHistoryTable;
 
 public class MatchReport2 {
 	private int homeTeamScore = 0;

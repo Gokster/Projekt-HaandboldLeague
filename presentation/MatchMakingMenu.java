@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import data.DatabaseController;
-import entities.Match;
 import entities.Team;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -29,6 +28,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import logic.Match;
 
 public class MatchMakingMenu {
 	

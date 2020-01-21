@@ -1,4 +1,4 @@
-package entities;
+package logic;
 
 import java.sql.Date;
 import java.util.ArrayList;

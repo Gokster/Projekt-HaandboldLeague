@@ -3,8 +3,8 @@ package data;
 import java.sql.*;
 import java.util.ArrayList;
 import entities.Team;
+import logic.Match;
 import entities.Goal;
-import entities.Match;
 import entities.Suspension;
 
 public class Matches {

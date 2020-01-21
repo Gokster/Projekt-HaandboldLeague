@@ -3,7 +3,7 @@ package logic;
 import java.math.BigDecimal;
 import java.util.Comparator;
 
-import presentation.SpecificMatchHistoryTable;
+import entities.SpecificMatchHistoryTable;
 
 class TimestampCompare implements Comparator<SpecificMatchHistoryTable> {
 	public int compare(SpecificMatchHistoryTable timestamp1, SpecificMatchHistoryTable timestamp2) {
