@@ -1,14 +1,9 @@
 package logic;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import data.DatabaseController;
-import entities.Goal;
 import entities.Match;
-import entities.Suspension;
-import entities.Team;
 import presentation.SpecificMatchHistoryTable;
 
 public class MatchReport2 {

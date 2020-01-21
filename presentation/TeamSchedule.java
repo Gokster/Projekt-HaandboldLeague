@@ -46,7 +46,7 @@ public class TeamSchedule {
 
 		topBarElements(topBarGrid, typerOfUser);
 
-		HBox calenderTimeline = new HBox(readMatchesNotDone(team));
+		HBox calenderTimeline = new HBox(readMatches(team));
 		calenderTimeline.setAlignment(Pos.BASELINE_CENTER);
 
 		VBox OuterBox = new VBox(topBarGrid, calenderTimeline);
@@ -73,7 +73,7 @@ public class TeamSchedule {
 	 * HBOX/VBOX 
 	 ***********************************/
 	
-	private HBox readMatchesNotDone(Team team) {
+	private HBox readMatches(Team team) {
 		specificTeamMatchList(team);
 		sortArrayList();
 		HBox hbox = new HBox();
@@ -139,30 +139,15 @@ public class TeamSchedule {
 		deleteTeam.setOnAction(e -> new NewScheduleDeleteMenu(primaryStage).init(typerOfUser));
 	}
 	
-	private HBox createTeamAndCancelButtons(String typerOfUser) {
-		GridPane createTeamGrid = new GridPane();
-		gridRowOptions(createTeamGrid);
-		Button createTeamButton = new Button("Team Blyat vs. Eriks Plovmaend");
-		NewButton(createTeamGrid, 1, 1, createTeamButton);
-		//createTeamButton.setOnAction(e -> new ShowMatchReport(primaryStage, match).init(typerOfUser));
-
-		HBox hbox = new HBox(createTeamGrid);
-		hbox.setAlignment(Pos.CENTER);
-		hbox.setPadding(new Insets(100));
-
-		return hbox;
-	}
-	
 	private Button infMatchButton(int j) {
 		String matchTitle = teamMatchList.get(j).getHomeTeam().getTeamName() + " vs. "
 				+ teamMatchList.get(j).getAwayTeam().getTeamName();
 		Button btn = null;
-
+		
 		// Allerede spillede kampe
 		if (teamMatchList.get(j).getWinningTeam() != 0) {
 			btn = new Button(matchTitle);
 			MatchButtonsPlayed(btn);
-			int lastScene = 1;
 			btn.setOnAction(e -> new ShowMatchReport(primaryStage, teamMatchList.get(j), team).init(typeOfUser));
 			// Fremtidige kampe
 		} else {
@@ -263,11 +248,6 @@ public class TeamSchedule {
 		grid.setHgap(40);
 		grid.setVgap(40);
 		grid.setAlignment(Pos.CENTER_LEFT);
-	}
-
-	private void gridRowOptions(GridPane grid) {
-		grid.setHgap(44);
-		grid.setAlignment(Pos.CENTER);
 	}
 
 	/***********************************
