@@ -15,9 +15,9 @@ public class MatchTime {
 		this.seconds = timeStampSeconds;
 	}
 	
-	public MatchTime(MatchTime matchTime) {
-		this.seconds = matchTime.getSeconds();
-	}
+	/***********************************
+	 * TIMER CONTROLS
+	 ***********************************/
 	
 	public void startMatchTimer() {
 		this.startTime = System.currentTimeMillis();
@@ -43,10 +43,6 @@ public class MatchTime {
 	/***********************************
 	 * GETTERS
 	 ***********************************/
-	
-	public void getMatchTime() {
-		seconds = getSeconds() % 60;
-	}
 	
 	public long getSeconds() {
 		return seconds;
