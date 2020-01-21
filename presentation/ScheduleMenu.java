@@ -34,7 +34,9 @@ public class ScheduleMenu {
 		this.primaryStage = primaryStage;
 	}
 	
+	
 	public void init(String typerOfUser) {
+		VBox OuterBox;
 		typeOfUser = typerOfUser;
 
 		GridPane topBarGrid = new GridPane();
@@ -42,12 +44,16 @@ public class ScheduleMenu {
 
 		topBarElements(topBarGrid, typerOfUser);
 
-		HBox calenderTimeline = new HBox(readMatchesNotDone());
-		calenderTimeline.setAlignment(Pos.BASELINE_CENTER);
-
-		VBox OuterBox = new VBox(topBarGrid, calenderTimeline);
-		OuterBox.setBackground(background());
-
+		if(arrMatches.size() > 0) {
+			HBox calenderTimeline = new HBox(readMatchesNotDone());
+			calenderTimeline.setAlignment(Pos.BASELINE_CENTER);
+			OuterBox = new VBox(topBarGrid, calenderTimeline);
+			OuterBox.setBackground(background());
+		} else {
+			OuterBox = new VBox(topBarGrid);
+			OuterBox.setBackground(background());
+		}
+		
 		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
 	}

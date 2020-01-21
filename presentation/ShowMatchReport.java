@@ -65,8 +65,10 @@ public class ShowMatchReport {
 		awayTeamCol.setCellValueFactory(new PropertyValueFactory<SpecificMatchHistoryTable, String>("Away"));
 
 		TableView<SpecificMatchHistoryTable> table = new TableView<SpecificMatchHistoryTable>();
-		// table.getStylesheets().add("/presentation/LeaguesMenuTableViewCss.css");
-		table.setMinWidth(350);
+		table.getStylesheets().add("/presentation/LeaguesMenuTableViewCss.css");
+		table.setPrefWidth(800);
+		table.setPrefHeight(600);
+		//table.setMinWidth(350);
 		GridPane.setColumnSpan(table, 3);
 		GridPane.setRowSpan(table, 14);
 
@@ -79,6 +81,7 @@ public class ShowMatchReport {
 
 		HBox tableHBox = new HBox(table);
 		tableHBox.setAlignment(Pos.CENTER);
+		tableHBox.setPadding(new Insets(40)); 
 
 		VBox OuterBox = new VBox(topBarGrid, matchInfoHBox, tableHBox);
 		OuterBox.setBackground(background());
