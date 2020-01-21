@@ -104,39 +104,4 @@ public class Goals {
 
 		return goalsList;
 	}
-	
-	/***********************************
-	 * UPDATE
-	 ***********************************/
-
-//	public void updateGoal(Goal goal) {
-//		try {
-//			String sql = "UPDATE matches SET scoringteam=" + goal.getScoringTeam() + ", matchtime="
-//					+ goal.getMatchTime() + ", matchid=" + goal.getMatchId() + " WHERE id=" + goal.getGoalId();
-//
-//			Statement statement = connection.createStatement();
-//
-//			if (statement.executeUpdate(sql) == 0)
-//				System.out.println("No goals to update!");
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
-	/***********************************
-	 * DELETE
-	 ***********************************/
-
-//	public void deleteGoal(Goal goal) {
-//		try {
-//			String sql = "DELETE FROM goal WHERE id=" + goal.getGoalId();
-//
-//			Statement statement = connection.createStatement();
-//
-//			if (statement.executeUpdate(sql) == 0)
-//				System.out.println("No goals to delete!");
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
 }
