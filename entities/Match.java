@@ -98,8 +98,8 @@ public class Match {
 		}
 	}
  
-	public void addSuspension(Team suspensionTeam) {
-		MatchTime timeStamp = new MatchTime(matchTime);
+	public void addSuspension(Team suspensionTeam, long currentTime) {
+		MatchTime timeStamp = new MatchTime((int) currentTime);
 		Suspension suspension = new Suspension(suspensionTeam, timeStamp, matchId);
 		suspensionList.add(suspension);
 	}

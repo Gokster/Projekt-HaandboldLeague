@@ -290,7 +290,7 @@ public class SpecificMatchMenu {
 		twoMinButton.setOnAction(e -> {
 			table.scrollTo(200);
 			if (matchStarted == true) {
-				match.addSuspension(match.getHomeTeam());
+				match.addSuspension(match.getHomeTeam(), match.getMatchSeconds());
 				homeTable = "2 min";
 				timeTable = timeStampCreator();
 				awayTable = "";
@@ -453,7 +453,7 @@ public class SpecificMatchMenu {
 		twoMinButton.setOnAction(e -> {
 			table.scrollTo(200);
 			if (matchStarted == true) {
-				match.addSuspension(match.getAwayTeam());
+				match.addSuspension(match.getAwayTeam(), match.getMatchSeconds());
 
 				homeTable = "";
 				timeTable = timeStampCreator();
