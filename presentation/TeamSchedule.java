@@ -236,7 +236,6 @@ public class TeamSchedule {
 		grid.getChildren().add(obj);
 	}
 
-	
 	public void DateOfMatchLabel(Label obj) {
 		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 30));
 		obj.setUnderline(true);
