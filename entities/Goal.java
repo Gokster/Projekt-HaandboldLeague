@@ -1,14 +1,12 @@
 package entities;
 
-import java.sql.Time;
-
 public class Goal {
+	
 	private int goalId;
-	private Team scoringTeam;
-	private MatchTime timestamp;
 	private int matchId;
+	private MatchTime timestamp;
+	private Team scoringTeam;
 
-	// 09-01-2020 �ndret matchTime fra typen Time til int
 	public Goal(int goalId, Team scoringTeam, MatchTime matchTime, int matchId) {
 		this.goalId = goalId;
 		this.scoringTeam = scoringTeam;
@@ -21,42 +19,44 @@ public class Goal {
 		this.timestamp = matchTime;
 		this.matchId = matchId;
 	}
+	
+	/***********************************
+	 * GETTERS
+	 ***********************************/
 
 	public int getGoalId() {
 		return goalId;
 	}
-
-	public void setGoalId(int goalId) {
-		this.goalId = goalId;
-	}
-
+	
 	public Team getScoringTeam() {
 		return scoringTeam;
-	}
-
-	public void setScoringTeam(Team scoringTeam) {
-		this.scoringTeam = scoringTeam;
 	}
 
 	public MatchTime getMatchTime() {
 		return timestamp;
 	}
 
+	public int getMatchId() {
+		return matchId;
+	}
+	
+	/***********************************
+	 * SETTERS
+	 ***********************************/
+
+	public void setGoalId(int goalId) {
+		this.goalId = goalId;
+	}
+
+	public void setScoringTeam(Team scoringTeam) {
+		this.scoringTeam = scoringTeam;
+	}
+
 	public void setMatchTime(MatchTime matchTime) {
 		this.timestamp = matchTime;
 	}
 
-	public int getMatchId() {
-		return matchId;
-	}
-
 	public void setMatchId(int matchId) {
 		this.matchId = matchId;
-	}
-	
-//	@Override
-//	public int compareTo(Goal goal) {
-//		return (this.getTimstam() < goal.getTimstam() ? -1 : (this.getTimstam() == goal.getTimstam() ? 0 : 1));
-//	}
-	
+	}	
 }

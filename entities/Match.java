@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Match {
+	
 	private int matchId;
+	private int winningTeam;
+	private int matchDateInt;
+	private Date matchDate;
+	private MatchTime matchTime = new MatchTime();
 	private Team homeTeam;
 	private Team awayTeam;
-	private int winningTeam;
-	private Date matchDate;
-	private int matchDateInt;
-	private MatchTime matchTime = new MatchTime();
 	private ArrayList<Goal> goalList = new ArrayList<Goal>();
 	private ArrayList<Suspension> suspensionList = new ArrayList<Suspension>();
 
@@ -44,6 +45,10 @@ public class Match {
 		this.awayTeam = awayTeam;
 		this.matchDateInt = date;
 	}
+	
+	/***********************************
+	 * CALCULATORS
+	 ***********************************/
 
 	public int countGoal(Team team) {
 		int teamScore = 0;
@@ -69,21 +74,13 @@ public class Match {
 			winningTeam = 3;
 		}
 	}
-
-	private void giveTeamPoints() {
-		if (winningTeam == 1) {
-			homeTeam.setTeamPoints(homeTeam.getTeamPoints() + 2);
-		} else if (winningTeam == 2) {
-			awayTeam.setTeamPoints(awayTeam.getTeamPoints() + 2);
-		} else if (winningTeam == 3) {
-			homeTeam.setTeamPoints(homeTeam.getTeamPoints() + 1);
-			awayTeam.setTeamPoints(awayTeam.getTeamPoints() + 1);
-		}
-	}
+	
+	/***********************************
+	 * EVENTS
+	 ***********************************/
 
 	public void addGoal(Team scoringTeam, long currentTime) {
 		MatchTime timeStamp = new MatchTime((int) currentTime);
-		System.out.println(timeStamp.getSeconds());
 		Goal goal = new Goal(scoringTeam, timeStamp, matchId);
 		goalList.add(goal);
 	}
@@ -119,32 +116,54 @@ public class Match {
 			}
 		}
 	}
-
-	public void startMatch() { // int matchLength) {
+	
+	public void startMatch() {
 		matchTime.startMatchTimer();
-//		while (matchTime.getMinutes() < matchLength) {
-//			matchTime.getMatchTime();
-//		}
-//		matchTime.stopMatchTimer();
-	}
+	}	
+	
+	/***********************************
+	 * COMPARATOR
+	 ***********************************/
 
-	public long getMatchSeconds() {
-		matchTime.getMatchTime();
-		return matchTime.calcSeconds();
+	public static Comparator<Match> dateCompare = new Comparator<Match>() {
+		@Override
+		public int compare(Match m1, Match m2) {
+			return m1.getMatchDate().compareTo(m2.getMatchDate());
+		}
+	};
+	
+	/***********************************
+	 * GIVE TEAM POINTS
+	 ***********************************/
+	
+	private void giveTeamPoints() {
+		if (winningTeam == 1) {
+			homeTeam.setTeamPoints(homeTeam.getTeamPoints() + 2);
+		} else if (winningTeam == 2) {
+			awayTeam.setTeamPoints(awayTeam.getTeamPoints() + 2);
+		} else if (winningTeam == 3) {
+			homeTeam.setTeamPoints(homeTeam.getTeamPoints() + 1);
+			awayTeam.setTeamPoints(awayTeam.getTeamPoints() + 1);
+		}
 	}
-
-	public void setMatchId(int matchId) {
-		this.matchId = matchId;
-	}
+	
+	/***********************************
+	 * GETTERS
+	 ***********************************/
 
 	public int getMatchId() {
 		return matchId;
 	}
-
+	
+	public long getMatchSeconds() {
+		matchTime.getMatchTime();
+		return matchTime.calcSeconds();
+	}
+	
 	public Team getHomeTeam() {
 		return homeTeam;
 	}
-
+	
 	public Team getAwayTeam() {
 		return awayTeam;
 	}
@@ -168,12 +187,12 @@ public class Match {
 	public ArrayList<Suspension> getSuspensionList() {
 		return suspensionList;
 	}
+	
+	/***********************************
+	 * SETTERS
+	 ***********************************/
 
-	public static Comparator<Match> dateCompare = new Comparator<Match>() {
-		@Override
-		public int compare(Match m1, Match m2) {
-			return m1.getMatchDate().compareTo(m2.getMatchDate());
-		}
-	};
-
+	public void setMatchId(int matchId) {
+		this.matchId = matchId;
+	}
 }
