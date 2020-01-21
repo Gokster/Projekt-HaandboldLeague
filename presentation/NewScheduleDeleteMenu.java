@@ -57,7 +57,7 @@ public class NewScheduleDeleteMenu {
 
 		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
-	}
+	} 
 
 	/***********************************
 	 * COMBOBOX FUNCTIONALITY
