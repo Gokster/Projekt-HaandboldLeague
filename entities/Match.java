@@ -1,23 +1,21 @@
 package entities;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 
 public class Match {
 	private int matchId;
 	private Team homeTeam;
 	private Team awayTeam;
-	private Team winningTeam;
+	private int winningTeam;
 	private Date matchDate;
 	private int matchDateInt;
 	private MatchTime matchTime = new MatchTime();
 	private ArrayList<Goal> goalList = new ArrayList<Goal>();
 	private ArrayList<Suspension> suspensionList = new ArrayList<Suspension>();
 
-	public Match(int matchId, Team homeTeam, Team awayTeam, Team winningTeam, Date matchDate, ArrayList<Goal> goalList,
+	public Match(int matchId, Team homeTeam, Team awayTeam, int winningTeam, Date matchDate, ArrayList<Goal> goalList,
 			ArrayList<Suspension> suspensionList) {
 		this.matchId = matchId;
 		this.homeTeam = homeTeam;
@@ -63,35 +61,36 @@ public class Match {
 		int awayScore = countGoal(awayTeam);
 
 		if (homeScore > awayScore) {
-			winningTeam = homeTeam;
+			winningTeam = 1;
 		} else if (homeScore < awayScore) {
-			winningTeam = awayTeam;
+			winningTeam = 2;
 		} 
-//		else {
-//			winningTeam = new Team(-1, "Uafgjort");
-//		}
+		else if (homeScore == awayScore){
+			winningTeam = 3;
+		}
 	}
 
 	private void giveTeamPoints() {
-		if (winningTeam == homeTeam) {
+		if (winningTeam == 1) {
 			homeTeam.setTeamPoints(homeTeam.getTeamPoints() + 2);
-		} else if (winningTeam == awayTeam) {
+		} else if (winningTeam == 2) {
 			awayTeam.setTeamPoints(awayTeam.getTeamPoints() + 2);
-		} else {
+		} else if (winningTeam == 3) {
 			homeTeam.setTeamPoints(homeTeam.getTeamPoints() + 1);
 			awayTeam.setTeamPoints(awayTeam.getTeamPoints() + 1);
 		}
 	}
 
-	public void addGoal(Team scoringTeam) {
-		MatchTime timeStamp = new MatchTime(matchTime);
+	public void addGoal(Team scoringTeam, long currentTime) {
+		MatchTime timeStamp = new MatchTime((int) currentTime);
+		System.out.println(timeStamp.getSeconds());
 		Goal goal = new Goal(scoringTeam, timeStamp, matchId);
 		goalList.add(goal);
 	}
 
 	public void deleteGoal(Team team) {
 		Goal goal;
-
+		
 		for (int i = goalList.size() - 1; i > 0; i--) {
 			goal = goalList.get(i);
 
@@ -101,7 +100,7 @@ public class Match {
 			}
 		}
 	}
-
+ 
 	public void addSuspension(Team suspensionTeam) {
 		MatchTime timeStamp = new MatchTime(matchTime);
 		Suspension suspension = new Suspension(suspensionTeam, timeStamp, matchId);
@@ -150,7 +149,7 @@ public class Match {
 		return awayTeam;
 	}
 
-	public Team getWinningTeam() {
+	public int getWinningTeam() {
 		return winningTeam;
 	}
 

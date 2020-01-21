@@ -105,40 +105,4 @@ public class Suspensions {
 
 		return suspensionsList;
 	}
-	
-	/***********************************
-	 * UPDATE
-	 ***********************************/
-
-//	public void updateSuspension(Suspension suspension) {
-//		try {
-//			String sql = "UPDATE matches SET  suspensionteam=" + suspension.getSuspensionTeam() + ", matchtime="
-//					+ suspension.getMatchTime() + ", matchid=" + suspension.getMatchId() + " WHERE id="
-//					+ suspension.getSuspensionId();
-//
-//			Statement statement = connection.createStatement();
-//
-//			if (statement.executeUpdate(sql) == 0)
-//				System.out.println("No suspensions to update!");
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
-	/***********************************
-	 * DELETE
-	 ***********************************/
-
-//	public void deleteSuspension(Suspension suspension) {
-//		try {
-//			String sql = "DELETE FROM suspensions WHERE id=" + suspension.getSuspensionId();
-//
-//			Statement statement = connection.createStatement();
-//
-//			if (statement.executeUpdate(sql) == 0)
-//				System.out.println("No suspensions to delete!");
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
 }

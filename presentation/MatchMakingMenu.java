@@ -40,7 +40,7 @@ public class MatchMakingMenu {
 	private ButtonEffect buttonEffect = new ButtonEffect();
 	private DatabaseController dbController = new DatabaseController();
 	private ArrayList<Team> arrTeams = dbController.getAllTeams();
-	private ArrayList<Match> arrMatches = dbController.getAllMatchesNotDone();
+	private ArrayList<Match> arrMatches = dbController.getAllMatches();
 	private ArrayList<Match> checkTeamMatchList = new ArrayList<Match>();
 
 	public MatchMakingMenu(Stage primaryStage) {

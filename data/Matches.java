@@ -42,8 +42,6 @@ public class Matches {
 	public ArrayList<Match> getAllMatches(ArrayList<Team> teamList, ArrayList<Goal> goalList,
 			ArrayList<Suspension> suspensionList) {
 		ArrayList<Match> matchesList = new ArrayList<>();
-//		ArrayList<Goal> goalList = goals.getAllGoals(teamList);
-//		ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(teamList);
 		try {
 			String sql = "SELECT * FROM matches";
 
@@ -69,13 +67,7 @@ public class Matches {
 					}
 				}
 				
-				Team winningTeam = null;
-				for (int i = 0; i < teamList.size(); i++) {
-					if (teamList.get(i).getTeamId() == resultSet.getInt("winningteam")) {
-						winningTeam = teamList.get(i);
-						break;
-					}
-				}
+				int winningTeam = resultSet.getInt("winningteam");
 
 				ArrayList<Goal> matchGoalList = new ArrayList<Goal>();
 				for (Goal goal : goalList) {
@@ -104,53 +96,13 @@ public class Matches {
 		return matchesList;
 	}
 
-//	public ArrayList<Match> getAllMatchesNotPlayed(ArrayList<Team> teamList) {
-//		ArrayList<Match> matchesList = new ArrayList<>();
-//
-//		try {
-//			String sql = "SELECT * FROM matches";
-//
-//			Statement statement = connection.createStatement();
-//
-//			ResultSet resultSet = statement.executeQuery(sql);
-//
-//			while (resultSet.next()) {
-//				int id = resultSet.getInt("id");
-//				Team homeTeam = null;
-//				for (int i = 0; i < teamList.size(); i++) {
-//					if (teamList.get(i).getTeamId() == resultSet.getInt("hometeam")) {
-//						homeTeam = teamList.get(i);
-//						break;
-//					}
-//				}
-//
-//				Team awayTeam = null;
-//				for (int i = 0; i < teamList.size(); i++) {
-//					if (teamList.get(i).getTeamId() == resultSet.getInt("awayteam")) {
-//						awayTeam = teamList.get(i);
-//						break;
-//					}
-//				}
-//				Date matchDate = resultSet.getDate("matchdate");
-//
-//				Match match = new Match(id, homeTeam, awayTeam, matchDate);
-//
-//				matchesList.add(match);
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//
-//		return matchesList;
-//	}
-
 	/***********************************
 	 * UPDATE
 	 ***********************************/
 
 	public void updateMatch (Match match) {
 		try {
-			String sql = "UPDATE matches SET winningteam=" + match.getWinningTeam().getTeamId()
+			String sql = "UPDATE matches SET winningteam=" + match.getWinningTeam()
 						+ " WHERE id=" + match.getMatchId();
 
 			Statement statement = connection.createStatement();
