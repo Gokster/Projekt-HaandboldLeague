@@ -209,6 +209,7 @@ public class MatchMakingMenu {
 				alertBoxTeamNotAvailable(typerOfUser);
 				if (checkTeamMatchList.size() == 0) {
 					createMatch();
+					System.out.println("Main Menu");
 					new MainMenu(primaryStage).init(typerOfUser);
 				}
 			} else {

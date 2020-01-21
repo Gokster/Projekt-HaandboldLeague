@@ -39,18 +39,24 @@ public class TeamSchedule {
 	}
 	
 	public void init(String typerOfUser) {
+		VBox OuterBox;
 		typeOfUser = typerOfUser;
 
 		GridPane topBarGrid = new GridPane();
 		topBarGridOptions(topBarGrid);
 
-		topBarElements(topBarGrid, typerOfUser);
+		topBarElements(topBarGrid, typerOfUser, team);
 
-		HBox calenderTimeline = new HBox(readMatches(team));
-		calenderTimeline.setAlignment(Pos.BASELINE_CENTER);
-
-		VBox OuterBox = new VBox(topBarGrid, calenderTimeline);
-		OuterBox.setBackground(background());
+		specificTeamMatchList(team);
+		if (teamMatchList.size() > 0) {
+			HBox calenderTimeline = new HBox(readMatches());
+			calenderTimeline.setAlignment(Pos.BASELINE_CENTER);
+			OuterBox = new VBox(topBarGrid, calenderTimeline);
+			OuterBox.setBackground(background());
+		} else {
+			OuterBox = new VBox(topBarGrid);
+			OuterBox.setBackground(background());
+		}
 
 		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
@@ -59,6 +65,8 @@ public class TeamSchedule {
 	private ArrayList<Match> specificTeamMatchList(Team team){
 		for (int i = 0; i < arrMatches.size(); i++) {
 			if(arrMatches.get(i).getHomeTeam().getTeamName().compareTo(team.getTeamName()) == 0) {
+				teamMatchList.add(arrMatches.get(i));
+			} else if(arrMatches.get(i).getAwayTeam().getTeamName().compareTo(team.getTeamName()) == 0) {
 				teamMatchList.add(arrMatches.get(i));
 			}
 		}
@@ -73,8 +81,7 @@ public class TeamSchedule {
 	 * HBOX/VBOX 
 	 ***********************************/
 	
-	private HBox readMatches(Team team) {
-		specificTeamMatchList(team);
+	private HBox readMatches() {
 		sortArrayList();
 		HBox hbox = new HBox();
 		hbox.setAlignment(Pos.BASELINE_CENTER);
@@ -234,9 +241,9 @@ public class TeamSchedule {
 	 * TOPBAR ELEMENTS
 	 ***********************************/
 	
-	private void topBarElements(GridPane grid, String typerOfUser) {
+	private void topBarElements(GridPane grid, String typerOfUser, Team team) {
 		buttonsNavigation(grid, typerOfUser);
-		new HeadlineLabelTitle(grid, 3, 1, "Team Schedule");
+		new HeadlineLabelTitle(grid, 3, 1, team.getTeamName());
 		buttonsCRUD(grid, typerOfUser);
 	}
 	
