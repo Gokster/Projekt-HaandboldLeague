@@ -480,7 +480,6 @@ public class SpecificMatchMenu {
 		
 		return timeStamp; 
 	}
-
 //	private HBox aYellowButtons() {
 //
 //		GridPane playerYellowGrid = new GridPane();
