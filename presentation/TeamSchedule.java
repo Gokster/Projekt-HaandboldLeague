@@ -128,7 +128,7 @@ public class TeamSchedule {
 		Button btn = null;
 
 		// Allerede spillede kampe
-		if (teamMatchList.get(j).getMatchDate().compareTo(Date.valueOf(LocalDate.now())) < 0) {
+		if (teamMatchList.get(j).getWinningTeam() != 0) {
 			btn = new Button(matchTitle);
 			MatchButtonsPlayed(btn);
 			int lastScene = 1;
