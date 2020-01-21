@@ -57,6 +57,8 @@ public class DatabaseController {
 	}
 	
 	public void updateCurrentMatch(Match match) {
+		teams.updateTeam(match.getHomeTeam());
+		teams.updateTeam(match.getAwayTeam());
 		matches.updateMatch(match);
 	}
 	

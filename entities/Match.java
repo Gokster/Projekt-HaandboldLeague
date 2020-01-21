@@ -69,10 +69,11 @@ public class Match {
 			winningTeam = 1;
 		} else if (homeScore < awayScore) {
 			winningTeam = 2;
-		} 
-		else if (homeScore == awayScore){
+		} else if (homeScore == awayScore){
 			winningTeam = 3;
 		}
+		
+		giveTeamPoints();
 	}
 	
 	/***********************************
