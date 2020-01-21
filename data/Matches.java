@@ -152,7 +152,6 @@ public class Matches {
 		try {
 			String sql = "UPDATE matches SET winningteam=" + match.getWinningTeam().getTeamId()
 						+ " WHERE id=" + match.getMatchId();
-			System.out.println(sql);
 
 			Statement statement = connection.createStatement();
 

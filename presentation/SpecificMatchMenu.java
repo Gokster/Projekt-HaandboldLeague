@@ -39,6 +39,7 @@ public class SpecificMatchMenu {
 	private ButtonEffect buttonEffect = new ButtonEffect();
 	private boolean matchStarted = false;
 	private DatabaseController dbController = new DatabaseController();
+	private TableView<SpecificMatchHistoryTable> table;
 
 	ObservableList<SpecificMatchHistoryTable> data = FXCollections.observableArrayList();
 
@@ -123,7 +124,7 @@ public class SpecificMatchMenu {
 		awayColumn.setMaxWidth(250);
 		awayColumn.setCellValueFactory(new PropertyValueFactory<SpecificMatchHistoryTable, String>("Away"));
 
-		TableView<SpecificMatchHistoryTable> table = new TableView<SpecificMatchHistoryTable>();
+		table = new TableView<SpecificMatchHistoryTable>();
 		table.getStylesheets().add("/presentation/SpecificMatchTableViewCss.css");
 		historyGrid.setConstraints(table, 1, 1);
 		table.setItems(data);
@@ -200,6 +201,7 @@ public class SpecificMatchMenu {
 			dbController.createGoals(match.getGoalList());
 			dbController.createSuspensions(match.getSuspensionList());
 			match.calcWinningTeam();
+			System.out.println(match.getGoalList().get(0).getScoringTeam());
 			dbController.updateCurrentMatch(match);
 		});
 
@@ -227,6 +229,7 @@ public class SpecificMatchMenu {
 		SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
 		addGoalButton.setOnAction(e -> {
 			if (matchStarted == true) {
+				table.scrollTo(200);
 				match.addGoal(match.getHomeTeam());
 				homeScoreGrid.getChildren().remove(homeScore);
 				hScoreVal++;
@@ -236,7 +239,7 @@ public class SpecificMatchMenu {
 				homeTable = "Goal";
 				timeTable = timeStampCreator();
 				awayTable = "";
-
+				
 				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
 			}
 		});
@@ -246,9 +249,10 @@ public class SpecificMatchMenu {
 		Button subGoalButton = new Button("-Goal");
 		SpecificMatchButtonSmallRight(subGoalGrid, 1, 1, subGoalButton);
 		subGoalButton.setOnAction(e -> {
+			table.scrollTo(200);
 			if (matchStarted == true) {
 				if (hScoreVal > 0) {
-					match.deleteGoal(match.getAwayTeam());
+					match.deleteGoal(match.getHomeTeam());
 					homeScoreGrid.getChildren().remove(homeScore);
 					hScoreVal--;
 					homeScore = new Label(Integer.toString(hScoreVal));
@@ -284,6 +288,7 @@ public class SpecificMatchMenu {
 		Button twoMinButton = new Button("2 Min");
 		SpecificMatchButtonMedium(twoMinGrid, 1, 1, twoMinButton);
 		twoMinButton.setOnAction(e -> {
+			table.scrollTo(200);
 			if (matchStarted == true) {
 				match.addSuspension(match.getHomeTeam());
 				homeTable = "2 min";
@@ -385,6 +390,7 @@ public class SpecificMatchMenu {
 		Button addGoalButton = new Button("Goal");
 		SpecificMatchButtonSmallLeft(addGoalGrid, 1, 1, addGoalButton);
 		addGoalButton.setOnAction(e -> {
+			table.scrollTo(200);
 			if (matchStarted == true) {
 				match.addGoal(match.getAwayTeam());
 				awayScoreGrid.getChildren().remove(awayScore);
@@ -404,6 +410,7 @@ public class SpecificMatchMenu {
 		Button subGoalButton = new Button("-Goal");
 		SpecificMatchButtonSmallRight(subGoalGrid, 1, 1, subGoalButton);
 		subGoalButton.setOnAction(e -> {
+			table.scrollTo(200);
 			if (matchStarted == true) {
 				if (aScoreVal > 0) {
 					match.deleteGoal(match.getAwayTeam());
@@ -444,6 +451,7 @@ public class SpecificMatchMenu {
 		Button twoMinButton = new Button("2 Min");
 		SpecificMatchButtonMedium(twoMinGrid, 1, 1, twoMinButton);
 		twoMinButton.setOnAction(e -> {
+			table.scrollTo(200);
 			if (matchStarted == true) {
 				match.addSuspension(match.getAwayTeam());
 

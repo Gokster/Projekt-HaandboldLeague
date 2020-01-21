@@ -101,7 +101,6 @@ public class MatchMakingMenu {
 		for (int i = 0; i < arrTeams.size(); i++) {
 			team1CB.getItems().add(arrTeams.get(i).getTeamName());
 		}
-
 		MatchMakingComboBox(grid, 1, 2, team1CB);
 	}
 
