@@ -28,7 +28,7 @@ public class DatabaseController {
 	}
 
 	public void deleteTeam(String teamName) { 
-		ArrayList<Match> matchList = getAllMatchesNotDone();
+		ArrayList<Match> matchList = getAllMatches();
 		
 		for(Match match : matchList) {
 			if(teamName.compareTo(match.getHomeTeam().getTeamName()) == 0) {
