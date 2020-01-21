@@ -76,7 +76,7 @@ public class TemplateForNewMenu {
 		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
 		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
 
-		grid.setConstraints(obj, row, col);
+		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
 	
@@ -87,11 +87,11 @@ public class TemplateForNewMenu {
 		grid.setAlignment(Pos.CENTER_LEFT);
 	}
 	
-	private void gridRowOptions(GridPane grid) {
-		grid.setHgap(40);
-		grid.setVgap(15);
-		grid.setAlignment(Pos.CENTER);
-	}
+//	private void gridRowOptions(GridPane grid) {
+//		grid.setHgap(40);
+//		grid.setVgap(15);
+//		grid.setAlignment(Pos.CENTER);
+//	}
 
 	private Background background() {
 

@@ -60,7 +60,7 @@ public class SpecificMatchMenu {
 
 		VBox homeBox = new VBox(homeTitle(), hGoalsButtons(), hTwoMinButtons());
 
-		VBox middleBox = new VBox(historyTitle(), history(), scoreAndTime(), startAndStop());
+		VBox middleBox = new VBox(history(), scoreAndTime(), startAndStop());
 		middleBox.setPadding(new Insets(60, 40, 0, 40));
 
 		VBox awayBox = new VBox(awayTitle(), aGoalsButtons(), aTwoMinButtons());
@@ -75,30 +75,9 @@ public class SpecificMatchMenu {
 		stageMods(scene);
 	}
 
-	private void topBarElements(GridPane grid, String matchName, String typerOfUser) {
-		buttonsNavigation(grid, typerOfUser);
-		new HeadlineLabelTitle(grid, 3, 1, matchName);
-	}
-
-	private void buttonsNavigation(GridPane grid, String typerOfUser) {
-		Button home = new Button("Home");
-		NavigationButton(grid, 1, 1, home);
-		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
-
-		Button back = new Button("Back");
-		NavigationButton(grid, 2, 1, back);
-		back.setOnAction(e -> new ScheduleMenu(primaryStage).init(typerOfUser));
-	}
-
-	private HBox historyTitle() {
-		GridPane homeLabelGrid = new GridPane();
-		middleTitleConnectToHistory(homeLabelGrid);
-		SpecificMatchLabelTitleHistory(homeLabelGrid, 1, 1, "First Half");
-
-		HBox hbox = new HBox(homeLabelGrid);
-
-		return hbox;
-	}
+	/***********************************
+	 * MIDDLE SCOREBOARD - TABLE
+	 ***********************************/
 
 	private VBox history() {
 		GridPane historyGrid = new GridPane();
@@ -123,7 +102,7 @@ public class SpecificMatchMenu {
 
 		table = new TableView<SpecificMatchHistoryTable>();
 		table.getStylesheets().add("/presentation/SpecificMatchTableViewCss.css");
-		historyGrid.setConstraints(table, 1, 1);
+		GridPane.setConstraints(table, 1, 1);
 		table.setItems(data);
 		table.getColumns().addAll(homeColumn, timeColumn, awayColumn);
 		historyGrid.getChildren().add(table);
@@ -133,13 +112,28 @@ public class SpecificMatchMenu {
 		return vbox;
 	}
 
+	private String timeStampCreator() {
+		long time = match.getMatchSeconds();
+		String timeStamp;
+
+		if (time % 60 < 10) {
+			timeStamp = Long.toString(time / 60) + ":0" + Long.toString(time % 60);
+		} else {
+			timeStamp = Long.toString(time / 60) + ":" + Long.toString(time % 60);
+		}
+
+		return timeStamp;
+	}
+
+	/***********************************
+	 * MIDDLE SCOREBOARD - SCORE AND TIME
+	 ***********************************/
+
 	private HBox scoreAndTime() {
 		middleTitleConnectToHistory(homeScoreGrid);
 		homeScore = new Label(Integer.toString(hScoreVal));
-		// homeScore.textProperty().bind(Integer.toString(hScoreVal));
 		SpecificMatchScoreLabelAndGridLeft(homeScoreGrid, 1, 1, homeScore);
 
-//		LocalTime currentTime = LocalTime.now();
 		GridPane timerGrid = new GridPane();
 		timerLabel = new Label("0:00");
 		SpecificMatchScoreLabelAndGridMiddle(timerGrid, 1, 1, timerLabel);
@@ -170,8 +164,20 @@ public class SpecificMatchMenu {
 		return hbox;
 	}
 
-	private HBox startAndStop() {
+	private void middleTitleConnectToHistory(GridPane grid) {
+		grid.setStyle(
+				"-fx-border-radius: 5 5 0 0; -fx-border-color: #707070; -fx-border-width: 3 3 1 3; -fx-background-radius: 7; "
+						+ "-fx-background-radius: 7; -fx-background: -fx-accent; -fx-background-color: #FFFFFF; -fx-border-radius: 5 5 0 0;");
 
+		grid.setAlignment(Pos.CENTER);
+		grid.setPrefWidth(608);
+	}
+
+	/***********************************
+	 * MIDDLE SCOREBOARD - START/STOP MATCHTIME
+	 ***********************************/
+
+	private HBox startAndStop() {
 		GridPane startGrid = new GridPane();
 		gridRowOptions(startGrid);
 		Button startButton = new Button("Start");
@@ -198,7 +204,6 @@ public class SpecificMatchMenu {
 			dbController.createGoals(match.getGoalList());
 			dbController.createSuspensions(match.getSuspensionList());
 			match.calcWinningTeam();
-			System.out.println(match.getGoalList().get(0).getScoringTeam());
 			dbController.updateCurrentMatch(match);
 		});
 
@@ -207,19 +212,11 @@ public class SpecificMatchMenu {
 		return hbox;
 	}
 
-	private HBox homeTitle() {
-
-		GridPane homeLabelGrid = new GridPane();
-		LabelTitle(homeLabelGrid, 1, 1, "Home");
-
-		HBox hbox = new HBox(homeLabelGrid);
-		hbox.setAlignment(Pos.CENTER);
-
-		return hbox;
-	}
+	/***********************************
+	 * HOME TEAM - BUTTONS
+	 ***********************************/
 
 	private HBox hGoalsButtons() {
-
 		GridPane addGoalGrid = new GridPane();
 		gridRowOptions(addGoalGrid);
 		Button addGoalButton = new Button("Goal");
@@ -271,19 +268,10 @@ public class SpecificMatchMenu {
 	}
 
 	private HBox hTwoMinButtons() {
-
-		GridPane playerTwoMinGrid = new GridPane();
-		gridRowOptions(playerTwoMinGrid);
-		ComboBox playerTwoMinCB = new ComboBox();
-		playerTwoMinCB.getItems().add("#3");
-		playerTwoMinCB.getItems().add("#99");
-		playerTwoMinCB.getItems().add("#7");
-		SpecificMatchComboBoxSmall(playerTwoMinGrid, 1, 1, playerTwoMinCB);
-
 		GridPane twoMinGrid = new GridPane();
 		gridRowOptions(twoMinGrid);
 		Button twoMinButton = new Button("2 Min");
-		SpecificMatchButtonMedium(twoMinGrid, 1, 1, twoMinButton);
+		SpecificMatchButtonBig(twoMinGrid, 1, 1, twoMinButton);
 		twoMinButton.setOnAction(e -> {
 			table.scrollTo(200);
 			if (matchStarted == true) {
@@ -296,83 +284,18 @@ public class SpecificMatchMenu {
 			}
 		});
 
-		HBox hbox = new HBox(playerTwoMinGrid, twoMinGrid);
+		HBox hbox = new HBox(twoMinGrid);
 
 		return hbox;
 	}
 
-//	private HBox hYellowButtons() {
-//
-//		GridPane playerYellowGrid = new GridPane();
-//		gridRowOptions(playerYellowGrid);
-//		ComboBox playerYellowCB = new ComboBox();
-//		playerYellowCB.getItems().add("#3");
-//		playerYellowCB.getItems().add("#99");
-//		playerYellowCB.getItems().add("#7");
-//		new SpecificMatchComboBoxSmall(playerYellowGrid, 1, 1, playerYellowCB);
-//
-//		GridPane yellowGrid = new GridPane();
-//		gridRowOptions(yellowGrid);
-//		Button yellowButton = new Button("Yellow");
-//		new SpecificMatchButtonMedium(yellowGrid, 1, 1, yellowButton);
-//		yellowButton.setOnAction(e -> System.out.println("Yellow"));
-//
-//		HBox hbox = new HBox(playerYellowGrid, yellowGrid);
-//
-//		return hbox;
-//	}
+	/***********************************
+	 * HOME TEAM - LABEL
+	 ***********************************/
 
-//	private HBox hRedButtons() {
-//
-//		GridPane playerRedGrid = new GridPane();
-//		gridRowOptions(playerRedGrid);
-//		ComboBox playerRedCB = new ComboBox();
-//		playerRedCB.getItems().add("#3");
-//		playerRedCB.getItems().add("#99");
-//		playerRedCB.getItems().add("#7");
-//		new SpecificMatchComboBoxSmall(playerRedGrid, 1, 1, playerRedCB);
-//
-//		GridPane redGrid = new GridPane();
-//		gridRowOptions(redGrid);
-//		Button redButton = new Button("Red");
-//		new SpecificMatchButtonMedium(redGrid, 1, 1, redButton);
-//		redButton.setOnAction(e -> System.out.println("Red"));
-//
-//		HBox hbox = new HBox(playerRedGrid, redGrid);
-//
-//		return hbox;
-//	}
-
-//	private HBox hTimeOutButton() {
-//
-//		GridPane timeOutGrid = new GridPane();
-//		gridRowOptions(timeOutGrid);
-//		Button timeOutButton = new Button("Time Out");
-//		new SpecificMatchButtonBig(timeOutGrid, 1, 1, timeOutButton);
-//		timeOutButton.setOnAction(e -> System.out.println("Time Out"));
-//
-//		HBox hbox = new HBox(timeOutGrid);
-//
-//		return hbox;
-//	}
-
-//	private HBox hPenaltyButton() {
-//
-//		GridPane penaltyGrid = new GridPane();
-//		gridRowOptions(penaltyGrid);
-//		Button penaltyButton = new Button("Penalty");
-//		new SpecificMatchButtonBig(penaltyGrid, 1, 1, penaltyButton);
-//		penaltyButton.setOnAction(e -> System.out.println("Penalty"));
-//
-//		HBox hbox = new HBox(penaltyGrid);
-//
-//		return hbox;
-//	}
-
-	private HBox awayTitle() {
-
+	private HBox homeTitle() {
 		GridPane homeLabelGrid = new GridPane();
-		LabelTitle(homeLabelGrid, 1, 1, "Away");
+		LabelTitle(homeLabelGrid, 1, 1, "Home");
 
 		HBox hbox = new HBox(homeLabelGrid);
 		hbox.setAlignment(Pos.CENTER);
@@ -380,8 +303,11 @@ public class SpecificMatchMenu {
 		return hbox;
 	}
 
-	private HBox aGoalsButtons() {
+	/***********************************
+	 * AWAY TEAM - BUTTONS
+	 ***********************************/
 
+	private HBox aGoalsButtons() {
 		GridPane addGoalGrid = new GridPane();
 		gridRowOptions(addGoalGrid);
 		Button addGoalButton = new Button("Goal");
@@ -425,28 +351,17 @@ public class SpecificMatchMenu {
 					}
 				}
 			}
-
 		});
-
 		HBox hbox = new HBox(addGoalGrid, subGoalGrid);
 
 		return hbox;
 	}
 
 	private HBox aTwoMinButtons() {
-
-		GridPane playerTwoMinGrid = new GridPane();
-		gridRowOptions(playerTwoMinGrid);
-		ComboBox playerTwoMinCB = new ComboBox();
-		playerTwoMinCB.getItems().add("#3");
-		playerTwoMinCB.getItems().add("#99");
-		playerTwoMinCB.getItems().add("#7");
-		SpecificMatchComboBoxSmall(playerTwoMinGrid, 1, 1, playerTwoMinCB);
-
 		GridPane twoMinGrid = new GridPane();
 		gridRowOptions(twoMinGrid);
 		Button twoMinButton = new Button("2 Min");
-		SpecificMatchButtonMedium(twoMinGrid, 1, 1, twoMinButton);
+		SpecificMatchButtonBig(twoMinGrid, 1, 1, twoMinButton);
 		twoMinButton.setOnAction(e -> {
 			table.scrollTo(200);
 			if (matchStarted == true) {
@@ -460,93 +375,49 @@ public class SpecificMatchMenu {
 			}
 		});
 
-		HBox hbox = new HBox(playerTwoMinGrid, twoMinGrid);
+		HBox hbox = new HBox(twoMinGrid);
 
 		return hbox;
 	}
 
-	private String timeStampCreator() {
-		long time = match.getMatchSeconds();
-		String timeStamp;
+	/***********************************
+	 * AWAY TEAM - BUTTONS
+	 ***********************************/
 
-		if (time % 60 < 10) {
-			timeStamp = Long.toString(time / 60) + ":0" + Long.toString(time % 60);
-		} else {
-			timeStamp = Long.toString(time / 60) + ":" + Long.toString(time % 60);
-		}
+	private HBox awayTitle() {
+		GridPane homeLabelGrid = new GridPane();
+		LabelTitle(homeLabelGrid, 1, 1, "Away");
 
-		return timeStamp;
+		HBox hbox = new HBox(homeLabelGrid);
+		hbox.setAlignment(Pos.CENTER);
+
+		return hbox;
 	}
 
-//	private HBox aYellowButtons() {
-//
-//		GridPane playerYellowGrid = new GridPane();
-//		gridRowOptions(playerYellowGrid);
-//		ComboBox playerYellowCB = new ComboBox();
-//		playerYellowCB.getItems().add("#3");
-//		playerYellowCB.getItems().add("#99");
-//		playerYellowCB.getItems().add("#7");
-//		new SpecificMatchComboBoxSmall(playerYellowGrid, 1, 1, playerYellowCB);
-//
-//		GridPane yellowGrid = new GridPane();
-//		gridRowOptions(yellowGrid);
-//		Button yellowButton = new Button("Yellow");
-//		new SpecificMatchButtonMedium(yellowGrid, 1, 1, yellowButton);
-//		yellowButton.setOnAction(e -> System.out.println("Yellow"));
-//
-//		HBox hbox = new HBox(playerYellowGrid, yellowGrid);
-//
-//		return hbox;
-//	}
-//
-//	private HBox aRedButtons() {
-//
-//		GridPane playerRedGrid = new GridPane();
-//		gridRowOptions(playerRedGrid);
-//		ComboBox playerRedCB = new ComboBox();
-//		playerRedCB.getItems().add("#3");
-//		playerRedCB.getItems().add("#99");
-//		playerRedCB.getItems().add("#7");
-//		new SpecificMatchComboBoxSmall(playerRedGrid, 1, 1, playerRedCB);
-//
-//		GridPane redGrid = new GridPane();
-//		gridRowOptions(redGrid);
-//		Button redButton = new Button("Red");
-//		new SpecificMatchButtonMedium(redGrid, 1, 1, redButton);
-//		redButton.setOnAction(e -> System.out.println("Red"));
-//
-//		HBox hbox = new HBox(playerRedGrid, redGrid);
-//
-//		return hbox;
-//	}
-//
-//	private HBox aTimeOutButton() {
-//
-//		GridPane timeOutGrid = new GridPane();
-//		gridRowOptions(timeOutGrid);
-//		Button timeOutButton = new Button("Time Out");
-//		new SpecificMatchButtonBig(timeOutGrid, 1, 1, timeOutButton);
-//		timeOutButton.setOnAction(e -> System.out.println("Time Out"));
-//
-//		HBox hbox = new HBox(timeOutGrid);
-//
-//		return hbox;
-//	}
-//
-//	private HBox aPenaltyButton() {
-//
-//		GridPane penaltyGrid = new GridPane();
-//		gridRowOptions(penaltyGrid);
-//		Button penaltyButton = new Button("Penalty");
-//		new SpecificMatchButtonBig(penaltyGrid, 1, 1, penaltyButton);
-//		penaltyButton.setOnAction(e -> System.out.println("Penalty"));
-//
-//		HBox hbox = new HBox(penaltyGrid);
-//
-//		return hbox;
-//	}
-	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
+	/***********************************
+	 * TOP BAR ELEMENTS HOME/BACK
+	 ***********************************/
 
+	private void topBarElements(GridPane grid, String matchName, String typerOfUser) {
+		buttonsNavigation(grid, typerOfUser);
+		new HeadlineLabelTitle(grid, 3, 1, matchName);
+	}
+
+	private void buttonsNavigation(GridPane grid, String typerOfUser) {
+		Button home = new Button("Home");
+		NavigationButton(grid, 1, 1, home);
+		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
+
+		Button back = new Button("Back");
+		NavigationButton(grid, 2, 1, back);
+		back.setOnAction(e -> new ScheduleMenu(primaryStage).init(typerOfUser));
+	}
+
+	/***********************************
+	 * BUTTONS LAYOUT
+	 ***********************************/
+
+	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
 		obj.setFont(Font.font("Calibri", 30));
 		obj.setMinWidth(170);
 		obj.setMinHeight(120);
@@ -558,26 +429,83 @@ public class SpecificMatchMenu {
 		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
 		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
 
-		grid.setConstraints(obj, row, col);
+		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
 
-	public void SpecificMatchButtonMedium(GridPane grid, int row, int col, Button obj) {
-
+	public void SpecificMatchButtonBig(GridPane grid, int row, int col, Button obj) {
 		obj.setFont(Font.font("Calibri", 30));
-		obj.setMinWidth(300);
+		obj.setMinWidth(400);
 		obj.setMinHeight(60);
 		obj.setMaxHeight(120);
-		obj.setMaxWidth(300);
+		obj.setMaxWidth(400);
 
-		SpecificMatchButtonDefaultEffect(obj);
+		buttonEffect.defaultEffect(obj);
 
-		obj.onMouseEnteredProperty().set(e -> SpecificMatchButtonEnterEffect(obj));
-		obj.onMouseExitedProperty().set(e -> SpecificMatchButtonDefaultEffect(obj));
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
 
-		grid.setConstraints(obj, row, col);
+		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
+
+	public void SpecificMatchButtonSmallLeft(GridPane grid, int row, int col, Button obj) {
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(200);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(200);
+
+		SmallLeftSpecificMatchButtonDefaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> SmallLeftSpecificMatchButtonEnterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> SmallLeftSpecificMatchButtonDefaultEffect(obj));
+
+		GridPane.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	public void SpecificMatchButtonSmallRight(GridPane grid, int row, int col, Button obj) {
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(200);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(200);
+
+		SmallRightSpecificMatchButtonDefaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> SmallRightSpecificMatchButtonEnterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> SmallRightSpecificMatchButtonDefaultEffect(obj));
+
+		GridPane.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	/***********************************
+	 * COMBOBOX LAYOUT
+	 ***********************************/
+
+	public void SpecificMatchComboBoxSmall(GridPane grid, int row, int col, ComboBox<String> obj) {
+		obj.getStylesheets().add("/presentation/SpecificMatchComboBoxSmallCss.css");
+
+		obj.setMinWidth(100);
+		obj.setMinHeight(60);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(100);
+
+		obj.getSelectionModel().select(0);
+		SmallSpecificMatchComboBoxDefaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> SmallSpecificMatchComboBoxEnterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> SmallSpecificMatchComboBoxDefaultEffect(obj));
+
+		GridPane.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+
+	/***********************************
+	 * BUTTONS EFFECT
+	 ***********************************/
 
 	private void SpecificMatchButtonEnterEffect(Button obj) {
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#707070"), new CornerRadii(7), Insets.EMPTY);
@@ -599,23 +527,6 @@ public class SpecificMatchMenu {
 		obj.setCursor(Cursor.DEFAULT);
 
 		obj.setTextFill(Color.web("#707070"));
-	}
-
-	public void SpecificMatchButtonSmallLeft(GridPane grid, int row, int col, Button obj) {
-
-		obj.setFont(Font.font("Calibri", 30));
-		obj.setMinWidth(200);
-		obj.setMinHeight(60);
-		obj.setMaxHeight(120);
-		obj.setMaxWidth(200);
-
-		SmallLeftSpecificMatchButtonDefaultEffect(obj);
-
-		obj.onMouseEnteredProperty().set(e -> SmallLeftSpecificMatchButtonEnterEffect(obj));
-		obj.onMouseExitedProperty().set(e -> SmallLeftSpecificMatchButtonDefaultEffect(obj));
-
-		grid.setConstraints(obj, row, col);
-		grid.getChildren().add(obj);
 	}
 
 	private void SmallLeftSpecificMatchButtonEnterEffect(Button obj) {
@@ -640,23 +551,6 @@ public class SpecificMatchMenu {
 		obj.setTextFill(Color.web("#707070"));
 	}
 
-	public void SpecificMatchButtonSmallRight(GridPane grid, int row, int col, Button obj) {
-
-		obj.setFont(Font.font("Calibri", 30));
-		obj.setMinWidth(200);
-		obj.setMinHeight(60);
-		obj.setMaxHeight(120);
-		obj.setMaxWidth(200);
-
-		SmallRightSpecificMatchButtonDefaultEffect(obj);
-
-		obj.onMouseEnteredProperty().set(e -> SmallRightSpecificMatchButtonEnterEffect(obj));
-		obj.onMouseExitedProperty().set(e -> SmallRightSpecificMatchButtonDefaultEffect(obj));
-
-		grid.setConstraints(obj, row, col);
-		grid.getChildren().add(obj);
-	}
-
 	private void SmallRightSpecificMatchButtonEnterEffect(Button obj) {
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#707070"), new CornerRadii(7), Insets.EMPTY);
 		Background background = new Background(background_fill);
@@ -679,26 +573,11 @@ public class SpecificMatchMenu {
 		obj.setTextFill(Color.web("#707070"));
 	}
 
-	public void SpecificMatchComboBoxSmall(GridPane grid, int row, int col, ComboBox obj) {
+	/***********************************
+	 * COMBOBOX EFFECT
+	 ***********************************/
 
-		obj.getStylesheets().add("/presentation/SpecificMatchComboBoxSmallCss.css");
-
-		obj.setMinWidth(100);
-		obj.setMinHeight(60);
-		obj.setMaxHeight(120);
-		obj.setMaxWidth(100);
-
-		obj.getSelectionModel().select(0);
-		SmallSpecificMatchComboBoxDefaultEffect(obj);
-
-		obj.onMouseEnteredProperty().set(e -> SmallSpecificMatchComboBoxEnterEffect(obj));
-		obj.onMouseExitedProperty().set(e -> SmallSpecificMatchComboBoxDefaultEffect(obj));
-
-		grid.setConstraints(obj, row, col);
-		grid.getChildren().add(obj);
-	}
-
-	private void SmallSpecificMatchComboBoxEnterEffect(ComboBox obj) {
+	private void SmallSpecificMatchComboBoxEnterEffect(ComboBox<String> obj) {
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#707070"), new CornerRadii(7), Insets.EMPTY);
 		Background background = new Background(background_fill);
 
@@ -707,7 +586,7 @@ public class SpecificMatchMenu {
 		obj.setCursor(Cursor.HAND);
 	}
 
-	private void SmallSpecificMatchComboBoxDefaultEffect(ComboBox obj) {
+	private void SmallSpecificMatchComboBoxDefaultEffect(ComboBox<String> obj) {
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#FFFFFF"), new CornerRadii(7), Insets.EMPTY);
 		Background background = new Background(background_fill);
 
@@ -715,6 +594,10 @@ public class SpecificMatchMenu {
 		obj.setStyle("-fx-border-radius: 5 0 0 5; -fx-border-color: #707070; -fx-border-width: 3 1 3 3;");
 		obj.setCursor(Cursor.DEFAULT);
 	}
+
+	/***********************************
+	 * LABELS
+	 ***********************************/
 
 	public void LabelTitle(GridPane grid, int row, int col, String text) {
 		Label obj = new Label(text);
@@ -725,7 +608,7 @@ public class SpecificMatchMenu {
 		obj.setAlignment(Pos.CENTER);
 		obj.setUnderline(true);
 
-		grid.setConstraints(obj, row, col);
+		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
 
@@ -737,15 +620,17 @@ public class SpecificMatchMenu {
 		obj.setMinWidth(200);
 		obj.setAlignment(Pos.CENTER);
 
-		grid.setConstraints(obj, row, col);
+		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
 
-	public void SpecificMatchScoreLabelAndGridLeft(GridPane grid, int row, int col, Label obj) {
+	/***********************************
+	 * LABELS LAYOUT
+	 ***********************************/
 
+	public void SpecificMatchScoreLabelAndGridLeft(GridPane grid, int row, int col, Label obj) {
 		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
 		obj.setTextFill(Color.web("#707070"));
-//		obj.setMinWidth(200);
 		obj.setAlignment(Pos.CENTER);
 
 		grid.setStyle(
@@ -755,17 +640,14 @@ public class SpecificMatchMenu {
 		grid.setAlignment(Pos.CENTER);
 		grid.setPrefWidth(100);
 
-		grid.setConstraints(obj, row, col);
+		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
 
 	public void SpecificMatchScoreLabelAndGridRight(GridPane grid, int row, int col, Label obj) {
-
 		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
 		obj.setTextFill(Color.web("#707070"));
-//		obj.setMinWidth(200);
 		obj.setAlignment(Pos.CENTER);
-
 		grid.setStyle(
 				"-fx-border-radius: 0 0 5 0; -fx-border-color: #707070; -fx-border-width: 1 3 3 1; -fx-background-radius: 0 0 7 0; "
 						+ "-fx-background: -fx-accent; -fx-background-color: #FFFFFF;");
@@ -773,17 +655,14 @@ public class SpecificMatchMenu {
 		grid.setAlignment(Pos.CENTER);
 		grid.setPrefWidth(100);
 
-		grid.setConstraints(obj, row, col);
+		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
 
 	public void SpecificMatchScoreLabelAndGridMiddle(GridPane grid, int row, int col, Label obj) {
-
 		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 45));
 		obj.setTextFill(Color.web("#707070"));
-//		obj.setMinWidth(200);
 		obj.setAlignment(Pos.CENTER);
-
 		grid.setStyle(
 				"-fx-border-radius: 0 0 0 0; -fx-border-color: #707070; -fx-border-width: 1 1 3 1; -fx-background-radius: 0 0 0 0; "
 						+ "-fx-background: -fx-accent; -fx-background-color: #FFFFFF;");
@@ -791,9 +670,13 @@ public class SpecificMatchMenu {
 		grid.setAlignment(Pos.CENTER);
 		grid.setPrefWidth(408);
 
-		grid.setConstraints(obj, row, col);
+		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
 	}
+
+	/***********************************
+	 * GRID LAYOUT
+	 ***********************************/
 
 	private void topBarGridOptions(GridPane grid) {
 		grid.setHgap(40);
@@ -802,30 +685,26 @@ public class SpecificMatchMenu {
 	}
 
 	private void gridRowOptions(GridPane grid) {
-//		grid.setHgap(40);
 		grid.setVgap(15);
 		grid.setAlignment(Pos.CENTER);
 	}
 
-	private void middleTitleConnectToHistory(GridPane grid) {
-		grid.setStyle(
-				"-fx-border-radius: 5 5 0 0; -fx-border-color: #707070; -fx-border-width: 3 3 1 3; -fx-background-radius: 7; "
-						+ "-fx-background-radius: 7; -fx-background: -fx-accent; -fx-background-color: #FFFFFF; -fx-border-radius: 5 5 0 0;");
-
-		grid.setAlignment(Pos.CENTER);
-		grid.setPrefWidth(608);
-	}
-
+	/***********************************
+	 * BACKGROUND COLOR
+	 ***********************************/
+	
 	private Background background() {
-
 		BackgroundFill background_fill = new BackgroundFill(Color.web("#9A9A9A"), CornerRadii.EMPTY, Insets.EMPTY);
 		Background background = new Background(background_fill);
 
 		return background;
 	}
 
+	/***********************************
+	 * SETSCENE & TITLE
+	 ***********************************/
+	
 	private void stageMods(Scene scene) {
-
 		primaryStage.setTitle("Main Menu");
 		primaryStage.setScene(scene);
 		primaryStage.show();
