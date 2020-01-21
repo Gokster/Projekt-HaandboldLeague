@@ -24,11 +24,11 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class ScheduleMenu {
-	private Stage primaryStage;
 	private ButtonEffect buttonEffect = new ButtonEffect();
 	private DatabaseController dbController = new DatabaseController();
-	private ArrayList<Match> arrMatches = dbController.getAllMatches();
+	private Stage primaryStage;
 	private String typeOfUser;
+	private ArrayList<Match> arrMatches = dbController.getAllMatches();
 
 	public ScheduleMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
@@ -44,7 +44,7 @@ public class ScheduleMenu {
 		topBarElements(topBarGrid, typerOfUser);
 
 		if (arrMatches.size() > 0) {
-			HBox calenderTimeline = new HBox(readMatchesNotDone());
+			HBox calenderTimeline = new HBox(readMatches());
 			calenderTimeline.setAlignment(Pos.BASELINE_CENTER);
 			OuterBox = new VBox(topBarGrid, calenderTimeline);
 			OuterBox.setBackground(background());
@@ -57,11 +57,11 @@ public class ScheduleMenu {
 		stageMods(scene);
 	}
 
-	private void sortArrayList() {
-		Collections.sort(arrMatches, Match.dateCompare);
-	}
+	/***********************************
+	 * MATCH FUNKTIONALITY
+	 ***********************************/
 
-	private HBox readMatchesNotDone() {
+	private HBox readMatches() {
 		sortArrayList();
 		HBox hbox = new HBox();
 		hbox.setAlignment(Pos.BASELINE_CENTER);
@@ -80,6 +80,125 @@ public class ScheduleMenu {
 		}
 		return hbox;
 	}
+	
+	private void sortArrayList() {
+		Collections.sort(arrMatches, Match.dateCompare);
+	}
+	
+	/***********************************
+	 * MATCH BUTTONS
+	 ***********************************/
+
+	private Button infMatchButton(int j) {
+		String matchTitle = arrMatches.get(j).getHomeTeam().getTeamName() + " vs. "
+				+ arrMatches.get(j).getAwayTeam().getTeamName();
+		Button btn = null;
+
+		if (arrMatches.get(j).getWinningTeam() != 0) {
+			btn = new Button(matchTitle);
+			matchButtonsPlayed(btn);
+			btn.setOnAction(e -> new ShowMatchReport(primaryStage, arrMatches.get(j)).init(typeOfUser));
+		} else {
+			btn = new Button(matchTitle);
+			matchButtonsNotPlayedLayout(btn);
+			btn.setOnAction(e -> new SpecificMatchMenu(primaryStage, arrMatches.get(j)).init(matchTitle, typeOfUser));
+		}
+		return btn;
+	}
+	
+	/***********************************
+	 * LABEL LAYOUT
+	 ***********************************/
+
+	public void DateOfMatchLabel(Label obj) {
+		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 30));
+		obj.setUnderline(true);
+		obj.setTextFill(Color.web("#57504d"));
+		obj.setMinWidth(200);
+		obj.setAlignment(Pos.CENTER);
+	}
+	
+	/***********************************
+	 * BUTTONS LAYOUT
+	 ***********************************/
+
+	public void matchButtonsPlayed(Button obj) {
+		obj.setFont(Font.font("Calibri", 18));
+		obj.setPrefWidth(300);
+		obj.setPrefHeight(50);
+		obj.setAlignment(Pos.CENTER);
+
+		buttonEffect.defaultEffectGrey(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffectGrey(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffectGrey(obj));
+	}
+
+	public void matchButtonsNotPlayedLayout(Button obj) {
+		obj.setFont(Font.font("Calibri", 18));
+		obj.setPrefWidth(300);
+		obj.setPrefHeight(50);
+		obj.setAlignment(Pos.CENTER);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+	}
+	
+	/***********************************
+	 * NAVIGATION BUTTONS
+	 ***********************************/
+
+	private void topBarElements(GridPane grid, String typerOfUser) {
+		buttonsNavigation(grid, typerOfUser);
+		new HeadlineLabelTitle(grid, 3, 1, "Schedule");
+		buttonsCRUD(grid, typerOfUser);
+	}
+
+	private void buttonsNavigation(GridPane grid, String typerOfUser) {
+		Button home = new Button("Home");
+		navigationButtonLayout(grid, 1, 1, home);
+		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
+
+		Button back = new Button("Back");
+		navigationButtonLayout(grid, 2, 1, back);
+		back.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
+	}
+
+	private void buttonsCRUD(GridPane grid, String typerOfUser) {
+		Button createTeam = new Button("Create");
+		navigationButtonLayout(grid, 4, 1, createTeam);
+		createTeam.setOnAction(e -> new MatchMakingMenu(primaryStage).init(typerOfUser));
+
+		Button deleteTeam = new Button("Delete");
+		navigationButtonLayout(grid, 5, 1, deleteTeam);
+		deleteTeam.setOnAction(e -> new NewScheduleDeleteMenu(primaryStage).init(typerOfUser));
+	}
+	
+	/***********************************
+	 * NAVIGATION LAYOUT
+	 ***********************************/
+
+	public void navigationButtonLayout(GridPane grid, int row, int col, Button obj) {
+		obj.setFont(Font.font("Calibri", 30));
+		obj.setMinWidth(170);
+		obj.setMinHeight(120);
+		obj.setMaxHeight(120);
+		obj.setMaxWidth(120);
+
+		buttonEffect.defaultEffect(obj);
+
+		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
+		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
+
+		GridPane.setConstraints(obj, row, col);
+		grid.getChildren().add(obj);
+	}
+	
+	/***********************************
+	 * GENERAL LAYOUT
+	 ***********************************/
 
 	private VBox matchDateVBox(int i) {
 		Label title = new Label(arrMatches.get(i).getMatchDate().toString());
@@ -101,101 +220,12 @@ public class ScheduleMenu {
 		}
 		return vbox;
 	} 
+	
+	private Background background() {
+		BackgroundFill background_fill = new BackgroundFill(Color.web("#9A9A9A"), CornerRadii.EMPTY, Insets.EMPTY);
+		Background background = new Background(background_fill);
 
-	private Button infMatchButton(int j) {
-		String matchTitle = arrMatches.get(j).getHomeTeam().getTeamName() + " vs. "
-				+ arrMatches.get(j).getAwayTeam().getTeamName();
-		Button btn = null;
-
-		// Allerede spillede kampe
-		if (arrMatches.get(j).getWinningTeam() != 0) {
-			btn = new Button(matchTitle);
-			MatchButtonsPlayed(btn);
-			int lastScene = 2;
-			btn.setOnAction(e -> new ShowMatchReport(primaryStage, arrMatches.get(j)).init(typeOfUser));
-			// Fremtidige kampe
-		} else {
-			btn = new Button(matchTitle);
-			MatchButtonsNotPlayed(btn);
-			btn.setOnAction(e -> new SpecificMatchMenu(primaryStage, arrMatches.get(j)).init(matchTitle, typeOfUser));
-		}
-		return btn;
-	}
-
-	public void DateOfMatchLabel(Label obj) {
-		obj.setFont(Font.font("Calibri", FontWeight.BOLD, 30));
-		obj.setUnderline(true);
-		obj.setTextFill(Color.web("#57504d"));
-		obj.setMinWidth(200);
-		obj.setAlignment(Pos.CENTER);
-	}
-
-	public void MatchButtonsPlayed(Button obj) {
-
-		obj.setFont(Font.font("Calibri", 18));
-		obj.setPrefWidth(300);
-		obj.setPrefHeight(50);
-		obj.setAlignment(Pos.CENTER);
-
-		buttonEffect.defaultEffectGrey(obj);
-
-		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffectGrey(obj));
-		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffectGrey(obj));
-	}
-
-	public void MatchButtonsNotPlayed(Button obj) {
-
-		obj.setFont(Font.font("Calibri", 18));
-		obj.setPrefWidth(300);
-		obj.setPrefHeight(50);
-		obj.setAlignment(Pos.CENTER);
-
-		buttonEffect.defaultEffect(obj);
-
-		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
-		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
-	}
-
-	private void topBarElements(GridPane grid, String typerOfUser) {
-		buttonsNavigation(grid, typerOfUser);
-		new HeadlineLabelTitle(grid, 3, 1, "Schedule");
-		buttonsCRUD(grid, typerOfUser);
-	}
-
-	private void buttonsNavigation(GridPane grid, String typerOfUser) {
-		Button home = new Button("Home");
-		NavigationButton(grid, 1, 1, home);
-		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
-
-		Button back = new Button("Back");
-		NavigationButton(grid, 2, 1, back);
-		back.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
-	}
-
-	private void buttonsCRUD(GridPane grid, String typerOfUser) {
-		Button createTeam = new Button("Create");
-		NavigationButton(grid, 4, 1, createTeam);
-		createTeam.setOnAction(e -> new MatchMakingMenu(primaryStage).init(typerOfUser));
-
-		Button deleteTeam = new Button("Delete");
-		NavigationButton(grid, 5, 1, deleteTeam);
-		deleteTeam.setOnAction(e -> new NewScheduleDeleteMenu(primaryStage).init(typerOfUser));
-	}
-
-	public void NavigationButton(GridPane grid, int row, int col, Button obj) {
-		obj.setFont(Font.font("Calibri", 30));
-		obj.setMinWidth(170);
-		obj.setMinHeight(120);
-		obj.setMaxHeight(120);
-		obj.setMaxWidth(120);
-
-		buttonEffect.defaultEffect(obj);
-
-		obj.onMouseEnteredProperty().set(e -> buttonEffect.enterEffect(obj));
-		obj.onMouseExitedProperty().set(e -> buttonEffect.defaultEffect(obj));
-
-		grid.setConstraints(obj, row, col);
-		grid.getChildren().add(obj);
+		return background;
 	}
 
 	private void topBarGridOptions(GridPane grid) {
@@ -203,19 +233,10 @@ public class ScheduleMenu {
 		grid.setVgap(40);
 		grid.setAlignment(Pos.CENTER_LEFT);
 	}
-
-	private void gridRowOptions(GridPane grid) {
-		grid.setHgap(40);
-		grid.setVgap(15);
-		grid.setAlignment(Pos.CENTER);
-	}
-
-	private Background background() {
-		BackgroundFill background_fill = new BackgroundFill(Color.web("#9A9A9A"), CornerRadii.EMPTY, Insets.EMPTY);
-		Background background = new Background(background_fill);
-
-		return background;
-	}
+	
+	/***********************************
+	 * SCENE
+	 ***********************************/
 
 	private void stageMods(Scene scene) {
 		primaryStage.setTitle("Main Menu");
