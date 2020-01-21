@@ -33,8 +33,7 @@ public class ScheduleMenu {
 	public ScheduleMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
-	
-	
+
 	public void init(String typerOfUser) {
 		VBox OuterBox;
 		typeOfUser = typerOfUser;
@@ -44,7 +43,7 @@ public class ScheduleMenu {
 
 		topBarElements(topBarGrid, typerOfUser);
 
-		if(arrMatches.size() > 0) {
+		if (arrMatches.size() > 0) {
 			HBox calenderTimeline = new HBox(readMatchesNotDone());
 			calenderTimeline.setAlignment(Pos.BASELINE_CENTER);
 			OuterBox = new VBox(topBarGrid, calenderTimeline);
@@ -53,7 +52,7 @@ public class ScheduleMenu {
 			OuterBox = new VBox(topBarGrid);
 			OuterBox.setBackground(background());
 		}
-		
+
 		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
 	}
@@ -101,7 +100,7 @@ public class ScheduleMenu {
 			}
 		}
 		return vbox;
-	}
+	} 
 
 	private Button infMatchButton(int j) {
 		String matchTitle = arrMatches.get(j).getHomeTeam().getTeamName() + " vs. "
@@ -109,7 +108,7 @@ public class ScheduleMenu {
 		Button btn = null;
 
 		// Allerede spillede kampe
-		if (arrMatches.get(j).getWinningTeam() != null) {
+		if (arrMatches.get(j).getWinningTeam() != 0) {
 			btn = new Button(matchTitle);
 			MatchButtonsPlayed(btn);
 			int lastScene = 2;

@@ -22,7 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import logic.MatchReport2;
+import logic.MatchReport2; 
 
 public class ShowMatchReport {
 	private Stage primaryStage;
