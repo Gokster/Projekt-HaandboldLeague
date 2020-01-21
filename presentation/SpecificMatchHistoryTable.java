@@ -1,5 +1,7 @@
 package presentation;
 
+import java.sql.Time;
+
 import entities.Team;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -26,6 +28,23 @@ public class SpecificMatchHistoryTable {
 
 	public String getTime() {
 		return Time;
+	}
+	
+	public String getTimeValue() {
+		String minutes = "";
+		int minutesVal;
+		int secondsVal;
+		int i = 0;
+		
+		while(Time.charAt(i) != ':') {
+			minutes = minutes + Time.charAt(i);
+			i++;
+		}
+		
+		minutesVal = Integer.parseInt(minutes);
+		secondsVal = minutesVal * 60 + Integer.parseInt(Time.substring(i + 1));
+		
+		return Integer.toString(secondsVal);
 	}
 
 	public String getAway() {
