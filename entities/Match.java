@@ -84,14 +84,15 @@ public class Match {
 	}
 
 	public void addGoal(Team scoringTeam) {
-		MatchTime timeStamp = new MatchTime(matchTime);
+		MatchTime timeStamp = new MatchTime((int) matchTime.getSeconds());
+		System.out.println(timeStamp.getSeconds());
 		Goal goal = new Goal(scoringTeam, timeStamp, matchId);
 		goalList.add(goal);
 	}
 
 	public void deleteGoal(Team team) {
 		Goal goal;
-
+		
 		for (int i = goalList.size() - 1; i > 0; i--) {
 			goal = goalList.get(i);
 
