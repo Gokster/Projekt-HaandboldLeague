@@ -278,25 +278,6 @@ public class MatchMakingMenu {
 	}
 
 	/***********************************
-	 * NAVIGATION BUTTONS
-	 ***********************************/
-
-	private void topBarElements(GridPane grid, String typerOfUser) {
-		buttonsNavigation(grid, typerOfUser);
-		new HeadlineLabelTitle(grid, 3, 1, "Matchmaking");
-	}
-
-	private void buttonsNavigation(GridPane grid, String typerOfUser) {
-		Button home = new Button("Home");
-		navigationButtonLayout(grid, 1, 1, home);
-		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
-
-		Button back = new Button("Back");
-		navigationButtonLayout(grid, 2, 1, back);
-		back.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
-	}
-
-	/***********************************
 	 * LABEL
 	 ***********************************/
 
@@ -415,6 +396,25 @@ public class MatchMakingMenu {
 
 		GridPane.setConstraints(obj, row, col);
 		grid.getChildren().add(obj);
+	}
+	
+	/***********************************
+	 * NAVIGATION BUTTONS
+	 ***********************************/
+
+	private void topBarElements(GridPane grid, String typerOfUser) {
+		buttonsNavigation(grid, typerOfUser);
+		new HeadlineLabelTitle(grid, 3, 1, "Matchmaking");
+	}
+
+	private void buttonsNavigation(GridPane grid, String typerOfUser) {
+		Button home = new Button("Home");
+		navigationButtonLayout(grid, 1, 1, home);
+		home.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
+
+		Button back = new Button("Back");
+		navigationButtonLayout(grid, 2, 1, back);
+		back.setOnAction(e -> new MainMenu(primaryStage).init(typerOfUser));
 	}
 
 	/***********************************
