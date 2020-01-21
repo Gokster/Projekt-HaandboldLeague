@@ -4,6 +4,11 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import entities.Goal;
+import entities.MatchTime;
+import entities.Suspension;
+import entities.Team;
+
 public class Match {
 	
 	private int matchId;

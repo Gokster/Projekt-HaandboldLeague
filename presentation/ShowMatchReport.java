@@ -90,7 +90,7 @@ public class ShowMatchReport {
 
 		Scene scene = new Scene(OuterBox, 1800, 1000);
 		stageMods(scene);
-	}
+	} 
 
 	
 	private void topBarElements(GridPane grid, String typerOfUser) {
