@@ -69,10 +69,11 @@ public class Match {
 			winningTeam = 1;
 		} else if (homeScore < awayScore) {
 			winningTeam = 2;
-		} 
-		else if (homeScore == awayScore){
+		} else if (homeScore == awayScore){
 			winningTeam = 3;
 		}
+		
+		giveTeamPoints();
 	}
 	
 	/***********************************
@@ -98,8 +99,8 @@ public class Match {
 		}
 	}
  
-	public void addSuspension(Team suspensionTeam) {
-		MatchTime timeStamp = new MatchTime(matchTime);
+	public void addSuspension(Team suspensionTeam, long currentTime) {
+		MatchTime timeStamp = new MatchTime((int) currentTime);
 		Suspension suspension = new Suspension(suspensionTeam, timeStamp, matchId);
 		suspensionList.add(suspension);
 	}

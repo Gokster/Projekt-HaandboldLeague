@@ -65,19 +65,19 @@ public class Teams {
 	 * UPDATE
 	 ***********************************/
 
-//	public void updateTeam (Team team) {
-//		try {
-//			String sql = "UPDATE teams SET teamname='" + team.getTeamName() + "', teampoints=" + team.getTeamPoints() + " WHERE id="
-//					+ team.getTeamId();
-//
-//			Statement statement = connection.createStatement();
-//
-//			if (statement.executeUpdate(sql) == 0)
-//				System.out.println("No teams to update!");
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
+	public void updateTeam (Team team) {
+		try {
+			String sql = "UPDATE teams SET teampoints=" + team.getTeamPoints() 
+					+ " WHERE id=" + team.getTeamId();
+
+			Statement statement = connection.createStatement();
+
+			if (statement.executeUpdate(sql) == 0)
+				System.out.println("No teams to update!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/***********************************
 	 * DELETE

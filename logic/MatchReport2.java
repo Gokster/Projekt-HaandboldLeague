@@ -26,7 +26,7 @@ public class MatchReport2 {
 				String goalH = "Goal";
 				String goalA = "";
 				SpecificMatchHistoryTable event = new SpecificMatchHistoryTable(goalH,
-						Long.toString(match.getGoalList().get(i).getMatchTime().getSeconds()), goalA);
+						matchTimeGoal(match, i), goalA);
 				eventList.add(event);
 				
 				homeTeamScore++;
@@ -34,7 +34,7 @@ public class MatchReport2 {
 				String goalA = "Goal";
 				String goalH = "";
 				SpecificMatchHistoryTable event = new SpecificMatchHistoryTable(goalH,
-						Long.toString(match.getGoalList().get(i).getMatchTime().getSeconds()), goalA);
+						matchTimeGoal(match, i), goalA);
 				eventList.add(event);
 				
 				awayTeamScore++;
@@ -46,13 +46,13 @@ public class MatchReport2 {
 				String susH = "Suspension";
 				String susA = "";
 				SpecificMatchHistoryTable event = new SpecificMatchHistoryTable(susH,
-						Long.toString(match.getSuspensionList().get(i).getMatchTime().getSeconds()), susA);
+						matchTimeSuspension(match, i), susA);
 				eventList.add(event);
 			} else if (match.getSuspensionList().get(i).getSuspensionTeam().getTeamName() == awayTeam) {
 				String susA = "Suspension";
 				String susH = "";
 				SpecificMatchHistoryTable event = new SpecificMatchHistoryTable(susH,
-						Long.toString(match.getSuspensionList().get(i).getMatchTime().getSeconds()), susA);
+						matchTimeSuspension(match, i), susA);
 				eventList.add(event);
 			}
 		}
@@ -65,5 +65,31 @@ public class MatchReport2 {
 		String matchScore = Integer.toString(homeTeamScore) + " - " + Integer.toString(awayTeamScore);
 		
 		return matchScore;
+	}
+	
+	private String matchTimeGoal(Match match, int i) {
+		long time = match.getGoalList().get(i).getMatchTime().getSeconds();
+		String timeStamp;
+		
+		if(time % 60 < 10) {
+			timeStamp = Long.toString(time / 60) + ":0" +Long.toString(time % 60);	
+		} else {
+			timeStamp = Long.toString(time / 60) + ":" +Long.toString(time % 60);
+		}
+		
+		return timeStamp;
+	}
+	
+	private String matchTimeSuspension(Match match, int i) {
+		long time = match.getSuspensionList().get(i).getMatchTime().getSeconds();
+		String timeStamp;
+		
+		if(time % 60 < 10) {
+			timeStamp = Long.toString(time / 60) + ":0" +Long.toString(time % 60);	
+		} else {
+			timeStamp = Long.toString(time / 60) + ":" +Long.toString(time % 60);
+		}
+		
+		return timeStamp;
 	}
 }
