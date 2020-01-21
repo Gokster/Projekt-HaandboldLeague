@@ -40,7 +40,7 @@ public class SpecificMatchMenu {
 	private boolean matchStarted = false;
 	private DatabaseController dbController = new DatabaseController();
 	private TableView<SpecificMatchHistoryTable> table;
-
+	
 	ObservableList<SpecificMatchHistoryTable> data = FXCollections.observableArrayList();
 
 	public SpecificMatchMenu(Stage primaryStage, Match match) {
@@ -230,7 +230,7 @@ public class SpecificMatchMenu {
 		addGoalButton.setOnAction(e -> {
 			if (matchStarted == true) {
 				table.scrollTo(200);
-				match.addGoal(match.getHomeTeam());
+				match.addGoal(match.getHomeTeam(), match.getMatchSeconds());
 				homeScoreGrid.getChildren().remove(homeScore);
 				hScoreVal++;
 				homeScore = new Label(Integer.toString(hScoreVal));
@@ -392,7 +392,7 @@ public class SpecificMatchMenu {
 		addGoalButton.setOnAction(e -> {
 			table.scrollTo(200);
 			if (matchStarted == true) {
-				match.addGoal(match.getAwayTeam());
+				match.addGoal(match.getAwayTeam(), match.getMatchSeconds());
 				awayScoreGrid.getChildren().remove(awayScore);
 				aScoreVal++;
 				awayScore = new Label(Integer.toString(aScoreVal));

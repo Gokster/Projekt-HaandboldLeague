@@ -83,8 +83,8 @@ public class Match {
 		}
 	}
 
-	public void addGoal(Team scoringTeam) {
-		MatchTime timeStamp = new MatchTime((int) matchTime.getSeconds());
+	public void addGoal(Team scoringTeam, long currentTime) {
+		MatchTime timeStamp = new MatchTime((int) currentTime);
 		System.out.println(timeStamp.getSeconds());
 		Goal goal = new Goal(scoringTeam, timeStamp, matchId);
 		goalList.add(goal);
