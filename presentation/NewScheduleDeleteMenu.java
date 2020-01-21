@@ -35,7 +35,7 @@ public class NewScheduleDeleteMenu {
 	private LocalDate selectedDate = LocalDate.now();
 	private Date date;
 	private DatabaseController dbController = new DatabaseController();
-	private ArrayList<Match> arrMatches = dbController.getAllMatchesNotDone();
+	private ArrayList<Match> arrMatches = dbController.getAllMatches();
 	private ComboBox matchCB;
 	private String hTeam;
 	private String aTeam;

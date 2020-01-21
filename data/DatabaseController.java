@@ -40,7 +40,7 @@ public class DatabaseController {
 		matches.createMatch(match);
 	}
 	
-	public ArrayList<Match> getAllMatchesNotDone() {
+	public ArrayList<Match> getAllMatches() {
 		ArrayList<Team> teamList = teams.readAllTeams();
 		ArrayList<Goal> goalList = goals.getAllGoals(teamList);
 		ArrayList<Suspension> suspensionList = suspensions.getAllSuspensions(teamList);
@@ -54,11 +54,6 @@ public class DatabaseController {
 	public void deleteMatch(Match match) { 
 		matches.deleteMatch(match);
 	}
-
-//	public ArrayList<Match> getAllMatches() {
-//		ArrayList<Team> teamList = teams.readAllTeams();
-//		return matches.getAllMatches(teamList);
-//	}
 	
 	/***********************************
 	 * SUSPENSIONS

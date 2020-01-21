@@ -27,7 +27,7 @@ public class ScheduleMenu {
 	private Stage primaryStage;
 	private ButtonEffect buttonEffect = new ButtonEffect();
 	private DatabaseController dbController = new DatabaseController();
-	private ArrayList<Match> arrMatches = dbController.getAllMatchesNotDone();
+	private ArrayList<Match> arrMatches = dbController.getAllMatches();
 	private String typeOfUser;
 
 	public ScheduleMenu(Stage primaryStage) {

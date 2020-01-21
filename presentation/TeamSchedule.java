@@ -38,7 +38,7 @@ public class TeamSchedule {
 	private Stage primaryStage;
 	private ButtonEffect buttonEffect = new ButtonEffect();
 	private DatabaseController dbController = new DatabaseController();
-	private ArrayList<Match> arrMatches = dbController.getAllMatchesNotDone();
+	private ArrayList<Match> arrMatches = dbController.getAllMatches();
 	private ArrayList<Match> teamMatchList = new ArrayList<Match>();
 	private Team team;
 	private String typeOfUser;
