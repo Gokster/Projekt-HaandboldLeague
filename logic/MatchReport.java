@@ -3,14 +3,14 @@ package logic;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import entities.SpecificMatchHistoryTable;
+import entities.MatchHistoryTable;
 
 public class MatchReport {
 	private int homeTeamScore = 0;
 	private int awayTeamScore = 0;
 
-	public ArrayList<SpecificMatchHistoryTable> matchReport(Match match) {
-		ArrayList<SpecificMatchHistoryTable> eventList = new ArrayList<>();
+	public ArrayList<MatchHistoryTable> matchReport(Match match) {
+		ArrayList<MatchHistoryTable> eventList = new ArrayList<>();
 
 		String homeTeam = match.getHomeTeam().getTeamName();
 		String awayTeam = match.getAwayTeam().getTeamName();
@@ -19,14 +19,14 @@ public class MatchReport {
 			if (match.getGoalList().get(i).getScoringTeam().getTeamName() == homeTeam) {
 				String goalH = "Goal";
 				String goalA = "";
-				SpecificMatchHistoryTable event = new SpecificMatchHistoryTable(goalH, matchTimeGoal(match, i), goalA);
+				MatchHistoryTable event = new MatchHistoryTable(goalH, matchTimeGoal(match, i), goalA);
 				eventList.add(event);
 
 				homeTeamScore++;
 			} else if (match.getGoalList().get(i).getScoringTeam().getTeamName() == awayTeam) {
 				String goalA = "Goal";
 				String goalH = "";
-				SpecificMatchHistoryTable event = new SpecificMatchHistoryTable(goalH, matchTimeGoal(match, i), goalA);
+				MatchHistoryTable event = new MatchHistoryTable(goalH, matchTimeGoal(match, i), goalA);
 				eventList.add(event);
 
 				awayTeamScore++;
@@ -37,13 +37,13 @@ public class MatchReport {
 			if (match.getSuspensionList().get(i).getSuspensionTeam().getTeamName() == homeTeam) {
 				String susH = "Suspension";
 				String susA = "";
-				SpecificMatchHistoryTable event = new SpecificMatchHistoryTable(susH, matchTimeSuspension(match, i),
+				MatchHistoryTable event = new MatchHistoryTable(susH, matchTimeSuspension(match, i),
 						susA);
 				eventList.add(event);
 			} else if (match.getSuspensionList().get(i).getSuspensionTeam().getTeamName() == awayTeam) {
 				String susA = "Suspension";
 				String susH = "";
-				SpecificMatchHistoryTable event = new SpecificMatchHistoryTable(susH, matchTimeSuspension(match, i),
+				MatchHistoryTable event = new MatchHistoryTable(susH, matchTimeSuspension(match, i),
 						susA);
 				eventList.add(event);
 			}

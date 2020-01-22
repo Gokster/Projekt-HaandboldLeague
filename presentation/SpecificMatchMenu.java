@@ -1,7 +1,7 @@
 package presentation;
 
 import data.DatabaseController;
-import entities.SpecificMatchHistoryTable;
+import entities.MatchHistoryTable;
 import javafx.animation.AnimationTimer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,8 +46,8 @@ public class SpecificMatchMenu {
 	private String homeTable;
 	private String timeTable;
 	private String awayTable;
-	private TableView<SpecificMatchHistoryTable> table;
-	private ObservableList<SpecificMatchHistoryTable> data = FXCollections.observableArrayList();
+	private TableView<MatchHistoryTable> table;
+	private ObservableList<MatchHistoryTable> data = FXCollections.observableArrayList();
 
 	public SpecificMatchMenu(Stage primaryStage, Match match) {
 		this.primaryStage = primaryStage;
@@ -89,25 +89,25 @@ public class SpecificMatchMenu {
 	private VBox history() {
 		GridPane historyGrid = new GridPane();
 
-		TableColumn<SpecificMatchHistoryTable, String> homeColumn = new TableColumn<SpecificMatchHistoryTable, String>(
+		TableColumn<MatchHistoryTable, String> homeColumn = new TableColumn<MatchHistoryTable, String>(
 				"");
 		homeColumn.setMinWidth(250);
 		homeColumn.setMaxWidth(250);
-		homeColumn.setCellValueFactory(new PropertyValueFactory<SpecificMatchHistoryTable, String>("Home"));
+		homeColumn.setCellValueFactory(new PropertyValueFactory<MatchHistoryTable, String>("Home"));
 
-		TableColumn<SpecificMatchHistoryTable, String> timeColumn = new TableColumn<SpecificMatchHistoryTable, String>(
+		TableColumn<MatchHistoryTable, String> timeColumn = new TableColumn<MatchHistoryTable, String>(
 				"First Half");
 		timeColumn.setMinWidth(100);
 		timeColumn.setMaxWidth(100);
-		timeColumn.setCellValueFactory(new PropertyValueFactory<SpecificMatchHistoryTable, String>("Time"));
+		timeColumn.setCellValueFactory(new PropertyValueFactory<MatchHistoryTable, String>("Time"));
 
-		TableColumn<SpecificMatchHistoryTable, String> awayColumn = new TableColumn<SpecificMatchHistoryTable, String>(
+		TableColumn<MatchHistoryTable, String> awayColumn = new TableColumn<MatchHistoryTable, String>(
 				"");
 		awayColumn.setMinWidth(250);
 		awayColumn.setMaxWidth(250);
-		awayColumn.setCellValueFactory(new PropertyValueFactory<SpecificMatchHistoryTable, String>("Away"));
+		awayColumn.setCellValueFactory(new PropertyValueFactory<MatchHistoryTable, String>("Away"));
 
-		table = new TableView<SpecificMatchHistoryTable>();
+		table = new TableView<MatchHistoryTable>();
 		table.getStylesheets().add("/presentation/SpecificMatchTableViewCss.css");
 		GridPane.setConstraints(table, 1, 1);
 		table.setItems(data);
@@ -258,7 +258,7 @@ public class SpecificMatchMenu {
 				timeTable = timeStampCreator();
 				awayTable = "";
 
-				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
+				data.add(new MatchHistoryTable(homeTable, timeTable, awayTable));
 			}
 		});
 
@@ -303,7 +303,7 @@ public class SpecificMatchMenu {
 				timeTable = timeStampCreator();
 				awayTable = "";
 
-				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
+				data.add(new MatchHistoryTable(homeTable, timeTable, awayTable));
 			}
 		});
 		HBox hbox = new HBox(twoMinGrid);
@@ -347,7 +347,7 @@ public class SpecificMatchMenu {
 				timeTable = timeStampCreator();
 				awayTable = "Goal";
 
-				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
+				data.add(new MatchHistoryTable(homeTable, timeTable, awayTable));
 			}
 		});
 		GridPane subGoalGrid = new GridPane();
@@ -392,7 +392,7 @@ public class SpecificMatchMenu {
 				timeTable = timeStampCreator();
 				awayTable = "2 min";
 
-				data.add(new SpecificMatchHistoryTable(homeTable, timeTable, awayTable));
+				data.add(new MatchHistoryTable(homeTable, timeTable, awayTable));
 			}
 		});
 

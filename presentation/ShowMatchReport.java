@@ -1,6 +1,6 @@
 package presentation;
 
-import entities.SpecificMatchHistoryTable;
+import entities.MatchHistoryTable;
 import entities.Team;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -51,22 +51,22 @@ public class ShowMatchReport {
 
 		topBarElements(topBarGrid, typerOfUser);
 
-		ObservableList<SpecificMatchHistoryTable> eventList = FXCollections.observableArrayList();
+		ObservableList<MatchHistoryTable> eventList = FXCollections.observableArrayList();
 		eventList.addAll(matchReport.matchReport(match));
 
-		TableColumn<SpecificMatchHistoryTable, String> homeTeamCol = new TableColumn<SpecificMatchHistoryTable, String>(
+		TableColumn<MatchHistoryTable, String> homeTeamCol = new TableColumn<MatchHistoryTable, String>(
 				"Home Team");
-		homeTeamCol.setCellValueFactory(new PropertyValueFactory<SpecificMatchHistoryTable, String>("Home"));
+		homeTeamCol.setCellValueFactory(new PropertyValueFactory<MatchHistoryTable, String>("Home"));
 
-		TableColumn<SpecificMatchHistoryTable, String> timeCol = new TableColumn<SpecificMatchHistoryTable, String>(
+		TableColumn<MatchHistoryTable, String> timeCol = new TableColumn<MatchHistoryTable, String>(
 				"Match Time");
-		timeCol.setCellValueFactory(new PropertyValueFactory<SpecificMatchHistoryTable, String>("Time"));
+		timeCol.setCellValueFactory(new PropertyValueFactory<MatchHistoryTable, String>("Time"));
 
-		TableColumn<SpecificMatchHistoryTable, String> awayTeamCol = new TableColumn<SpecificMatchHistoryTable, String>(
+		TableColumn<MatchHistoryTable, String> awayTeamCol = new TableColumn<MatchHistoryTable, String>(
 				"Away Team");
-		awayTeamCol.setCellValueFactory(new PropertyValueFactory<SpecificMatchHistoryTable, String>("Away"));
+		awayTeamCol.setCellValueFactory(new PropertyValueFactory<MatchHistoryTable, String>("Away"));
 
-		TableView<SpecificMatchHistoryTable> table = new TableView<SpecificMatchHistoryTable>();
+		TableView<MatchHistoryTable> table = new TableView<MatchHistoryTable>();
 		table.getStylesheets().add("/presentation/LeaguesMenuTableViewCss.css");
 		table.setPrefWidth(800);
 		table.setPrefHeight(600);
