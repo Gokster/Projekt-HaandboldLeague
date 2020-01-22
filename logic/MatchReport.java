@@ -9,7 +9,7 @@ public class MatchReport {
 	private int homeTeamScore = 0;
 	private int awayTeamScore = 0;
 
-	public ArrayList<MatchHistoryTable> matchReport(Match match) {
+	public ArrayList<MatchHistoryTable> createMatchReport(Match match) {
 		ArrayList<MatchHistoryTable> eventList = new ArrayList<>();
 
 		String homeTeam = match.getHomeTeam().getTeamName();

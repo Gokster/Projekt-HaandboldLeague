@@ -52,7 +52,7 @@ public class ShowMatchReport {
 		topBarElements(topBarGrid, typerOfUser);
 
 		ObservableList<MatchHistoryTable> eventList = FXCollections.observableArrayList();
-		eventList.addAll(matchReport.matchReport(match));
+		eventList.addAll(matchReport.createMatchReport(match));
 
 		TableColumn<MatchHistoryTable, String> homeTeamCol = new TableColumn<MatchHistoryTable, String>(
 				"Home Team");
