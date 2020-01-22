@@ -161,7 +161,7 @@ public class TeamSchedule {
 			btn = new Button(matchTitle);
 			MatchButtonsNotPlayed(btn);
 			btn.setOnAction(
-					e -> new SpecificMatchMenu(primaryStage, teamMatchList.get(j)).init(matchTitle, typeOfUser));
+					e -> new MatchMenu(primaryStage, teamMatchList.get(j)).init(matchTitle, typeOfUser));
 		}
 		return btn;
 	}

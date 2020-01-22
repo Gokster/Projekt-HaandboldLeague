@@ -27,7 +27,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import logic.Match;
 
-public class SpecificMatchMenu {
+public class MatchMenu {
 
 	private int hScoreVal = 0;
 	private int aScoreVal = 0;
@@ -49,12 +49,12 @@ public class SpecificMatchMenu {
 	private TableView<MatchHistoryTable> table;
 	private ObservableList<MatchHistoryTable> data = FXCollections.observableArrayList();
 
-	public SpecificMatchMenu(Stage primaryStage, Match match) {
+	public MatchMenu(Stage primaryStage, Match match) {
 		this.primaryStage = primaryStage;
 		this.match = match;
 	}
 
-	public SpecificMatchMenu(Stage primaryStage) {
+	public MatchMenu(Stage primaryStage) {
 		this.primaryStage = primaryStage;
 	}
 

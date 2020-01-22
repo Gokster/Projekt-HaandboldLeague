@@ -101,7 +101,7 @@ public class ScheduleMenu {
 		} else {
 			btn = new Button(matchTitle);
 			matchButtonsNotPlayedLayout(btn);
-			btn.setOnAction(e -> new SpecificMatchMenu(primaryStage, arrMatches.get(j)).init(matchTitle, typeOfUser));
+			btn.setOnAction(e -> new MatchMenu(primaryStage, arrMatches.get(j)).init(matchTitle, typeOfUser));
 		}
 		return btn;
 	}
