@@ -8,11 +8,12 @@ import entities.Team;
 import logic.Match;
 
 public class DatabaseController {
+	
 	private DataLayer dataLayer = new DataLayer();
-	private Teams teams = new Teams(dataLayer.getConnection());
+	private Goals goals = new Goals(dataLayer.getConnection());
 	private Matches matches = new Matches(dataLayer.getConnection());
 	private Suspensions suspensions = new Suspensions(dataLayer.getConnection());
-	private Goals goals = new Goals(dataLayer.getConnection());
+	private Teams teams = new Teams(dataLayer.getConnection());
 
 	/***********************************
 	 * TEAMS
