@@ -114,11 +114,11 @@ public class TeamDeleteMenu {
 	 ***********************************/
 
 	private HBox deleteTeamAndCancelButtons(String typerOfUser) {
-		GridPane createTeamGrid = new GridPane();
-		gridRowOptions(createTeamGrid);
-		Button createTeamButton = new Button("Delete Team");
-		newButtonLayout(createTeamGrid, 1, 1, createTeamButton);
-		createTeamButton.setOnAction(e -> deleteTeamFromLeague(typerOfUser));
+		GridPane deleteTeamGrid = new GridPane();
+		gridRowOptions(deleteTeamGrid);
+		Button deleteTeamButton = new Button("Delete Team");
+		newButtonLayout(deleteTeamGrid, 1, 1, deleteTeamButton);
+		deleteTeamButton.setOnAction(e -> deleteTeamFromLeague(typerOfUser));
 
 		GridPane cancelGrid = new GridPane();
 		gridRowOptions(cancelGrid);
@@ -126,7 +126,7 @@ public class TeamDeleteMenu {
 		newButtonLayout(cancelGrid, 1, 1, cancelButton);
 		cancelButton.setOnAction(e -> new TeamMenu(primaryStage).init(typerOfUser));
 
-		HBox hbox = new HBox(createTeamGrid, cancelGrid);
+		HBox hbox = new HBox(deleteTeamGrid, cancelGrid);
 		hbox.setAlignment(Pos.CENTER);
 		
 		return hbox;

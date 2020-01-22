@@ -387,7 +387,6 @@ public class MatchMenu {
 			table.scrollTo(200);
 			if (matchStarted == true) {
 				match.addSuspension(match.getAwayTeam(), match.getMatchSeconds());
-
 				homeTable = "";
 				timeTable = timeStampCreator();
 				awayTable = "2 min";
@@ -406,10 +405,10 @@ public class MatchMenu {
 	 ***********************************/
 
 	private HBox awayTitle() {
-		GridPane homeLabelGrid = new GridPane();
-		LabelTitle(homeLabelGrid, 1, 1, "Away");
+		GridPane awayLabelGrid = new GridPane();
+		LabelTitle(awayLabelGrid, 1, 1, "Away");
 
-		HBox hbox = new HBox(homeLabelGrid);
+		HBox hbox = new HBox(awayLabelGrid);
 		hbox.setAlignment(Pos.CENTER);
 
 		return hbox;
